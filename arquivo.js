@@ -1,1 +1,1 @@
-alert('teste do google drive');
+console.log('teste do google drive');
