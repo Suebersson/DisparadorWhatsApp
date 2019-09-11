@@ -1,5 +1,6 @@
-//alert('teste Github');
-console.log('teste Github');
+alert('teste Github');
+//console.log('teste Github');
+
 /*
 var GitHub = document.createElement("script");
 GitHub.id = '_gitHub';
