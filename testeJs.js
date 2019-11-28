@@ -1,4 +1,4 @@
-//alert('teste Github');
+alert('teste Github');
 //console.log('teste Github');
 
 /*
