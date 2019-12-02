@@ -2,7 +2,7 @@
 //########################## Atualizado em 02/12/2019 ######################################################################
 //Versão do WhatsApp 0.3.9308
 
-function ExtrairListaConversa(){
+function ExtrairListaConversas(){
 	
 	console.clear();
 
