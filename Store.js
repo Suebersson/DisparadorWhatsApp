@@ -14,6 +14,7 @@
  * functions and creates the Store object.
  */
  
+var WhatsWebVersion;
 if (!window.Store) {
 	(function () {
 		function getStore(modules) {
@@ -73,9 +74,9 @@ if (!window.Store) {
 							}
 						});
 						
-						var WhatsWebVersion = Store.ServiceWorker.default.activeVersion.primary + "." + 
-												Store.ServiceWorker.default.activeVersion.secondary + "." + 
-												Store.ServiceWorker.default.activeVersion.tertiary;
+						WhatsWebVersion = Store.ServiceWorker.default.activeVersion.primary + "." + 
+											Store.ServiceWorker.default.activeVersion.secondary + "." + 
+											Store.ServiceWorker.default.activeVersion.tertiary;
 
 						return window.Store;
 					}
