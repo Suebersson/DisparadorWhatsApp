@@ -13,7 +13,7 @@
  * Auto discovery the webpack object references of instances that contains all functions used by the WAPI
  * functions and creates the Store object.
  */
-
+ 
 if (!window.Store) {
 	(function () {
 		function getStore(modules) {
@@ -61,6 +61,7 @@ if (!window.Store) {
 							if (foundCount == neededObjects.length) {
 								break;
 							}
+							
 						}
 
 						let neededStore = neededObjects.find((needObj) => needObj.id === "Store");
@@ -72,6 +73,10 @@ if (!window.Store) {
 							}
 						});
 						
+						var WhatsWebVersion = Store.ServiceWorker.default.activeVersion.primary + "." + 
+											Store.ServiceWorker.default.activeVersion.secondary + "." + 
+											Store.ServiceWorker.default.activeVersion.tertiary;
+
 						return window.Store;
 					}
 				}
@@ -80,7 +85,6 @@ if (!window.Store) {
 
 		webpackJsonp([], { 'parasite': (x, y, z) => getStore(z) }, ['parasite']);
 	})();
-	
 }
 
 //############################# Envios diretos #########################################
