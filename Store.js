@@ -1,6 +1,5 @@
-
-//########################## Atualizado em 27/11/2019 ######################################################################
-//Versão do WhatsApp  0.3.9308
+//########################## Atualizado em 02/12/2019 ######################################################################
+//Versão do WhatsApp 0.3.9308
 
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
 //https://github.com/danielcardeenas/sulla/blob/master/src/lib/wapi.js
