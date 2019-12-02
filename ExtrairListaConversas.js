@@ -4,7 +4,7 @@
 
 function ExtrairListaConversas(){
 	
-	console.clear();
+	console.clear()
 
 	if (window.Store){
 		
