@@ -1,6 +1,6 @@
 
-//########################## Atualizado em 27/11/2019 ######################################################################
-//Versão do WhatsApp  0.3.9308
+//########################## Atualizado em 02/12/2019 ######################################################################
+//Versão do WhatsApp 0.3.9308
 
 //ouvinte de mensagem enviadas do content script
 window.addEventListener("message", function(event) {
