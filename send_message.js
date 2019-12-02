@@ -68,6 +68,10 @@ window.addEventListener("message", function(event) {
 			
 			ExtrairMembrosGrupo()
 			
+		}else if(event.data.action_ == "ExtrairListaConversas"){
+			
+			ExtrairListaConversas()
+			
 		}else if(event.data.action_ == "abrir_chat"){
 			
 			abrir_chat(event.data.Id)
