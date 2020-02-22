@@ -1,9 +1,9 @@
 
-//########################## Atualizado em 02/12/2019 ######################################################################
-//Versão do WhatsApp 0.3.9308
+//########################## Atualizado em 21/02/2020 ######################################################################
+//Versão do WhatsApp 0.4.930
 
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
-//https://github.com/danielcardeenas/sulla/blob/master/src/lib/wapi.js
+//https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
 
 /**
  * This script contains WAPI functions that need to be run in the context of the webpage
@@ -14,14 +14,13 @@
  * functions and creates the Store object.
  */
  
-var WhatsWebVersion;
 if (!window.Store) {
 	(function () {
 		function getStore(modules) {
 			let foundCount = 0;
 			let neededObjects = [
 				{ id: "Store", conditions: (module) => (module.Chat && module.Msg) ? module : null },
-				{ id: "MediaCollection", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.processFiles !== undefined) ? module.default : null },
+				{ id: "MediaCollection", conditions: (module) => (module.default && module.default.prototype && (module.default.prototype.processFiles !== undefined || module.default.prototype.processAttachments !== undefined)) ? module.default : null },
 				{ id: "ChatClass", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.Collection !== undefined && module.default.prototype.Collection === "Chat") ? module : null },
 				{ id: "MediaProcess", conditions: (module) => (module.BLOB) ? module : null },
 				{ id: "Wap", conditions: (module) => (module.createGroup) ? module : null },
@@ -34,8 +33,28 @@ if (!window.Store) {
 				{ id: "OpenChat", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.openChat) ? module.default : null },
 				{ id: "UserConstructor", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.isServer && module.default.prototype.isUser) ? module.default : null },
 				{ id: "SendTextMsgToChat", conditions: (module) => (module.sendTextMsgToChat) ? module.sendTextMsgToChat : null },
-				{ id: "SendSeen", conditions: (module) => (module.sendSeen) ? module.sendSeen : null },
-				{ id: "sendDelete", conditions: (module) => (module.sendDelete) ? module.sendDelete : null }
+				{ id: "SendSeen", conditions: (module) => (module.sendSeen) ? module : null },
+				{ id: "SendDelete", conditions: (module) => (module.sendDelete) ? module.sendDelete : null },
+				{ id: "AboutWhatsApp", conditions: (module) => (module.VERSION_STR) ? module : null },
+				{ id: "addAndSendMsgToChat", conditions: (module) => (module.addAndSendMsgToChat) ? module.addAndSendMsgToChat : null },
+                { id: "sendMsgToChat", conditions: (module) => (module.sendMsgToChat) ? module.sendMsgToChat : null },
+                { id: "Catalog", conditions: (module) => (module.Catalog) ? module.Catalog : null },
+                { id: "bp", conditions: (module) => (module.default&&module.default.toString().includes('binaryProtocol deprecated version')) ? module.default : null },
+                { id: "MsgKey", conditions: (module) => (module.default&&module.default.toString().includes('MsgKey error: id is already a MsgKey')) ? module.default : null },
+                { id: "Parser", conditions: (module) => (module.convertToTextWithoutSpecialEmojis) ? module.default : null },
+                { id: "Builders", conditions: (module) => (module.TemplateMessage && module.HydratedFourRowTemplate) ? module : null },
+                { id: "Identity", conditions: (module) => (module.queryIdentity && module.updateIdentity) ? module : null },
+                { id: "MyStatus", conditions: (module) => (module.getStatus && module.setMyStatus) ? module : null },
+                { id: "Features", conditions: (module) => (module.FEATURE_CHANGE_EVENT && module.features) ? module : null },
+                { id: "MessageUtils", conditions: (module) => (module.storeMessages && module.appendMessage) ? module : null },
+                { id: "WebMessageInfo", conditions: (module) => (module.WebMessageInfo && module.WebFeatures) ? module.WebMessageInfo : null },
+                { id: "createMessageKey", conditions: (module) => (module.createMessageKey && module.createDeviceSentMessage) ? module.createMessageKey : null },
+                { id: "Participants", conditions: (module) => (module.addParticipants && module.removeParticipants && module.promoteParticipants && module.demoteParticipants) ? module : null },
+                { id: "WidFactory", conditions: (module) => (module.numberToWid && module.createWid && module.createWidFromWidLike) ? module : null },
+                { id: "Base", conditions: (module) => (module.setSubProtocol && module.binSend && module.actionNode) ? module : null },
+                { id: "Base2", conditions: (module) => (module.supportsFeatureFlags && module.parseMsgStubProto && module.binSend && module.subscribeLiveLocation) ? module : null },
+                { id: "Versions", conditions: (module) => (module.loadProtoVersions && module.default["15"] && module.default["16"] && module.default["17"]) ? module : null }
+				
 			];
 			
 			for (let idx in modules) {
@@ -61,8 +80,7 @@ if (!window.Store) {
 							
 							if (foundCount == neededObjects.length) {
 								break;
-							}
-							
+							}		
 						}
 
 						let neededStore = neededObjects.find((needObj) => needObj.id === "Store");
@@ -74,10 +92,10 @@ if (!window.Store) {
 							}
 						});
 						
-						WhatsWebVersion = Store.ServiceWorker.default.activeVersion.primary + "." + 
-											Store.ServiceWorker.default.activeVersion.secondary + "." + 
-											Store.ServiceWorker.default.activeVersion.tertiary;
-
+						//console.log("Versão do WhatsApp: " + Store.AboutWhatsApp.VERSION_STR);
+						
+                        window.Store.MediaCollection.prototype.processFiles = window.Store.MediaCollection.prototype.processFiles || window.Store.MediaCollection.prototype.processAttachments;
+						
 						return window.Store;
 					}
 				}
@@ -96,9 +114,10 @@ function sendMessageToID(id, message){
 		if (result.status == 200) {
 
 			//var idUser = new window.Store.UserConstructor(id);
+			//var idUser = new Store.WidFactory.createWid(id);
 			var idUser = new window.Store.UserConstructor(id, { intentionallyUsePrivateConstructor: true });
 			
-			Store.OpenChat.prototype.openChat(id)
+			Store.OpenChat.prototype.openChat(id)//abrir chart
 			
 			Store.Chat.find(idUser).then((chat) => {
 				Store.SendTextMsgToChat(chat , message)
@@ -117,25 +136,32 @@ function sendImageToId(id, imgBase64, legenda, fileName) {
 		if (result.status == 200) {
 			
 			//var idUser = new window.Store.UserConstructor(id);
+			//var idUser = new Store.WidFactory.createWid(id);
 			var idUser = new window.Store.UserConstructor(id, { intentionallyUsePrivateConstructor: true });
 			
-			Store.OpenChat.prototype.openChat(id)
+			Store.OpenChat.prototype.openChat(id)//abrir chat
 			
 			Store.Chat.find(idUser).then((chat) => {
-				
-				var mediaBlob = base64ImageToFile(imgBase64, fileName);
-				var mc = new Store.MediaCollection();
-				mc.processFiles([mediaBlob], chat, 1).then(() => {
-					var media = mc.models[0];
-					media.sendToChat(chat, {caption: legenda});
-				})
-				
+
+				process_Files(chat, base64ImageToFile(imgBase64, fileName)).then(mc => {
+					mc.models[0].sendToChat(chat, { caption: legenda })
+				});
+		
 			});
 	
 		}
 
 	})
 	
+}
+
+var process_Files = async function(chat, blobs) {
+	if (!Array.isArray(blobs)) {
+		blobs = [blobs];
+	}
+	mc = new Store.MediaCollection(chat);
+	await mc.processFiles((Debug.VERSION === '0.4.613')?blobs:blobs.map(blob=>{return{file:blob}}) , chat, 1);
+	return mc
 }
 
 function base64ImageToFile(b64Data, fileName) {
@@ -155,6 +181,7 @@ function base64ImageToFile(b64Data, fileName) {
 function SelfAnswer_sendMessageToID(id, message){
 	
 	//var idUser = new window.Store.UserConstructor(id);
+	//var idUser = new Store.WidFactory.createWid(id);
 	var idUser = new window.Store.UserConstructor(id, { intentionallyUsePrivateConstructor: true });
 	
 	Store.Chat.find(idUser).then((chat) => {
@@ -166,16 +193,14 @@ function SelfAnswer_sendMessageToID(id, message){
 function SelfAnswer_sendImageToId(id, imgBase64, legenda, fileName) {
 
 	//var idUser = new window.Store.UserConstructor(id);
+	//var idUser = new Store.WidFactory.createWid(id);
 	var idUser = new window.Store.UserConstructor(id, { intentionallyUsePrivateConstructor: true });
 	
 	Store.Chat.find(idUser).then((chat) => {
 		
-		var mediaBlob = base64ImageToFile(imgBase64, fileName);
-		var mc = new Store.MediaCollection();
-		mc.processFiles([mediaBlob], chat, 1).then(() => {
-			var media = mc.models[0];
-			media.sendToChat(chat, {caption: legenda});
-		})
+		process_Files(chat, base64ImageToFile(imgBase64, fileName)).then(mc => {
+			mc.models[0].sendToChat(chat, { caption: legenda })
+		});
 		
 	});
 	
@@ -203,5 +228,4 @@ function abrir_chat(id){
 	})
 	
 }
-
 
