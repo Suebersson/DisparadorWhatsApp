@@ -20,7 +20,7 @@ if (!window.Store) {
 			let foundCount = 0;
 			let neededObjects = [
 				{ id: "Store", conditions: (module) => (module.Chat && module.Msg) ? module : null },
-				{ id: "MediaCollection", conditions: (module) => (module.default && module.default.prototype && (module.default.prototype.processFiles !== undefined || module.default.prototype.processAttachments !== undefined)) ? module.default : null },
+				{ id: "MediaCollection", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.processAttachments !== undefined) ? module.default : null },
 				{ id: "ChatClass", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.Collection !== undefined && module.default.prototype.Collection === "Chat") ? module : null },
 				{ id: "MediaProcess", conditions: (module) => (module.BLOB) ? module : null },
 				{ id: "Wap", conditions: (module) => (module.createGroup) ? module : null },
@@ -33,13 +33,13 @@ if (!window.Store) {
 				{ id: "OpenChat", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.openChat) ? module.default : null },
 				{ id: "UserConstructor", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.isServer && module.default.prototype.isUser) ? module.default : null },
 				{ id: "SendTextMsgToChat", conditions: (module) => (module.sendTextMsgToChat) ? module.sendTextMsgToChat : null },
+				{ id: "SendMsgToChat", conditions: (module) => (module.sendMsgToChat) ? module.sendMsgToChat : null },
 				{ id: "SendSeen", conditions: (module) => (module.sendSeen) ? module : null },
 				{ id: "SendDelete", conditions: (module) => (module.sendDelete) ? module.sendDelete : null },
 				{ id: "AboutWhatsApp", conditions: (module) => (module.VERSION_STR) ? module : null },
-				{ id: "addAndSendMsgToChat", conditions: (module) => (module.addAndSendMsgToChat) ? module.addAndSendMsgToChat : null },
-                { id: "sendMsgToChat", conditions: (module) => (module.sendMsgToChat) ? module.sendMsgToChat : null },
+				{ id: "AddAndSendMsgToChat", conditions: (module) => (module.addAndSendMsgToChat) ? module.addAndSendMsgToChat : null },
                 { id: "Catalog", conditions: (module) => (module.Catalog) ? module.Catalog : null },
-                { id: "bp", conditions: (module) => (module.default&&module.default.toString().includes('binaryProtocol deprecated version')) ? module.default : null },
+                { id: "BinaryProtocol", conditions: (module) => (module.default && module.default.toString().includes('binaryProtocol deprecated version')) ? module.default : null },
                 { id: "MsgKey", conditions: (module) => (module.default&&module.default.toString().includes('MsgKey error: id is already a MsgKey')) ? module.default : null },
                 { id: "Parser", conditions: (module) => (module.convertToTextWithoutSpecialEmojis) ? module.default : null },
                 { id: "Builders", conditions: (module) => (module.TemplateMessage && module.HydratedFourRowTemplate) ? module : null },
@@ -53,8 +53,7 @@ if (!window.Store) {
                 { id: "WidFactory", conditions: (module) => (module.numberToWid && module.createWid && module.createWidFromWidLike) ? module : null },
                 { id: "Base", conditions: (module) => (module.setSubProtocol && module.binSend && module.actionNode) ? module : null },
                 { id: "Base2", conditions: (module) => (module.supportsFeatureFlags && module.parseMsgStubProto && module.binSend && module.subscribeLiveLocation) ? module : null },
-                { id: "Versions", conditions: (module) => (module.loadProtoVersions && module.default["15"] && module.default["16"] && module.default["17"]) ? module : null }
-				
+                { id: "Versions", conditions: (module) => (module.loadProtoVersions && module.default["15"] && module.default["16"] && module.default["17"]) ? module : null }	
 			];
 			
 			for (let idx in modules) {
@@ -78,9 +77,8 @@ if (!window.Store) {
 								
 							});
 							
-							if (foundCount == neededObjects.length) {
-								break;
-							}		
+							if (foundCount == neededObjects.length) break
+							
 						}
 
 						let neededStore = neededObjects.find((needObj) => needObj.id === "Store");
@@ -92,9 +90,7 @@ if (!window.Store) {
 							}
 						});
 						
-						//console.log("Versão do WhatsApp: " + Store.AboutWhatsApp.VERSION_STR);
-						
-                        window.Store.MediaCollection.prototype.processFiles = window.Store.MediaCollection.prototype.processFiles || window.Store.MediaCollection.prototype.processAttachments;
+						console.log("Versão do WhatsApp: " + Store.AboutWhatsApp.VERSION_STR);
 						
 						return window.Store;
 					}
@@ -160,7 +156,7 @@ var process_Files = async function(chat, blobs) {
 		blobs = [blobs];
 	}
 	mc = new Store.MediaCollection(chat);
-	await mc.processFiles((Debug.VERSION === '0.4.613')?blobs:blobs.map(blob=>{return{file:blob}}) , chat, 1);
+	await mc.processAttachments((Debug.VERSION === '0.4.613')?blobs:blobs.map(blob=>{return{file:blob}}) , chat, 1);
 	return mc
 }
 
