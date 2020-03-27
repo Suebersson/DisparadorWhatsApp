@@ -97,11 +97,16 @@ if (!window.Store) {
 				}
 			}
 		}
-		
-		//const parasite = parasite${Date.now()}
-		//webpackJsonp([], {'parasite': (x, y, z) => getStore(z)}, ['parasite']);
+
+		//webpackJsonp([], {'parasite': (x, y, z) => getStore(z)}, ['parasite'])
+
 		const parasite = `parasite${Date.now()}`
-        webpackJsonp([], { [parasite]: (x, y, z) => getStore(z) }, [parasite]);
+
+        if (typeof webpackJsonp === 'function'){
+			webpackJsonp([], {[parasite]: (x, y, z) => getStore(z)}, [parasite]); 
+		}else{
+			webpackJsonp.push([[parasite],{[parasite]: (x, y, z) => getStore(z)},[[parasite]]]);
+		}
 		
 	})();
 }
