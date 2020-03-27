@@ -1,6 +1,6 @@
 
-//########################## Atualizado em 21/02/2020 ######################################################################
-//Versão do WhatsApp 0.4.930
+//########################## Atualizado em 27/03/2020 ######################################################################
+//Versão do WhatsApp 0.4.2180
 
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
 //https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
@@ -103,9 +103,9 @@ if (!window.Store) {
 		const parasite = `parasite${Date.now()}`
 
         if (typeof webpackJsonp === 'function'){
-			webpackJsonp([], {[parasite]: (x, y, z) => getStore(z)}, [parasite]); 
+			webpackJsonp([], {[parasite]: (x, y, z) => getStore(z)}, [parasite])
 		}else{
-			webpackJsonp.push([[parasite],{[parasite]: (x, y, z) => getStore(z)},[[parasite]]]);
+			webpackJsonp.push([[parasite],{[parasite]: (x, y, z) => getStore(z)},[[parasite]]])
 		}
 		
 	})();
