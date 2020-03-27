@@ -1,5 +1,4 @@
 
-
 //########################## Atualizado em 21/02/2020 ######################################################################
 //Versão do WhatsApp 0.4.930
 
@@ -98,8 +97,12 @@ if (!window.Store) {
 				}
 			}
 		}
-
-		//webpackJsonp([], { 'parasite': (x, y, z) => getStore(z) }, ['parasite']);
+		
+		//const parasite = parasite${Date.now()}
+		//webpackJsonp([], {'parasite': (x, y, z) => getStore(z)}, ['parasite']);
+		const parasite = `parasite${Date.now()}`
+        webpackJsonp([], { [parasite]: (x, y, z) => getStore(z) }, [parasite]);
+		
 	})();
 }
 
