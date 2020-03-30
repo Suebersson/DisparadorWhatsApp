@@ -137,8 +137,9 @@ function sendSelfAnswer(){
 								//console.log(chatIndex)
 								//console.log(index_)
 								
-								sendAnswer(chatsSelfAnswer[index_] + "@c.us")
-			
+								//sendAnswer(chatsSelfAnswer[index_] + "@c.us")
+								sendAnswer(messagers[q].__x_id._serialized)
+								
 								//Remover id da lista de auto responder
 								chatsSelfAnswer.splice(index_, 1);
 								//Marca como visualizado o chat
@@ -154,8 +155,9 @@ function sendSelfAnswer(){
 									
 									chatIndex = messagers[q].initialIndex;
 
-									sendAnswer(chatsSelfAnswer[index_] + "@c.us")
-				
+									//sendAnswer(chatsSelfAnswer[index_] + "@c.us")
+									sendAnswer(messagers[q].__x_id._serialized)
+									
 									//Remover id da lista de auto responder
 									chatsSelfAnswer.splice(index_, 1);
 									//Marca como visualizado o chat
@@ -173,8 +175,9 @@ function sendSelfAnswer(){
 									
 									chatIndex = messagers[q].initialIndex;
 
-									sendAnswer(chatsSelfAnswer[index_] + "@c.us")
-				
+									//sendAnswer(chatsSelfAnswer[index_] + "@c.us")
+									sendAnswer(messagers[q].__x_id._serialized)
+									
 									//Remover id da lista de auto responder
 									chatsSelfAnswer.splice(index_, 1);
 									//Marca como visualizado o chat
