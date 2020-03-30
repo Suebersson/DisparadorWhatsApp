@@ -117,12 +117,14 @@ function sendMessageToID(id, message){
 	window.Store.WapQuery.queryExist(id).then((result) => {
 	
 		if (result.status == 200) {
-
-			//var idUser = new window.Store.UserConstructor(id);
-			//var idUser = new Store.WidFactory.createWid(id);
-			var idUser = new window.Store.UserConstructor(id, { intentionallyUsePrivateConstructor: true });
 			
-			Store.OpenChat.prototype.openChat(id)//abrir chart
+			var _id = result.jid._serialized
+			
+			//var idUser = new window.Store.UserConstructor(_id);
+			//var idUser = new Store.WidFactory.createWid(_id);
+			var idUser = new window.Store.UserConstructor(_id, {intentionallyUsePrivateConstructor: true});
+			
+			Store.OpenChat.prototype.openChat(_id)//abrir chart
 			
 			Store.Chat.find(idUser).then((chat) => {
 				Store.SendTextMsgToChat(chat , message)
@@ -140,11 +142,13 @@ function sendImageToId(id, imgBase64, legenda, fileName) {
 	
 		if (result.status == 200) {
 			
-			//var idUser = new window.Store.UserConstructor(id);
-			//var idUser = new Store.WidFactory.createWid(id);
-			var idUser = new window.Store.UserConstructor(id, { intentionallyUsePrivateConstructor: true });
+			var _id = result.jid._serialized
 			
-			Store.OpenChat.prototype.openChat(id)//abrir chat
+			//var idUser = new window.Store.UserConstructor(_id);
+			//var idUser = new Store.WidFactory.createWid(_id);
+			var idUser = new window.Store.UserConstructor(_id, {intentionallyUsePrivateConstructor: true});
+			
+			Store.OpenChat.prototype.openChat(_id)//abrir chart
 			
 			Store.Chat.find(idUser).then((chat) => {
 
