@@ -1,5 +1,5 @@
 
-//########################## Atualizado em 27/03/2020 ######################################################################
+//########################## Atualizado em 30/03/2020 ######################################################################
 //Versão do WhatsApp 0.4.2180
 
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
@@ -101,7 +101,6 @@ if (!window.Store) {
 		//webpackJsonp([], {'parasite': (x, y, z) => getStore(z)}, ['parasite'])
 
 		const parasite = `parasite${Date.now()}`
-
         if (typeof webpackJsonp === 'function'){
 			webpackJsonp([], {[parasite]: (x, y, z) => getStore(z)}, [parasite])
 		}else{
@@ -191,7 +190,7 @@ function SelfAnswer_sendMessageToID(id, message){
 	
 	//var idUser = new window.Store.UserConstructor(id);
 	//var idUser = new Store.WidFactory.createWid(id);
-	var idUser = new window.Store.UserConstructor(id, { intentionallyUsePrivateConstructor: true });
+	var idUser = new window.Store.UserConstructor(id, {intentionallyUsePrivateConstructor: true});
 	
 	Store.Chat.find(idUser).then((chat) => {
 		Store.SendTextMsgToChat(chat , message)
@@ -203,7 +202,7 @@ function SelfAnswer_sendImageToId(id, imgBase64, legenda, fileName) {
 
 	//var idUser = new window.Store.UserConstructor(id);
 	//var idUser = new Store.WidFactory.createWid(id);
-	var idUser = new window.Store.UserConstructor(id, { intentionallyUsePrivateConstructor: true });
+	var idUser = new window.Store.UserConstructor(id, {intentionallyUsePrivateConstructor: true});
 	
 	Store.Chat.find(idUser).then((chat) => {
 		
@@ -222,11 +221,11 @@ function abrir_chat(id){
 	
 		if (result.status == 200) {
 			
-			Store.OpenChat.prototype.openChat(id)
+			Store.OpenChat.prototype.openChat(result.jid._serialized)
 			
 		}else{
 		
-			swal("O número de telefone compartilhado através de url é inválido.", {
+			swal("O número de telefone compartilhado através da url é inválido.", {
 				buttons: false,
 				timer: 7000,
 				icon: "info",
