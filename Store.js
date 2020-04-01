@@ -236,4 +236,3 @@ function abrir_chat(id){
 	})
 	
 }
-
