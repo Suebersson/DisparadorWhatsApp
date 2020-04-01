@@ -99,15 +99,14 @@ if (!window.Store) {
 		}
 
 		//webpackJsonp([], {'parasite': (x, y, z) => getStore(z)}, ['parasite'])
-		webpackJsonp([], { 'parasite': (x, y, z) => iterateModules(z) }, ['parasite']);
-		/*
+		
 		const parasite = `parasite${Date.now()}`
         if (typeof webpackJsonp === 'function'){
 			webpackJsonp([], {[parasite]: (x, y, z) => getStore(z)}, [parasite])
 		}else{
 			webpackJsonp.push([[parasite],{[parasite]: (x, y, z) => getStore(z)},[[parasite]]])
 		}
-		*/
+		
 	})();
 }
 
