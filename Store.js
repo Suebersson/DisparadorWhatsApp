@@ -36,7 +36,7 @@ if (!window.Store) {
 				{ id: "SendMsgToChat", conditions: (module) => (module.sendMsgToChat) ? module.sendMsgToChat : null },
 				{ id: "SendSeen", conditions: (module) => (module.sendSeen) ? module : null },
 				{ id: "SendDelete", conditions: (module) => (module.sendDelete) ? module.sendDelete : null },
-				{ id: "AboutWhatsApp", conditions: (module) => (module.VERSION_STR) ? module : null },
+				{ id: "AboutWhatsApp", conditions: (module) => (module.default && module.default.VERSION_STR) ? module : null },
 				{ id: "AddAndSendMsgToChat", conditions: (module) => (module.addAndSendMsgToChat) ? module.addAndSendMsgToChat : null },
                 { id: "Catalog", conditions: (module) => (module.Catalog) ? module.Catalog : null },
                 { id: "BinaryProtocol", conditions: (module) => (module.default && module.default.toString().includes('binaryProtocol deprecated version')) ? module.default : null },
