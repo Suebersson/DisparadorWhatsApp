@@ -1,6 +1,6 @@
 
-//########################## Atualizado em 30/03/2020 ######################################################################
-//Versão do WhatsApp 0.4.2180
+//########################## Atualizado em 06/06/2020 ######################################################################
+//Versão do WhatsApp 2.2023.2
 
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
 //https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
