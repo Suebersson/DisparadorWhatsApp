@@ -90,14 +90,14 @@ if (!window.Store) {
 							}
 						});
 						
-						//console.log("Versão do WhatsApp: " + Store.AboutWhatsApp.VERSION_STR);
+						console.log("Versão do WhatsApp: " + Store.AboutWhatsApp.VERSION_STR);
 						
 						//Versão do WhatsApp
 						var Primary = Store.ServiceWorker.default.activeVersion.primary;
 						var Secondary = Store.ServiceWorker.default.activeVersion.secondary;
 						var Tertiary = Store.ServiceWorker.default.activeVersion.tertiary;
 
-						console.log('Versão do WhatsApp: ' + Primary + '.' + Secondary + '.' + Tertiary);
+						//console.log('Versão do WhatsApp: ' + Primary + '.' + Secondary + '.' + Tertiary);
 						
 						return window.Store;
 					}
