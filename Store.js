@@ -90,7 +90,7 @@ if (!window.Store) {
 							}
 						});
 						
-						console.log("Versão do WhatsApp: " + Store.AboutWhatsApp.VERSION_STR);
+						//console.log("Versão do WhatsApp: " + Store.AboutWhatsApp.VERSION_STR);
 						
 						return window.Store;
 					}
