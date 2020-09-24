@@ -5,7 +5,7 @@
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
 //https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
 
-/**
+/***
  * This script contains WAPI functions that need to be run in the context of the webpage
  */
 
