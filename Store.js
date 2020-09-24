@@ -1,5 +1,5 @@
 
-//########################## Atualizado em 24/09/2020 ######################################################################
+//########################## Atualizado em 06/06/2020 ######################################################################
 //Versão do WhatsApp 2.2023.2
 
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
@@ -40,9 +40,10 @@ if (!window.Store) {
 				{ id: "AddAndSendMsgToChat", conditions: (module) => (module.addAndSendMsgToChat) ? module.addAndSendMsgToChat : null },
                 { id: "Catalog", conditions: (module) => (module.Catalog) ? module.Catalog : null },
                 //{ id: "BinaryProtocol", conditions: (module) => (module.default && module.default.toString().includes('binaryProtocol deprecated version')) ? module.default : null },
-				{ id: "BinaryProtocol", conditions: (module) => (module.default&&module.default.toString&&module.default.toString().includes('bp_unknown_version')) ? module.default : null },
-				{ id: "MsgKey", conditions: (module) => (module.default&&module.default.toString().includes('MsgKey error: id is already a MsgKey')) ? module.default : null },
-                { id: "Parser", conditions: (module) => (module.convertToTextWithoutSpecialEmojis) ? module.default : null },
+				{ id: "BinaryProtocol", conditions: (module) => (module.default&&module.default.toString && module.default.toString().includes('bp_unknown_version')) ? module.default : null },
+				//{ id: "MsgKey", conditions: (module) => (module.default&&module.default.toString().includes('MsgKey error: id is already a MsgKey')) ? module.default : null },
+				{ id: "MsgKey", conditions: (module) => (module.default && module.default.toString().includes('MsgKey error: obj is null/undefined')) ? module.default : null },
+				{ id: "Parser", conditions: (module) => (module.convertToTextWithoutSpecialEmojis) ? module.default : null },
                 { id: "Builders", conditions: (module) => (module.TemplateMessage && module.HydratedFourRowTemplate) ? module : null },
                 { id: "Identity", conditions: (module) => (module.queryIdentity && module.updateIdentity) ? module : null },
                 { id: "MyStatus", conditions: (module) => (module.getStatus && module.setMyStatus) ? module : null },
