@@ -51,7 +51,7 @@ function ExtrairMembrosGrupo(){
 				function get_members(){
 					for (q = 0; q < chats.length; q++){
 						
-						if(Store.Conn.__x_me.user == chats[q].__x_id.user){
+						if(Store.Conn.__x_wid.user == chats[q].__x_id.user){
 							//Excluir o número da conta logada que também participa do grupo
 						}else{
 							//console.log(chats[q].__x_id.user);
