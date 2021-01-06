@@ -382,4 +382,3 @@ function printTxt(textArray, fileNameToSaveAs){
 
 
 
-
