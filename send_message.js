@@ -1,6 +1,6 @@
 
-//########################## Atualizado em 02/12/2019 ######################################################################
-//Versão do WhatsApp 0.3.9308
+//########################## Atualizado em 14/12/2020 ######################################################################
+//Versão do WhatsApp 2.2049.8
 
 //ouvinte de mensagem enviadas do content script
 window.addEventListener("message", function(event) {
@@ -115,98 +115,96 @@ var	sTypeMessage, sChatId, sBase64, sFileName, sLegendaText;
 
 function sendSelfAnswer(){
 	
-	if(window.Store){	
-	
-		var checkMessage = setInterval(function() {
-
-			messagers = window.Store.Chat.filter((chat) => chat.unreadCount); 
-
-			if(chatsSelfAnswer.length > 0){
-
-				if(messagers.length > 0){
-
-					for (q = 0; q < messagers.length; q++){
-						
-						if(messagers[q].__x_isGroup === false){//se for um chat
-							
-							index_ = chatsSelfAnswer.indexOf(messagers[q].__x_id.user)
-							
-							if(index_ != -1){
-								
-								chatIndex = messagers[q].initialIndex;
-								//console.log(chatIndex)
-								//console.log(index_)
-								
-								//sendAnswer(chatsSelfAnswer[index_] + "@c.us")
-								sendAnswer(messagers[q].__x_id._serialized)
-								
-								//Remover id da lista de auto responder
-								chatsSelfAnswer.splice(index_, 1);
-								//Marca como visualizado o chat
-								//Store.SendSeen(Store.Chat.models[chatIndex], false);
-								
-							}else if(messagers[q].__x_id.user.length == 12){//número sem o nono digito
-							
-								var user = messagers[q].__x_id.user
-								user = (user.slice(0, 4) + "9" + user.slice(4, 12))
-								index_ = chatsSelfAnswer.indexOf(user)
-								
-								if (index_ != -1){
-									
-									chatIndex = messagers[q].initialIndex;
-
-									//sendAnswer(chatsSelfAnswer[index_] + "@c.us")
-									sendAnswer(messagers[q].__x_id._serialized)
-									
-									//Remover id da lista de auto responder
-									chatsSelfAnswer.splice(index_, 1);
-									//Marca como visualizado o chat
-									//Store.SendSeen(Store.Chat.models[chatIndex], false);
-									
-								}
-								
-							}else if(messagers[q].__x_id.user.length == 13){//número com o nono digito
-							
-								var user = messagers[q].__x_id.user
-								user = (user.slice(0, 4) + user.slice(5, 13))
-								index_ = chatsSelfAnswer.indexOf(user)
-								
-								if (index_ != -1){
-									
-									chatIndex = messagers[q].initialIndex;
-
-									//sendAnswer(chatsSelfAnswer[index_] + "@c.us")
-									sendAnswer(messagers[q].__x_id._serialized)
-									
-									//Remover id da lista de auto responder
-									chatsSelfAnswer.splice(index_, 1);
-									//Marca como visualizado o chat
-									//Store.SendSeen(Store.Chat.models[chatIndex], false);
-									
-								}
-								
-							}
-							
-						}
-
-					}
-					
-				}
-			
+	if(window.Store){
+		
+		window.Store.Msg.on('add', (newMessage) => {
+			//se é uma nova mensagem, se não foi enviada por mim
+			if (newMessage.isNewMsg && !newMessage.isSentByMe && chatsSelfAnswer.length > 0) {
+				messageReceived(newMessage);
 			}else{
-				
 				chatsSelfAnswer = new Array();
 				sTypeMessage = ""; sChatId = ""; sBase64 = ""; sFileName = ""; sLegendaText = ""
-				
-				clearInterval(checkMessage);
-				alert("Auto responder finalizado");
 			}
-
-		}, 3000);
-
+		});
+		
 	}else{
 		console.warn('É necessário fazer manutenção no código fonte. "Store" não definida');
 	}
+	
+}
+
+function messageReceived(messageObj){
+	
+	var idRemetente;
+	
+	//remetente
+	if(messageObj.__x_from.server === "broadcast"){
+		idRemetente = messageObj.__x_author._serialized;
+		//console.log(messageObj.__x_author.server);
+		//console.log(messageObj.__x_author.user);
+		console.log("Id do remetente: " + idRemetente);
+	}else{
+		idRemetente = messageObj.__x_from._serialized;
+		//console.log(messageObj.__x_from.server);
+		//console.log(messageObj.__x_from.user);
+		console.log("Id do remetente: " + idRemetente);
+	}
+	
+	setTimeout(function(){
+		window.Store.Chat.find(idRemetente).then(function(chat) {
+			//console.log(chat);
+			if(chat.__x_isGroup){
+				console.log("O remetente é um grupo");
+			}else{
+
+				index_ = chatsSelfAnswer.indexOf(chat.__x_contact.__x_id.user)
+				
+				if(index_ != -1){
+					
+					sendAnswer(chat.__x_contact.__x_id._serialized)
+					
+					//Remover id da lista de auto responder
+					chatsSelfAnswer.splice(index_, 1);
+					//Marca como visualizado o chat
+					//Store.SendSeen.markSeen(chat);
+					
+				}else if(chat.__x_contact.__x_id.user.length == 12){//número sem o nono digito
+				
+					var user = chat.__x_contact.__x_id.user
+					user = (user.slice(0, 4) + "9" + user.slice(4, 12))
+					index_ = chatsSelfAnswer.indexOf(user)
+					
+					if (index_ != -1){
+						
+						sendAnswer(chat.__x_contact.__x_id._serialized)
+						
+						//Remover id da lista de auto responder
+						chatsSelfAnswer.splice(index_, 1);
+						//Marca como visualizado o chat
+						//Store.SendSeen.markSeen(chat);
+					}
+					
+				}else if(chat.__x_contact.__x_id.user.length == 13){//número com o nono digito
+				
+					var user = chat.__x_contact.__x_id.user
+					user = (user.slice(0, 4) + user.slice(5, 13))
+					index_ = chatsSelfAnswer.indexOf(user)
+					
+					if (index_ != -1){
+						
+						sendAnswer(chat.__x_contact.__x_id._serialized)
+						
+						//Remover id da lista de auto responder
+						chatsSelfAnswer.splice(index_, 1);
+						//Marca como visualizado o chat
+						//Store.SendSeen.markSeen(chat);
+						
+					}
+					
+				}
+			}
+		});
+	}, 1000);
 	
 }
 
@@ -271,7 +269,7 @@ function cancelSelfAnswer(){
 //################## Filtro de WhatsApp #########################
 
 //Inserir barra de progresso
-for (q=0;q<document.querySelectorAll("div").length;q++){
+for (q = 0; q < document.querySelectorAll("div").length; q++){
 	if (document['getElementsByTagName']('div')[q]['innerHTML'] == 'Procurar ou começar uma nova conversa'
 	|| document['getElementsByTagName']('div')[q]['innerHTML'] == 'Buscar o empezar un chat nuevo'
 	|| document['getElementsByTagName']('div')[q]['innerHTML'] == 'Search or start new chat'){
