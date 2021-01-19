@@ -10,7 +10,7 @@ function Atualizar_Status(){
 		if (class_Name == undefined){
 			for (q=0;q<document.querySelectorAll("div").length;q++){
 				
-				if (document['getElementsByTagName']('div')[q]['innerHTML'] == 'Procurar ou começar uma nova conversa'
+				if (document['getElementsByTagName']('div')[q]['innerHTML'] == 'Pesquisar ou começar uma nova conversa'
 				|| document['getElementsByTagName']('div')[q]['innerHTML'] == 'Buscar o empezar un chat nuevo'
 				|| document['getElementsByTagName']('div')[q]['innerHTML'] == 'Search or start new chat'){
 				
