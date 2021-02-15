@@ -1,6 +1,6 @@
 
-//########################## Atualizado em 14/12/2020 ######################################################################
-//Versão do WhatsApp 2.2049.8
+//########################## Atualizado em 15/02/2021 ######################################################################
+//Versão do WhatsApp 2.2104.9
 
 //ouvinte de mensagem enviadas do content script
 window.addEventListener("message", function(event) {
@@ -270,7 +270,7 @@ function cancelSelfAnswer(){
 
 //Inserir barra de progresso
 for (q = 0; q < document.querySelectorAll("div").length; q++){
-	if (document['getElementsByTagName']('div')[q]['innerHTML'] == 'Procurar ou começar uma nova conversa'
+	if (document['getElementsByTagName']('div')[q]['innerHTML'] == 'Pesquisar ou começar uma nova conversa'
 	|| document['getElementsByTagName']('div')[q]['innerHTML'] == 'Buscar o empezar un chat nuevo'
 	|| document['getElementsByTagName']('div')[q]['innerHTML'] == 'Search or start new chat'){
 		
@@ -288,22 +288,23 @@ for (q = 0; q < document.querySelectorAll("div").length; q++){
 	}
 }
 
-var NumToFilter = new Array(), Numfiltered = new Array(), loopTime = 150, q = 0, ddi, x;
+var NumToFilter = new Array(), Numfiltered = new Array(), Loopfilter = undefined, loopTime = 150, loop = 0, ddi, x;
 function filterNumbers(){
-
+	
+	loop = 0;
 	x = NumToFilter.length
 	console.log('Total de números para filtrar: ' + x)
 	
 	//Muito rapido e falhando
-	/*for (q = 0; q < x ; q++){	
-		filterNumber(NumToFilter[q])
+	/*for (loop = 0; loop < x ; loop++){	
+		filterNumber(NumToFilter[loop])
 	}*/
-	
-	var Loopfilter = setInterval(function() {
-		
-		if (q > x){
+
+	Loopfilter = setInterval(function() {
+
+		if (loop > x){
 			clearInterval(Loopfilter)
-			q = 0
+			loop = 0
 			
 			var finish = setInterval(function() {
 
@@ -333,15 +334,16 @@ function filterNumbers(){
 	
 		}else{
 
-			filterNumber(NumToFilter[q])
-			q++
+			filterNumber(NumToFilter[loop])
+			loop++
 			
 			if(document.getElementById("progressFilter")){
-				document.getElementById("progressFilter").value = Math.round(q / NumToFilter.length * 100)
+				document.getElementById("progressFilter").value = Math.round(loop / NumToFilter.length * 100)
 			}
 		}
 	
 	}, loopTime);
+	
 	
 }
 
@@ -379,6 +381,7 @@ function printTxt(textArray, fileNameToSaveAs){
 	downloadLink.click();
 
 }
+
 
 
 
