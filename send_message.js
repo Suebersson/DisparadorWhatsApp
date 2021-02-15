@@ -118,13 +118,13 @@ function sendSelfAnswer(){
 	if(window.Store){
 		
 		window.Store.Msg.on('add', (newMessage) => {
+			
 			//se é uma nova mensagem, se não foi enviada por mim
-			if (newMessage.isNewMsg && !newMessage.isSentByMe && chatsSelfAnswer.length > 0) {
+			//if (newMessage.isNewMsg && !newMessage.isSentByMe && chatsSelfAnswer.length > 0) {
+			if (newMessage.__x_isNewMsg && !newMessage.__x_isSentByMe && chatsSelfAnswer.length > 0) {
 				messageReceived(newMessage);
-			}else{
-				chatsSelfAnswer = new Array();
-				sTypeMessage = ""; sChatId = ""; sBase64 = ""; sFileName = ""; sLegendaText = ""
 			}
+			
 		});
 		
 	}else{
@@ -134,7 +134,7 @@ function sendSelfAnswer(){
 }
 
 function messageReceived(messageObj){
-	
+
 	var idRemetente;
 	
 	//remetente
