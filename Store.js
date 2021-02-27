@@ -1,5 +1,5 @@
 
-//########################## Atualizado em 06/06/2020 ######################################################################
+//########################## Atualizado em 27/02/2021 ######################################################################
 //Versão do WhatsApp 2.2039.9
 
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
@@ -23,6 +23,8 @@ if (!window.Store) {
 				{ id: "MediaCollection", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.processAttachments !== undefined) ? module.default : null },
 				{ id: "ChatClass", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.Collection !== undefined && module.default.prototype.Collection === "Chat") ? module : null },
 				{ id: "MediaProcess", conditions: (module) => (module.BLOB) ? module : null },
+				{ id: "Archive", conditions: (module) => (module.setArchive) ? module : null },
+                { id: "Block", conditions: (module) => (module.blockContact && module.unblockContact) ? module : null },
 				{ id: "Wap", conditions: (module) => (module.createGroup) ? module : null },
 				{ id: "ServiceWorker", conditions: (module) => (module.default && module.default.killServiceWorker) ? module : null },
 				{ id: "State", conditions: (module) => (module.STATE && module.STREAM) ? module : null },
@@ -39,12 +41,11 @@ if (!window.Store) {
 				{ id: "AboutWhatsApp", conditions: (module) => (module.default && module.default.VERSION_STR) ? module : null },
 				{ id: "AddAndSendMsgToChat", conditions: (module) => (module.addAndSendMsgToChat) ? module.addAndSendMsgToChat : null },
                 { id: "Catalog", conditions: (module) => (module.Catalog) ? module.Catalog : null },
-                //{ id: "BinaryProtocol", conditions: (module) => (module.default && module.default.toString().includes('binaryProtocol deprecated version')) ? module.default : null },
 				{ id: "BinaryProtocol", conditions: (module) => (module.default && module.default.toString && module.default.toString().includes('bp_unknown_version')) ? module.default : null },
-				//{ id: "MsgKey", conditions: (module) => (module.default&&module.default.toString().includes('MsgKey error: id is already a MsgKey')) ? module.default : null },
-				{ id: "MsgKey", conditions: (module) => (module.default && module.default.toString().includes('MsgKey error: obj is null/undefined')) ? module.default : null },
+				{ id: "MsgKey", conditions: (module) => (module.default&&module.default.toString && module.default.toString().includes('MsgKey error: obj is null/undefined')) ? module.default : null },
 				{ id: "Parser", conditions: (module) => (module.convertToTextWithoutSpecialEmojis) ? module.default : null },
                 { id: "Builders", conditions: (module) => (module.TemplateMessage && module.HydratedFourRowTemplate) ? module : null },
+				{ id: "Me", conditions: (module) => (module.PLATFORMS && module.Conn) ? module.default : null },
                 { id: "Identity", conditions: (module) => (module.queryIdentity && module.updateIdentity) ? module : null },
                 { id: "MyStatus", conditions: (module) => (module.getStatus && module.setMyStatus) ? module : null },
                 { id: "Features", conditions: (module) => (module.FEATURE_CHANGE_EVENT && module.features) ? module : null },
@@ -59,60 +60,43 @@ if (!window.Store) {
 			];
 			
 			for (let idx in modules) {
-				if ((typeof modules[idx] === "object") && (modules[idx] !== null)) {
-					let first = Object.values(modules[idx])[0];
-					if ((typeof first === "object") && (first.exports)) {
-						for (let idx2 in modules[idx]) {
-							
-							let module = modules(idx2);
-							if (!module) continue;
-							
-							neededObjects.forEach((needObj) => {
-								
-								if (!needObj.conditions || needObj.foundedModule) return;
-								
-								let neededModule = needObj.conditions(module);
-								if (neededModule !== null) {
-									foundCount++;
-									needObj.foundedModule = neededModule;
-								}
-								
-							});
-							
-							if (foundCount == neededObjects.length) break
-							
-						}
+            	if ((typeof modules[idx] === "object") && (modules[idx] !== null)) {
+                    neededObjects.forEach((needObj) => {
+                    	if (!needObj.conditions || needObj.foundedModule)
+                            return;
+                    	let neededModule = needObj.conditions(modules[idx]);
+                    	if (neededModule !== null) {
+                            foundCount++;
+                            needObj.foundedModule = neededModule;
+                    	}
+					});
 
-						let neededStore = neededObjects.find((needObj) => needObj.id === "Store");
-						window.Store = neededStore.foundedModule ? neededStore.foundedModule : {};
-						neededObjects.splice(neededObjects.indexOf(neededStore), 1);
-						neededObjects.forEach((needObj) => {
-							if (needObj.foundedModule) {
-								window.Store[needObj.id] = needObj.foundedModule;
-							}
-						});
-						
-						console.log("Versão do WhatsApp: " + Store.AboutWhatsApp.default.VERSION_STR);
-						
-						//Versão do WhatsApp
-						/*var Primary = Store.ServiceWorker.default.activeVersion.primary;
-						var Secondary = Store.ServiceWorker.default.activeVersion.secondary;
-						var Tertiary = Store.ServiceWorker.default.activeVersion.tertiary;
-						console.log('Versão do WhatsApp: ' + Primary + '.' + Secondary + '.' + Tertiary);*/
-						
-						return window.Store;
-					}
+                    if (foundCount == neededObjects.length) {
+                    	break;
+                    }
+            	}
+            }
+			
+			let neededStore = neededObjects.find((needObj) => needObj.id === "Store");
+			window.Store = neededStore.foundedModule ? neededStore.foundedModule : {};
+			neededObjects.splice(neededObjects.indexOf(neededStore), 1);
+			neededObjects.forEach((needObj) => {
+				if (needObj.foundedModule) {
+					window.Store[needObj.id] = needObj.foundedModule;
 				}
-			}
+			});
+			
+			console.log("Versão do WhatsApp: " + Store.AboutWhatsApp.default.VERSION_STR);
+
+			return window.Store;
+	
 		}
 
-		//webpackJsonp([], {'parasite': (x, y, z) => getStore(z)}, ['parasite'])
-		
 		const parasite = `parasite${Date.now()}`
         if (typeof webpackJsonp === 'function'){
 			webpackJsonp([], {[parasite]: (x, y, z) => getStore(z)}, [parasite])
 		}else{
-			webpackJsonp.push([[parasite],{[parasite]: (x, y, z) => getStore(z)},[[parasite]]])
+			webpackChunkbuild.push([[parasite], {}, function (o, e, t) {let modules = []; for (let idx in o.m) {modules.push(o(idx));}	getStore(modules);}]); 
 		}
 		
 	})();
