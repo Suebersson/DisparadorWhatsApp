@@ -1,6 +1,6 @@
 
 //########################## Atualizado em 27/02/2021 ######################################################################
-//Versão do WhatsApp 2.2039.9
+//Versão do WhatsApp 2.2106.5
 
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
 //https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
