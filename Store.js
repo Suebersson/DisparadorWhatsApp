@@ -116,7 +116,7 @@ function sendMessageToID(id, message){
 			//var idUser = new Store.WidFactory.createWid(_id);
 			var idUser = new window.Store.UserConstructor(_id, {intentionallyUsePrivateConstructor: true});
 			
-			Store.OpenChat.prototype.openChat(_id)//abrir chart
+			//Store.OpenChat.prototype.openChat(_id)//abrir chart
 			
 			Store.Chat.find(idUser).then((chat) => {
 				Store.SendTextMsgToChat(chat , message)
@@ -140,7 +140,7 @@ function sendImageToId(id, imgBase64, legenda, fileName) {
 			//var idUser = new Store.WidFactory.createWid(_id);
 			var idUser = new window.Store.UserConstructor(_id, {intentionallyUsePrivateConstructor: true});
 			
-			Store.OpenChat.prototype.openChat(_id)//abrir chart
+			//Store.OpenChat.prototype.openChat(_id)//abrir chart
 			
 			Store.Chat.find(idUser).then((chat) => {
 
