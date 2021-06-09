@@ -1,9 +1,13 @@
 
-//########################## Atualizado em 27/02/2021 ######################################################################
-//Versão do WhatsApp 2.2106.5
+//########################## Atualizado em 09/06/2021 ######################################################################
+//Versão do WhatsApp 2.2121.6
 
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
 //https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
+
+/***
+ * This script contains WAPI functions that need to be run in the context of the webpage
+ */
 
 /**
  * Auto discovery the webpack object references of instances that contains all functions used by the WAPI
@@ -27,7 +31,8 @@ if (!window.Store) {
 				{ id: "Presence", conditions: (module) => (module.setPresenceAvailable && module.setPresenceUnavailable) ? module : null },
 				{ id: "WapDelete", conditions: (module) => (module.sendConversationDelete && module.sendConversationDelete.length == 2) ? module : null },
 				{ id: "Conn", conditions: (module) => (module.default && module.default.ref && module.default.refTTL) ? module.default : null },
-				{ id: "WapQuery", conditions: (module) => (module.queryExist) ? module : ((module.default && module.default.queryExist) ? module.default : null) },
+				//{ id: "WapQuery", conditions: (module) => (module.queryExist) ? module : ((module.default && module.default.queryExist) ? module.default : null) },
+				{ id: "WapQuery", conditions: (module) => (module.default && module.default.queryExist) ? module.default : null},
 				{ id: "CryptoLib", conditions: (module) => (module.decryptE2EMedia) ? module : null },
 				{ id: "OpenChat", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.openChat) ? module.default : null },
 				{ id: "UserConstructor", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.isServer && module.default.prototype.isUser) ? module.default : null },
@@ -53,7 +58,8 @@ if (!window.Store) {
                 { id: "WidFactory", conditions: (module) => (module.numberToWid && module.createWid && module.createWidFromWidLike) ? module : null },
                 { id: "Base", conditions: (module) => (module.setSubProtocol && module.binSend && module.actionNode) ? module : null },
                 { id: "Base2", conditions: (module) => (module.supportsFeatureFlags && module.parseMsgStubProto && module.binSend && module.subscribeLiveLocation) ? module : null },
-                { id: "Versions", conditions: (module) => (module.loadProtoVersions && module.default["15"] && module.default["16"] && module.default["17"]) ? module : null }	
+                { id: "Versions", conditions: (module) => (module.loadProtoVersions && module.default["15"] && module.default["16"] && module.default["17"]) ? module : null },
+				{ id: "OpenChatFromUnread", conditions: (module) => (module.default && module.default.openChatFromUnread) ? module : null}
 			];
 			
 			for (let idx in modules) {
