@@ -44,13 +44,14 @@ if (!window.Store) {
 				{ id: "AddAndSendMsgToChat", conditions: (module) => (module.addAndSendMsgToChat) ? module.addAndSendMsgToChat : null },
                 { id: "Catalog", conditions: (module) => (module.Catalog) ? module.Catalog : null },
 				{ id: "BinaryProtocol", conditions: (module) => (module.default && module.default.toString && module.default.toString().includes('bp_unknown_version')) ? module.default : null },
-				{ id: "MsgKey", conditions: (module) => (module.default&&module.default.toString && module.default.toString().includes('MsgKey error: obj is null/undefined')) ? module.default : null },
+				{ id: "MsgKey", conditions: (module) => (module.default && module.default.toString && module.default.toString().includes('MsgKey error: obj is null/undefined')) ? module.default : null },
 				{ id: "Parser", conditions: (module) => (module.convertToTextWithoutSpecialEmojis) ? module.default : null },
                 { id: "Builders", conditions: (module) => (module.TemplateMessage && module.HydratedFourRowTemplate) ? module : null },
 				{ id: "Me", conditions: (module) => (module.PLATFORMS && module.Conn) ? module.default : null },
                 { id: "Identity", conditions: (module) => (module.queryIdentity && module.updateIdentity) ? module : null },
                 { id: "MyStatus", conditions: (module) => (module.getStatus && module.setMyStatus) ? module : null },
-                { id: "Features", conditions: (module) => (module.FEATURE_CHANGE_EVENT && module.features) ? module : null },
+				{ id: "ChatStates", conditions: (module) => (module.sendChatStatePaused && module.sendChatStateRecording && module.sendChatStateComposing) ? module : null },
+				{ id: "Features", conditions: (module) => (module.FEATURE_CHANGE_EVENT && module.features) ? module : null },
                 { id: "MessageUtils", conditions: (module) => (module.storeMessages && module.appendMessage) ? module : null },
                 { id: "WebMessageInfo", conditions: (module) => (module.WebMessageInfo && module.WebFeatures) ? module.WebMessageInfo : null },
                 { id: "createMessageKey", conditions: (module) => (module.createMessageKey && module.createDeviceSentMessage) ? module.createMessageKey : null },
@@ -99,9 +100,10 @@ if (!window.Store) {
         if (typeof webpackJsonp === 'function'){
 			webpackJsonp([], {[parasite]: (x, y, z) => getStore(z)}, [parasite])
 		}else{
-			webpackChunkbuild.push([[parasite], {}, function (o, e, t) {let modules = []; for (let idx in o.m) {modules.push(o(idx));}	getStore(modules);}]); 
+			//webpackChunkbuild.push([[parasite], {}, function (o, e, t) {let modules = []; for (let idx in o.m) {modules.push(o(idx));}	getStore(modules);}]); 
+			webpackChunkwhatsapp_web_client.push([[parasite], {}, function (o, e, t) {let modules = []; for (let idx in o.m) {modules.push(o(idx));} getStore(modules);}]); 
 		}
-		
+
 	})();
 }
 
