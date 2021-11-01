@@ -165,7 +165,7 @@ function SelfAnswer_sendImageToId(id, imgBase64, legenda, fileName) {
 }
 
 //############################### Abrir uma conversa ######################################
-function abrir_chat(id)
+function abrir_chat(id) {
 
 	openChatIfThereIs(id).then((c) => {
 		if(!c.isChat){
