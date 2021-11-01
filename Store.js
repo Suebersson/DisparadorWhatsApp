@@ -297,4 +297,3 @@ async function openChatIfThereIs(id) {
 	});
 }
 
-
