@@ -102,60 +102,14 @@ if (!window.Store) {
 
 //############################# Envios diretos #########################################
 function sendMessageToID(id, message){
-	
-	/*window.Store.WapQuery.queryExist(id).then((result) => {
-	
-		if (result.status == 200) {
-			
-			var _id = result.jid._serialized
-			
-			//var idUser = new window.Store.UserConstructor(_id);
-			//var idUser = new Store.WidFactory.createWid(_id);
-			var idUser = new window.Store.UserConstructor(_id, {intentionallyUsePrivateConstructor: true});
-			
-			//Store.OpenChat.prototype.openChat(_id)//abrir chart
-			
-			Store.Chat.find(idUser).then((chat) => {
-				Store.SendTextMsgToChat(chat , message)
-			});
-
-		}
-
-	})*/
-	
 
 	openChatIfThereIs(id).then((c) => {
 		if(c.isChat) Store.SendTextMsgToChat(c.obj , message);
 	});
-
 	
 }
 
 function sendImageToId(id, imgBase64, legenda, fileName) {
-	
-	/*Store.WapQuery.queryExist(id).then((result) => {
-	
-		if (result.status == 200) {
-			
-			var _id = result.jid._serialized
-			
-			//var idUser = new window.Store.UserConstructor(_id);
-			//var idUser = new Store.WidFactory.createWid(_id);
-			var idUser = new window.Store.UserConstructor(_id, {intentionallyUsePrivateConstructor: true});
-			
-			//Store.OpenChat.prototype.openChat(_id)//abrir chart
-			
-			Store.Chat.find(idUser).then((chat) => {
-
-				process_Files(chat, base64ImageToFile(imgBase64, fileName)).then(mc => {
-					mc.models[0].sendToChat(chat, { caption: legenda })
-				});
-		
-			});
-	
-		}
-
-	})*/
 	
 	openChatIfThereIs(id).then((c) => {
 		if(c.isChat) {
@@ -211,27 +165,17 @@ function SelfAnswer_sendImageToId(id, imgBase64, legenda, fileName) {
 }
 
 //############################### Abrir uma conversa ######################################
-function abrir_chat(id){
-	
-	/*window.Store.WapQuery.queryExist(id).then((result) => {
-	
-		if (result.status == 200) {
-			
-			Store.OpenChat.prototype.openChat(result.jid._serialized)
-			
-		}else{
-		
+function abrir_chat(id)
+
+	openChatIfThereIs(id).then((c) => {
+		if(!c.isChat){
 			swal("O número de telefone não possuí uma conta de WhatsApp", {
 				buttons: false,
 				timer: 7000,
 				icon: "info",
 			});
-		
-		}		
-
-	})*/
-	
-	openChatIfThereIs(id);
+		}
+	});
 	
 }
 
@@ -270,7 +214,7 @@ async function openChatIfThereIs(id) {
 				
 				var chat = Store.Chat.get(newChat);
 				//abrir chat
-				//Store.OpenChat.prototype.openChat(newChat)
+				//Store.OpenChat.prototype.openChat(newChat)//gerando erro
 				Store.OpenChatFromUnread.default._openChat(chat)
 				
 				return {
