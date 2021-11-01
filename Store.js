@@ -1,6 +1,6 @@
 
-//########################## Atualizado em 09/06/2021 ######################################################################
-///Versão do WhatsApp 2.2121.6
+//########################## Atualizado em 01/11/2021 ######################################################################
+//Versão do WhatsApp 2.2142.12
 
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
 //https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
@@ -110,7 +110,7 @@ if (!window.Store) {
 //############################# Envios diretos #########################################
 function sendMessageToID(id, message){
 	
-	window.Store.WapQuery.queryExist(id).then((result) => {
+	/*window.Store.WapQuery.queryExist(id).then((result) => {
 	
 		if (result.status == 200) {
 			
@@ -128,13 +128,19 @@ function sendMessageToID(id, message){
 
 		}
 
-	})
+	})*/
+	
+
+	openChatIfThereIs(id).then((c) => {
+		if(c) Store.SendTextMsgToChat(chat , message);
+	});
+
 	
 }
 
 function sendImageToId(id, imgBase64, legenda, fileName) {
 	
-	window.Store.WapQuery.queryExist(id).then((result) => {
+	/*Store.WapQuery.queryExist(id).then((result) => {
 	
 		if (result.status == 200) {
 			
@@ -156,7 +162,15 @@ function sendImageToId(id, imgBase64, legenda, fileName) {
 	
 		}
 
-	})
+	})*/
+	
+	openChatIfThereIs(id).then((c) => {
+		if(c) {
+			process_Files(chat, base64ImageToFile(imgBase64, fileName)).then(mc => {
+				mc.models[0].sendToChat(chat, { caption: legenda })
+			});
+		}
+	});
 	
 }
 
@@ -184,12 +198,8 @@ function base64ImageToFile(b64Data, fileName) {
 
 //########################## Auto responder ####################################
 function SelfAnswer_sendMessageToID(id, message){
-	
-	//var idUser = new window.Store.UserConstructor(id);
-	//var idUser = new Store.WidFactory.createWid(id);
-	var idUser = new window.Store.UserConstructor(id, {intentionallyUsePrivateConstructor: true});
-	
-	Store.Chat.find(idUser).then((chat) => {
+
+	Store.Chat.find(id).then((chat) => {
 		Store.SendTextMsgToChat(chat , message)
 	});
 	
@@ -197,11 +207,7 @@ function SelfAnswer_sendMessageToID(id, message){
 
 function SelfAnswer_sendImageToId(id, imgBase64, legenda, fileName) {
 
-	//var idUser = new window.Store.UserConstructor(id);
-	//var idUser = new Store.WidFactory.createWid(id);
-	var idUser = new window.Store.UserConstructor(id, {intentionallyUsePrivateConstructor: true});
-	
-	Store.Chat.find(idUser).then((chat) => {
+	Store.Chat.find(id).then((chat) => {
 		
 		process_Files(chat, base64ImageToFile(imgBase64, fileName)).then(mc => {
 			mc.models[0].sendToChat(chat, { caption: legenda })
@@ -214,7 +220,7 @@ function SelfAnswer_sendImageToId(id, imgBase64, legenda, fileName) {
 //############################### Abrir uma conversa ######################################
 function abrir_chat(id){
 	
-	window.Store.WapQuery.queryExist(id).then((result) => {
+	/*window.Store.WapQuery.queryExist(id).then((result) => {
 	
 		if (result.status == 200) {
 			
@@ -222,7 +228,7 @@ function abrir_chat(id){
 			
 		}else{
 		
-			swal("O número de telefone compartilhado através da url é inválido.", {
+			swal("O número de telefone não possuí uma conta de WhatsApp", {
 				buttons: false,
 				timer: 7000,
 				icon: "info",
@@ -230,6 +236,55 @@ function abrir_chat(id){
 		
 		}		
 
-	})
+	})*/
+	
+	openChatIfThereIs(id);
 	
 }
+
+
+//abrir conversa/chat se ele existir
+async function openChatIfThereIs(id) {
+
+	return Store.Chat.find(id).then((chat) => {
+
+		//abrir chat
+		//Store.OpenChat.prototype.openChat(id)//gerando erro
+		Store.OpenChatFromUnread.default._openChat(chat)
+		
+		return true;
+
+	}).catch(error => {
+		console.log('Chat não localizado no histórico de conversas')
+		
+		 return Store.WapQuery.queryExist(id).then((result) => {//verificar se destinatario existe
+
+			if (result.status == 200){
+
+				var newChat = result.jid._serialized;
+				
+				//Adicionar o chat no registro de chats
+				Store.Chat.add(
+					{id: new Store.UserConstructor(
+						newChat, 
+						{intentionallyUsePrivateConstructor: true}
+					)}, 
+					{merge: true, add: true}
+				);
+				
+				//abrir chat
+				//Store.OpenChat.prototype.openChat(newChat)
+				Store.OpenChatFromUnread.default._openChat(Store.Chat.get(newChat))
+				
+				return true;
+			
+			}else{
+				console.log('O endereço informado não possuí uma conta de WhatsApp')
+				return false;
+			}
+
+		})
+	});
+}
+
+
