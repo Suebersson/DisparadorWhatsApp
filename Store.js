@@ -132,7 +132,7 @@ function sendMessageToID(id, message){
 	
 
 	openChatIfThereIs(id).then((c) => {
-		if(c) Store.SendTextMsgToChat(chat , message);
+		if(c.isChat) Store.SendTextMsgToChat(c.obj , message);
 	});
 
 	
@@ -165,9 +165,9 @@ function sendImageToId(id, imgBase64, legenda, fileName) {
 	})*/
 	
 	openChatIfThereIs(id).then((c) => {
-		if(c) {
-			process_Files(chat, base64ImageToFile(imgBase64, fileName)).then(mc => {
-				mc.models[0].sendToChat(chat, { caption: legenda })
+		if(c.isChat) {
+			process_Files(c.obj, base64ImageToFile(imgBase64, fileName)).then(mc => {
+				mc.models[0].sendToChat(c.obj, { caption: legenda })
 			});
 		}
 	});
@@ -252,7 +252,10 @@ async function openChatIfThereIs(id) {
 		//Store.OpenChat.prototype.openChat(id)//gerando erro
 		Store.OpenChatFromUnread.default._openChat(chat)
 		
-		return true;
+		return {
+			isChat: true,
+			obj: chat
+		};
 
 	}).catch(error => {
 		console.log('Chat não localizado no histórico de conversas')
@@ -272,15 +275,22 @@ async function openChatIfThereIs(id) {
 					{merge: true, add: true}
 				);
 				
+				var chat = Store.Chat.get(newChat);
 				//abrir chat
 				//Store.OpenChat.prototype.openChat(newChat)
-				Store.OpenChatFromUnread.default._openChat(Store.Chat.get(newChat))
+				Store.OpenChatFromUnread.default._openChat(chat)
 				
-				return true;
+				return {
+					isChat: true,
+					obj: chat
+				};
 			
 			}else{
 				console.log('O endereço informado não possuí uma conta de WhatsApp')
-				return false;
+				return {
+					isChat: false,
+					obj: null
+				};
 			}
 
 		})
