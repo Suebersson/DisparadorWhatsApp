@@ -1,6 +1,6 @@
 
 //########################## Atualizado em 09/06/2021 ######################################################################
-//Versão do WhatsApp 2.2121.6
+///Versão do WhatsApp 2.2121.6
 
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
 //https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
