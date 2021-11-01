@@ -6,7 +6,6 @@
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
 //https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
 
- 
 if (!window.Store) {
 	(function () {
 		function getStore(modules) {
