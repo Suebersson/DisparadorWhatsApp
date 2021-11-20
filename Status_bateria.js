@@ -6,7 +6,7 @@ setInterval(Atualizar_Status, 120000);
 function Atualizar_Status(){
 	
 	if (window.Store){
-		if(Store.Conn.battery != undefined){
+		if(Store.Me.battery != undefined){
 			if (class_Name == undefined){
 				for (q=0;q<document.querySelectorAll("div").length;q++){
 					
@@ -15,15 +15,15 @@ function Atualizar_Status(){
 					|| document['getElementsByTagName']('div')[q]['innerHTML'] == 'Search or start new chat'){
 					
 						class_Name = document['getElementsByTagName']('div')[q].className
-						document['getElementsByClassName'](class_Name)[0]['innerHTML'] = 'Status da Bateria: ' + Store.Conn.battery + '%';
-						//console.log('Status da Bateria: ' + Store.Conn.battery + '%');
+						document['getElementsByClassName'](class_Name)[0]['innerHTML'] = 'Status da Bateria: ' + Store.Me.battery + '%';
+						//console.log('Status da Bateria: ' + Store.Me.battery + '%');
 						break;
 					}
 				}
 			}else{
 				if (document['getElementsByClassName'](class_Name)[0]){
-					document['getElementsByClassName'](class_Name)[0]['innerHTML'] = 'Status da Bateria: ' + Store.Conn.battery + '%';
-					//console.log('Status da Bateria: ' + Store.Conn.battery + '%')
+					document['getElementsByClassName'](class_Name)[0]['innerHTML'] = 'Status da Bateria: ' + Store.Me.battery + '%';
+					//console.log('Status da Bateria: ' + Store.Me.battery + '%')
 				}
 			}
 		}
