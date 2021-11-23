@@ -5,7 +5,7 @@
 //Referências
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
 //https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
-
+ 
 if (!window.Store) {
 	(function () {
 		function getStore(modules) {
@@ -92,7 +92,7 @@ if (!window.Store) {
         if (typeof webpackJsonp === 'function'){
 			webpackJsonp([], {[parasite]: (x, y, z) => getStore(z)}, [parasite])
 		}else{
-			//webpackChunkbuild.push([[parasite], {}, function (o, e, t) {let modules = []; for (let idx in o.m) {modules.push(o(idx));}	getStore(modules);}]); 
+			//webpackChunkbuild.push([[parasite], {}, function (o, e, t) {let modules = []; for (let idx in o.m) {modules.push(o(idx));} getStore(modules);}]); 
 			webpackChunkwhatsapp_web_client.push([[parasite], {}, function (o, e, t) {let modules = []; for (let idx in o.m) {modules.push(o(idx));} getStore(modules);}]); 
 		}
 
@@ -178,11 +178,91 @@ function abrir_chat(id) {
 	
 }
 
-
 //abrir conversa/chat se ele existir
 async function openChatIfThereIs(id) {
+	
+	var chat = Store.Chat.get(id);
 
-	return Store.Chat.find(id).then((chat) => {
+	if(chat !== undefined){//verificar se já existe uma conversa iniciada com o chat no histórico de conversas
+		
+		//abrir chat
+		//Store.OpenChat.prototype.openChat(id)//gerando erro
+		Store.OpenChatFromUnread.default._openChat(chat)
+		
+		return {
+			isChat: true,
+			obj: chat
+		};
+
+	}else{
+		
+		//verificar se número do chat está salvo na lista de contatos e iniciar uma conversa
+		if(Store.Contact.get(id) !== undefined){
+			
+			//Adicionar o chat no registro de chats
+			Store.Chat.add(
+				{id: new Store.UserConstructor(
+					id, 
+					{intentionallyUsePrivateConstructor: true}
+				)}, 
+				{merge: true, add: true}
+			);
+			
+			chat = Store.Chat.get(id);
+			//abrir chat
+			//Store.OpenChat.prototype.openChat(id)
+			Store.OpenChatFromUnread.default._openChat(chat)
+			
+			return {
+				isChat: true,
+				obj: chat
+			};
+
+		}else{
+			console.log('Chat não localizado no histórico de conversas e nem na lista de contatos')
+			
+			return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinatário existe
+
+				if (result.status == 200){
+
+					var newChat = result.jid._serialized;
+					
+					//Adicionar o chat no registro de chats
+					Store.Chat.add(
+						{id: new Store.UserConstructor(
+							newChat, 
+							{intentionallyUsePrivateConstructor: true}
+						)}, 
+						{merge: true, add: true}
+					);
+					
+					chat = Store.Chat.get(newChat);
+					//abrir chat
+					//Store.OpenChat.prototype.openChat(newChat)//gerando erro
+					Store.OpenChatFromUnread.default._openChat(chat)
+					
+					return {
+						isChat: true,
+						obj: chat
+					};
+				
+				}else{
+					console.log('O endereço informado não possuí uma conta de WhatsApp')
+					return {
+						isChat: false,
+						obj: undefined
+					};
+				}
+
+			})
+			
+		}
+	}
+
+
+
+
+	/*return Store.Chat.find(id).then((chat) => {
 
 		//abrir chat
 		//Store.OpenChat.prototype.openChat(id)//gerando erro
@@ -225,11 +305,11 @@ async function openChatIfThereIs(id) {
 				console.log('O endereço informado não possuí uma conta de WhatsApp')
 				return {
 					isChat: false,
-					obj: null
+					obj: undefined
 				};
 			}
 
 		})
-	});
+	});*/
 }
 
