@@ -102,9 +102,9 @@ if (!window.Store) {
 //############################# Envios diretos #########################################
 function sendMessageToID(id, message){
 
-	//openChatIfThereIs(id).then((c) => {
-	//	if(c.isChat) Store.SendTextMsgToChat(c.obj , message);
-	//});
+	openChatIfThereIs(id).then((c) => {
+		//if(c.isChat) Store.SendTextMsgToChat(c.obj , message);
+	});
 	
 }
 
