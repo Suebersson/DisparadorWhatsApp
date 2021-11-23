@@ -99,7 +99,7 @@ if (!window.Store) {
 	})();
 }
 
-//############################# Envios diretos ########################################
+//############################# Envios diretos #########################################
 function sendMessageToID(id, message){
 
 	openChatIfThereIs(id).then((c) => {
