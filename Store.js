@@ -184,9 +184,67 @@ function abrir_chat(id) {
 }
 
 //abrir conversa/chat se ele existir
+var _chat, _contact, _newId;
 async function openChatIfThereIs(id) {
 	
-	var chat = Store.Chat.get(id);
+	_chat = Store.Chat.get(id);
+	_contact = Store.Contact.get(id);
+
+	if(_chat !== undefined){//verificar se já existe uma conversa iniciada com o chat no histórico de conversas
+		
+		//Store.OpenChat.prototype.openChat(id)//gerando erro
+		Store.OpenChatFromUnread.default._openChat(_chat)
+		return {isChat: true, obj: _chat};
+
+	}else if (_chat == undefined){//tentar verificar inserindo ou removendo o nono digito na lista de chats
+		
+		_newId = id.length === 17
+			? id.slice(0, 4) + '9' + id.slice(4, id.length)
+			: id.slice(0, 4) + id.slice(5, id.length);
+		
+		_chat = Store.Chat.get(_newId);
+		
+		if(_chat !== undefined) {
+			//Store.OpenChat.prototype.openChat(id)//gerando erro
+			Store.OpenChatFromUnread.default._openChat(_chat)	
+			return {isChat: true, obj: _chat};
+		}
+		
+	}else if(_contact !== undefined){//verificar se número do chat está salvo na lista de contatos e iniciar uma conversa
+	
+		return getChatAfterAddingList(id); 
+	
+	}else if(_contact == undefined){//tentar verificar inserindo ou removendo o nono digito na lista de contatos
+		
+		_newId = id.length == 17
+			? id.slice(0, 4) + '9' + id.slice(4, id.length)
+			: id.slice(0, 4) + id.slice(5, id.length);
+
+		if(Store.Contact.get(_newId) !== undefined) return getChatAfterAddingList(_newId);
+		
+	}else{
+		console.log('Chat não localizado no histórico de conversas e nem na lista de contatos');
+		
+		return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinatário existe
+
+			if (result.status == 200){
+
+				return getChatAfterAddingList(result.jid._serialized);
+			
+			}else{
+				console.log('O endereço informado não possuí uma conta de WhatsApp')
+				return {isChat: false, obj: undefined};
+			}
+
+		});
+		
+	}
+
+
+
+
+	
+	/*var chat = Store.Chat.get(id);
 
 	if(chat !== undefined){//verificar se já existe uma conversa iniciada com o chat no histórico de conversas
 		
@@ -262,7 +320,12 @@ async function openChatIfThereIs(id) {
 			})
 			
 		}
-	}
+	}*/
+	
+	
+	
+	
+	
 
 
 
@@ -316,5 +379,23 @@ async function openChatIfThereIs(id) {
 
 		})
 	});*/
+}
+
+function getChatAfterAddingList(_id){
+	//Adicionar o chat no registro de chats
+	Store.Chat.add(
+		{id: new Store.UserConstructor(
+			_id, 
+			{intentionallyUsePrivateConstructor: true}
+		)}, 
+		{merge: true, add: true}
+	);
+	
+	_chat = Store.Chat.get(_id);
+	//abrir chat
+	//Store.OpenChat.prototype.openChat(_id)
+	Store.OpenChatFromUnread.default._openChat(_chat)
+	
+	return {isChat: true, obj: _chat};
 }
 
