@@ -16,19 +16,13 @@ function Atualizar_Status(){
 				
 					class_Name = document['getElementsByTagName']('div')[q].className
 					
-					document['getElementsByClassName'](class_Name)[0]['innerHTML'] = Store.Me.battery != undefined 
-						? 'Status da Bateria: ' + Store.Me.battery + '%'
-						: 'Extensão sincronizada na versão beta'
-					//console.log('Status da Bateria: ' + Store.Me.battery + '%');
+					document['getElementsByClassName'](class_Name)[0]['innerHTML'] = getLabelBattery();
 					break;
 				}
 			}
 		}else{
 			if (document['getElementsByClassName'](class_Name)[0]){
-				document['getElementsByClassName'](class_Name)[0]['innerHTML'] = Store.Me.battery != undefined 
-					? 'Status da Bateria: ' + Store.Me.battery + '%'
-					: 'Extensão sincronizada na versão beta'
-				//console.log('Status da Bateria: ' + Store.Me.battery + '%')
+				document['getElementsByClassName'](class_Name)[0]['innerHTML'] = getLabelBattery();
 			}
 		}
 		
@@ -36,6 +30,13 @@ function Atualizar_Status(){
 		console.log('É necessário fazer manutenção no código fonte. "Store" não definida');
 	}
 	
+}
+
+function getLabelBattery(){
+	return Store.Me.battery != undefined 
+		? 'Status da Bateria: ' + Store.Me.battery + '%'
+		: 'Extensão sincronizada na versão beta'
+	//console.log('Status da Bateria: ' + Store.Me.battery + '%')
 }
 
 
