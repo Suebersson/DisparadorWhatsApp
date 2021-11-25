@@ -39,7 +39,7 @@ if (!window.Store) {
 				{ id: "MsgKey", conditions: (module) => (module.default && module.default.toString && module.default.toString().includes('MsgKey error: obj is null/undefined')) ? module.default : null},
 				{ id: "Parser", conditions: (module) => (module.convertToTextWithoutSpecialEmojis) ? module.default : null},
                 { id: "Builders", conditions: (module) => (module.TemplateMessage && module.HydratedFourRowTemplate) ? module : null},
-				{ id: "Me", conditions: (module) => (module.Conn) ? module.default : null},
+				{ id: "Me", conditions: (module) => (module.PLATFORMS && module.Conn) ? module.default : null},
                 { id: "Identity", conditions: (module) => (module.queryIdentity && module.updateIdentity) ? module : null},
                 { id: "MyStatus", conditions: (module) => (module.getStatus && module.setMyStatus) ? module : null},
 				{ id: "ChatStates", conditions: (module) => (module.sendChatStatePaused && module.sendChatStateRecording && module.sendChatStateComposing) ? module : null},
