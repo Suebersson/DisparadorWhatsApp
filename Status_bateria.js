@@ -1,4 +1,4 @@
-
+/*
 var class_Name;
 Atualizar_Status();
 setInterval(Atualizar_Status, 120000);
@@ -38,7 +38,7 @@ function getLabelBattery(){
 		: 'Extensão sincronizada na versão beta'
 	//console.log('Status da Bateria: ' + Store.Me.battery + '%')
 }
-
+*/
 
 
 
