@@ -188,8 +188,9 @@ var _chat, _contact, _newId;
 async function openChatIfThereIs(id) {
 	
 	_chat = Store.Chat.get(id);
+	console.log('chat');
 	_contact = Store.Contact.get(id);
-
+	console.log('contact');
 	if(_chat !== undefined){//verificar se já existe uma conversa iniciada com o chat no histórico de conversas
 		
 		//Store.OpenChat.prototype.openChat(id)//gerando erro
