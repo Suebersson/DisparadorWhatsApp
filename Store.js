@@ -1,5 +1,5 @@
 
-//########################## Atualizado em 01/11/2021 #######################################################################
+//########################## Atualizado em 01/11/2021 ######################################################################
 //Versão do WhatsApp 2.2142.12
 
 //Referências
@@ -16,13 +16,12 @@ if (!window.Store) {
 				{ id: "ChatClass", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.Collection !== undefined && module.default.prototype.Collection === "Chat") ? module : null},
 				{ id: "MediaProcess", conditions: (module) => (module.BLOB) ? module : null},
 				{ id: "Archive", conditions: (module) => (module.setArchive) ? module : null},
-                { id: "Block", conditions: (module) => (module.blockContact && module.unblockContact) ? module : null},
-				{ id: "Wap", conditions: (module) => (module.createGroup) ? module : null},
+                { id: "BlockList", conditions: (module) => (module.getBlockList) ? module : null},
+                { id: "BlockContact", conditions: (module) => (module.blockContact && module.unblockContact) ? module : null},
+				{ id: "CreateGroup", conditions: (module) => (module.createGroup) ? module : null},
 				{ id: "ServiceWorker", conditions: (module) => (module.default && module.default.killServiceWorker) ? module : null},
 				{ id: "State", conditions: (module) => (module.STATE && module.STREAM) ? module : null},
 				{ id: "Presence", conditions: (module) => (module.setPresenceAvailable && module.setPresenceUnavailable) ? module : null},
-				{ id: "WapDelete", conditions: (module) => (module.sendConversationDelete && module.sendConversationDelete.length == 2) ? module : null},
-				{ id: "Conn", conditions: (module) => (module.default && module.default.ref && module.default.refTTL) ? module.default : null},
 				{ id: "WapQuery", conditions: (module) => (module.default && module.default.queryExist) ? module.default : null},
 				{ id: "CryptoLib", conditions: (module) => (module.decryptE2EMedia) ? module : null},
 				{ id: 'Perfil', conditions: (module) => (module.__esModule === true && module.setPushname && !module.getComposeContents) ? module : null},
@@ -31,7 +30,10 @@ if (!window.Store) {
 				{ id: "SendTextMsgToChat", conditions: (module) => (module.sendTextMsgToChat) ? module.sendTextMsgToChat : null},
 				{ id: "SendMsgToChat", conditions: (module) => (module.sendMsgToChat) ? module.sendMsgToChat : null},
 				{ id: "SendSeen", conditions: (module) => (module.sendSeen) ? module : null},
+				{ id: "sendConversationSeen", conditions: (module) => (module.sendConversationSeen) ? module : null},
 				{ id: "SendDelete", conditions: (module) => (module.sendDelete) ? module.sendDelete : null},
+				{ id: "sendDeleteMsgs", conditions: (module) => (module.sendDeleteMsgs) ? module.sendDeleteMsgs : null},
+				{ id: "SendConversationDelete", conditions: (module) => (module.sendConversationDelete) ? module : null},
 				{ id: "AboutWhatsApp", conditions: (module) => (module.default && module.default.VERSION_STR) ? module : null},
 				{ id: "AddAndSendMsgToChat", conditions: (module) => (module.addAndSendMsgToChat) ? module.addAndSendMsgToChat : null},
                 { id: "Catalog", conditions: (module) => (module.Catalog) ? module.Catalog : null},
@@ -39,7 +41,7 @@ if (!window.Store) {
 				{ id: "MsgKey", conditions: (module) => (module.default && module.default.toString && module.default.toString().includes('MsgKey error: obj is null/undefined')) ? module.default : null},
 				{ id: "Parser", conditions: (module) => (module.convertToTextWithoutSpecialEmojis) ? module.default : null},
                 { id: "Builders", conditions: (module) => (module.TemplateMessage && module.HydratedFourRowTemplate) ? module : null},
-				{ id: "Me", conditions: (module) => (module.PLATFORMS && module.Conn) ? module.default : null},
+				{ id: "Me", conditions: (module) => (module.PLATFORMS && module.Conn) ? module : null},
                 { id: "Identity", conditions: (module) => (module.queryIdentity && module.updateIdentity) ? module : null},
                 { id: "MyStatus", conditions: (module) => (module.getStatus && module.setMyStatus) ? module : null},
 				{ id: "ChatStates", conditions: (module) => (module.sendChatStatePaused && module.sendChatStateRecording && module.sendChatStateComposing) ? module : null},
@@ -57,7 +59,18 @@ if (!window.Store) {
                 { id: "MediaUpload", conditions: (module) => (module.default && module.default.mediaUpload) ? module.default : null},
                 { id: "UploadUtils", conditions: (module) => (module.default && module.default.encryptAndUpload) ? module.default : null},
 				{ id: 'UserPrefs', conditions: (module) => (module.getMaybeMeUser) ? module : null},
-                { id: 'Vcard', conditions: (module) => (module.vcardFromContactModel) ? module : null}
+                { id: 'Vcard', conditions: (module) => (module.vcardFromContactModel) ? module : null},
+				{ id: "Link", conditions: (module) => (module.openExternalLink) ? module : null},
+				{ id: "Notification", conditions: (module) => (module.showCallNotification) ? module : null},
+				{ id: "Initialize", conditions: (module) => (module.initialize) ? module : null},
+				{ id: "Cookie", conditions: (module) => (module.getCookie) ? module : null},
+				{ id: "NewChatFlowLoadable", conditions: (module) => (module.NewChatFlowLoadable) ? module : null},
+				{ id: "CreateChat", conditions: (module) => (module.createChat) ? module : null},
+				{ id: "Configuration", conditions: (module) => (module.Configuration) ? module.Configuration : null}
+
+
+
+
 			];
 			
 			for (let idx in modules) {
@@ -72,10 +85,23 @@ if (!window.Store) {
                     	}
 					});
 
-                    if (foundCount == neededObjects.length) {
-                    	break;
-                    }
-            	}
+					
+					
+					
+					//if(!modules[idx].default) console.log(modules[idx]);
+
+					//if(modules[idx].default && modules[idx].default.prototype) console.log(modules[idx].toString.indexOf('open'));
+
+					//if(modules[idx].default && modules[idx].default.prototype && modules[idx].default.prototype.openChatFromUnread) {
+					//	console.log(modules[idx]);
+					//}
+					
+					
+					//if(!modules[idx].default) console.log(modules[idx]);
+
+					
+					if (foundCount == neededObjects.length) break;
+				}
             }
 			
 			let neededStore = neededObjects.find((needObj) => needObj.id === "Store");
@@ -83,6 +109,9 @@ if (!window.Store) {
 			neededObjects.splice(neededObjects.indexOf(neededStore), 1);
 			neededObjects.forEach((needObj) => {
 				if (needObj.foundedModule) {
+					
+					//console.log(needObj.id);
+					
 					window.Store[needObj.id] = needObj.foundedModule;
 				}
 			});
@@ -193,7 +222,7 @@ async function openChatIfThereIs(id) {
 	if(_chat !== undefined){//verificar se já existe uma conversa iniciada com o chat no histórico de conversas
 		
 		//Store.OpenChat.prototype.openChat(id)//gerando erro
-		Store.OpenChatFromUnread.default._openChat(_chat)
+		//Store.OpenChatFromUnread.default._openChat(_chat)
 		return {isChat: true, obj: _chat};
 
 	}else{//tentar verificar inserindo ou removendo o nono digito na lista de chats
@@ -206,7 +235,7 @@ async function openChatIfThereIs(id) {
 		
 		if(_chat !== undefined) {
 			//Store.OpenChat.prototype.openChat(id)//gerando erro
-			Store.OpenChatFromUnread.default._openChat(_chat)	
+			//Store.OpenChatFromUnread.default._openChat(_chat)	
 			return {isChat: true, obj: _chat};
 		}else{
 
@@ -395,7 +424,7 @@ function getChatAfterAddingList(_id){
 	_chat = Store.Chat.get(_id);
 	//abrir chat
 	//Store.OpenChat.prototype.openChat(_id)
-	Store.OpenChatFromUnread.default._openChat(_chat)
+	//Store.OpenChatFromUnread.default._openChat(_chat)
 	
 	return {isChat: true, obj: _chat};
 }
