@@ -2,7 +2,7 @@
 // ########################## Atualizado em 01/01/2022 ######################################################################
 // Versão do WhatsApp: 2.2147.16
 
-var ListaContatos = new Array(), Nacional, num, j = 0, chatActive, chats;
+var ListaContatos = new Array(), Nacional, num, j = 0, chatActive, meUser, chats;
 
 function ExtrairMembrosGrupo(){
 
@@ -52,13 +52,25 @@ function ExtrairMembrosGrupo(){
 
 }
 
+function _getMeUser(){
+	try{
+		if(Store.Me.Conn.__x_wid != undefined){
+			return Store.Me.Conn.__x_wid.user
+		}else{
+			return Store.UserPrefs.getMe().user
+		}
+	}catch(e){
+		return undefined
+	}
+}
+
 function get_members(){
 	
-	var myPhone = Store.Me.Conn.__x_wid.user;
+	var meUser = _getMeUser;
 	
 	for (q = 0; q < chats.length; q++){
 		
-		if(myPhone != chats[q].__x_id.user){
+		if(meUser != chats[q].__x_id.user || meUser == undefined){
 			//console.log(chats[q].__x_id.user);
 			num = chats[q].__x_id.user
 			
