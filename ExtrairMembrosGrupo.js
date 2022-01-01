@@ -52,21 +52,9 @@ function ExtrairMembrosGrupo(){
 
 }
 
-function _getMeUser(){
-	try{
-		if(Store.Me.Conn.__x_wid != undefined){
-			return Store.Me.Conn.__x_wid.user
-		}else{
-			return Store.UserPrefs.getMe().user
-		}
-	}catch(e){
-		return undefined
-	}
-}
-
 function get_members(){
 	
-	var meUser = _getMeUser;
+	var meUser = getMeUser().user;
 	
 	for (q = 0; q < chats.length; q++){
 		
