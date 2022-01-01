@@ -15,7 +15,7 @@ function Atualizar_Status(){
 	if (window.Store){
 
 		if (class_Name == undefined){
-			for (q=0;q<document.querySelectorAll("div").length;q++){
+			for (q = 0; q < document.querySelectorAll("div").length; q++){
 				
 				if (labelNameSearchField.indexOf(document['getElementsByTagName']('div')[q]['innerHTML']) != -1){
 					
