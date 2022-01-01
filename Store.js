@@ -69,8 +69,6 @@ if (!window.Store) {
 				{ id: "Configuration", conditions: (module) => (module.Configuration) ? module.Configuration : null}
 
 
-
-
 			];
 			
 			for (let idx in modules) {
@@ -116,7 +114,7 @@ if (!window.Store) {
 				}
 			});
 			
-			console.log("Versão do WhatsApp: " + Store.AboutWhatsApp.default.VERSION_STR);
+			console.log("Versão do WhatsApp: " + getWhatsAppVersion());
 
 			return window.Store;
 	
@@ -220,9 +218,7 @@ async function openChatIfThereIs(id) {
 	_contact = Store.Contact.get(id);
 
 	if(_chat !== undefined){//verificar se já existe uma conversa iniciada com o chat no histórico de conversas
-		
-		//Store.OpenChat.prototype.openChat(id)//gerando erro
-		//Store.OpenChatFromUnread.default._openChat(_chat)
+		__openChat(_chat)
 		return {isChat: true, obj: _chat};
 
 	}else{//tentar verificar inserindo ou removendo o nono digito na lista de chats
@@ -234,8 +230,7 @@ async function openChatIfThereIs(id) {
 		_chat = Store.Chat.get(_newId);
 		
 		if(_chat !== undefined) {
-			//Store.OpenChat.prototype.openChat(id)//gerando erro
-			//Store.OpenChatFromUnread.default._openChat(_chat)	
+			__openChat(_chat)	
 			return {isChat: true, obj: _chat};
 		}else{
 
@@ -252,28 +247,116 @@ async function openChatIfThereIs(id) {
 				if(Store.Contact.get(_newId) !== undefined){
 					return getChatAfterAddingList(_newId);
 				}else{
-					
 					console.log('Chat não localizado no histórico de conversas e nem na lista de contatos');
-					return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinatário existe
-
-						if (result.status == 200){
-							return getChatAfterAddingList(result.jid._serialized);
+					return await isWhatsAppExist(id).then((e) => {
+						if (e){
+							return getChatAfterAddingList(id);
 						}else{
 							console.log('O endereço informado não possuí uma conta de WhatsApp')
 							return {isChat: false, obj: undefined};
 						}
-					});
+					}
 				}
 			}
 
 		}
 		
 	}
+}
 
 
+function __openChat(__chat){
+	//Store.OpenChat.prototype.openChat(__chat)//gerando erro
+	//Store.OpenChatFromUnread.default._openChat(__chat)
+}
 
-
+function getChatAfterAddingList(_id){
+	//Adicionar o chat no registro de chats
+	Store.Chat.add(
+		{id: new Store.UserConstructor(
+			_id, 
+			{intentionallyUsePrivateConstructor: true}
+		)}, 
+		{merge: true, add: true}
+	);
 	
+	_chat = Store.Chat.get(_id);
+	__openChat(_chat);
+	
+	return {isChat: true, obj: _chat};
+}
+
+function getMeUser(){
+	try{
+		if(Store.Me.Conn.__x_wid != undefined){
+			return Store.Me.Conn.__x_wid
+		}else{
+			return Store.UserPrefs.getMeUser()
+		}
+	}catch(e){
+		console.warn('Erro ao tentar obter informações sobre a conta logada')
+		return undefined
+	}
+}
+
+function getWhatsAppThemeMode(){
+	var theme = Store.UserPrefs.getTheme()
+	return theme == null || theme == undefined
+		? 'light'
+		:  theme;
+}
+
+function getWhatsAppVersion(){
+	return Store.AboutWhatsApp.default.VERSION_STR
+}
+//verificar se o chat/conversa está ativo na tela passando endereço(_serialized) como String
+function isChatActive(chatId){
+	return Store.Chat.get(chatId).presence.attributes.chatActive
+}
+//verificar se o chat está online
+function isChatOnline(chatId){
+	return Store.Chat.get(chatId).presence.attributes.isOnline
+}
+
+//verificar se o número de whatsapp existe
+async function isWhatsAppExist(chatId){
+	return await Store.WapQuery.queryExist(chatId).then((result) => {
+		return result.status == 200 ? true : false;
+	})
+}
+//console.log(await isWhatsAppExist('5521985522525@c.us'))
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+console.log('Chat não localizado no histórico de conversas e nem na lista de contatos');
+return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinatário existe
+
+	if (result.status == 200){
+		return getChatAfterAddingList(result.jid._serialized);
+	}else{
+		console.log('O endereço informado não possuí uma conta de WhatsApp')
+		return {isChat: false, obj: undefined};
+	}
+});
+
+*/
+
+
+
+
+
+
+
 	/*var chat = Store.Chat.get(id);
 
 	if(chat !== undefined){//verificar se já existe uma conversa iniciada com o chat no histórico de conversas
@@ -411,21 +494,5 @@ async function openChatIfThereIs(id) {
 	});*/
 }
 
-function getChatAfterAddingList(_id){
-	//Adicionar o chat no registro de chats
-	Store.Chat.add(
-		{id: new Store.UserConstructor(
-			_id, 
-			{intentionallyUsePrivateConstructor: true}
-		)}, 
-		{merge: true, add: true}
-	);
-	
-	_chat = Store.Chat.get(_id);
-	//abrir chat
-	//Store.OpenChat.prototype.openChat(_id)
-	//Store.OpenChatFromUnread.default._openChat(_chat)
-	
-	return {isChat: true, obj: _chat};
-}
+
 
