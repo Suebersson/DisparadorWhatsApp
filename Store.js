@@ -1,6 +1,6 @@
 
-//########################## Atualizado em 01/11/2021 ######################################################################
-//Versão do WhatsApp 2.2142.12
+//########################## Atualizado em 01/01/2022 ######################################################################
+//Versão do WhatsApp 2.2147.16
 
 //Referências
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
@@ -255,7 +255,7 @@ async function openChatIfThereIs(id) {
 							console.log('O endereço informado não possuí uma conta de WhatsApp')
 							return {isChat: false, obj: undefined};
 						}
-					}
+					})
 				}
 			}
 
