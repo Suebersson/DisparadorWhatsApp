@@ -42,7 +42,7 @@ function getLabelBattery(){
 	var _battery = undefined;
 	
 	try{
-		_battery = Store.Me.Conn.battery;
+		if(Store.Me.Conn.battery != undefined) _battery = Store.Me.Conn.battery;
 	}catch(e){
 		console.warn('Erro ao tentar ler o status da bateria')
 	}
