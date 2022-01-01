@@ -357,7 +357,8 @@ return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinat
 
 
 
-	/*var chat = Store.Chat.get(id);
+/*
+	var chat = Store.Chat.get(id);
 
 	if(chat !== undefined){//verificar se já existe uma conversa iniciada com o chat no histórico de conversas
 		
@@ -433,7 +434,8 @@ return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinat
 			})
 			
 		}
-	}*/
+	}
+*/
 	
 	
 	
@@ -443,7 +445,8 @@ return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinat
 
 
 
-	/*return Store.Chat.find(id).then((chat) => {
+/*
+	return Store.Chat.find(id).then((chat) => {
 
 		//abrir chat
 		//Store.OpenChat.prototype.openChat(id)//gerando erro
@@ -491,8 +494,9 @@ return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinat
 			}
 
 		})
-	});*/
-}
+	});
+
+*/
 
 
 
