@@ -288,8 +288,8 @@ async function openChatIfThereIs(id) {
 }
 
 function __openChat(__chat){
-	Store.APP_STATE_SYNC_COMPLETED.Cmd.openChatAt(chat)
-	//Store.APP_STATE_SYNC_COMPLETED.Cmd.openChatFromUnread(chat)
+	Store.APP_STATE_SYNC_COMPLETED.Cmd.openChatAt(__chat)
+	//Store.APP_STATE_SYNC_COMPLETED.Cmd.openChatFromUnread(__chat)
 }
 
 function getChatAfterAddingList(_id){
