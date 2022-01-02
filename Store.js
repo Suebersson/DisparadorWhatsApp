@@ -1,5 +1,6 @@
 
-//########################## Atualizado em 01/01/2022 ######################################################################
+//########################## Suebersson Montalvão ##########################################
+//########################## Atualizado em 02/01/2022 ######################################
 //Versão do WhatsApp 2.2147.16
 
 //Referências
@@ -25,7 +26,6 @@ if (!window.Store) {
 				{ id: "WapQuery", conditions: (module) => (module.default && module.default.queryExist) ? module.default : null},
 				{ id: "CryptoLib", conditions: (module) => (module.decryptE2EMedia) ? module : null},
 				{ id: 'Perfil', conditions: (module) => (module.__esModule === true && module.setPushname && !module.getComposeContents) ? module : null},
-				{ id: "OpenChat", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.openChat) ? module.default : null},
 				{ id: "UserConstructor", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.isServer && module.default.prototype.isUser) ? module.default : null},
 				{ id: "SendTextMsgToChat", conditions: (module) => (module.sendTextMsgToChat) ? module.sendTextMsgToChat : null},
 				{ id: "SendMsgToChat", conditions: (module) => (module.sendMsgToChat) ? module.sendMsgToChat : null},
@@ -54,20 +54,29 @@ if (!window.Store) {
                 { id: "Base", conditions: (module) => (module.setSubProtocol && module.binSend && module.actionNode) ? module : null},
                 { id: "Base2", conditions: (module) => (module.supportsFeatureFlags && module.parseMsgStubProto && module.binSend && module.subscribeLiveLocation) ? module : null},
                 { id: "Versions", conditions: (module) => (module.loadProtoVersions) ? module : null},
-				{ id: "OpenChatFromUnread", conditions: (module) => (module.default && module.default.openChatFromUnread) ? module : null},
 				{ id: "Sticker", conditions: (module) => (module.default && module.default.Sticker) ? module.default.Sticker : null},
                 { id: "MediaUpload", conditions: (module) => (module.default && module.default.mediaUpload) ? module.default : null},
                 { id: "UploadUtils", conditions: (module) => (module.default && module.default.encryptAndUpload) ? module.default : null},
 				{ id: 'UserPrefs', conditions: (module) => (module.getMaybeMeUser) ? module : null},
                 { id: 'Vcard', conditions: (module) => (module.vcardFromContactModel) ? module : null},
-				{ id: "Link", conditions: (module) => (module.openExternalLink) ? module : null},
+				{ id: "OpenExternalLink", conditions: (module) => (module.openExternalLink) ? module : null},
 				{ id: "Notification", conditions: (module) => (module.showCallNotification) ? module : null},
 				{ id: "Initialize", conditions: (module) => (module.initialize) ? module : null},
 				{ id: "Cookie", conditions: (module) => (module.getCookie) ? module : null},
 				{ id: "NewChatFlowLoadable", conditions: (module) => (module.NewChatFlowLoadable) ? module : null},
 				{ id: "CreateChat", conditions: (module) => (module.createChat) ? module : null},
-				{ id: "Configuration", conditions: (module) => (module.Configuration) ? module.Configuration : null}
-
+				{ id: "Configuration", conditions: (module) => (module.Configuration) ? module.Configuration : null},
+				{ id: "Theme", conditions: (module) => (module.getTheme) ? module : null},
+				{ id: "AlertModal", conditions: (module) => (module.default && module.default.openModal) ? module.default : null},
+				{ id: "OpenChatFlow", conditions: (module) => (module.OpenChatFlow) ? module.OpenChatFlow : null},
+				{ id: "APP_STATE_SYNC_COMPLETED", conditions: (module) => (module.APP_STATE_SYNC_COMPLETED && module.Cmd && module.CmdImpl) ? module : null}
+				
+				//{ id: "openShopStorefront", conditions: (module) => (module.openShopStorefront) ? module : null},
+				//{ id: "WatchedSocketModel", conditions: (module) => (module.WatchedSocketModel) ? module : null},				
+				//{ id: "openSocket", conditions: (module) => (module.openSocket) ? module : null},				
+				//{ id: "openChatSocket", conditions: (module) => (module.openChatSocket) ? module : null},
+				//{ id: "WatchedSocketMD", conditions: (module) => (module.WatchedSocketMD) ? module : null}
+				
 
 			];
 			
@@ -84,20 +93,34 @@ if (!window.Store) {
 					});
 
 					
-					
-					
-					//if(!modules[idx].default) console.log(modules[idx]);
-
-					//if(modules[idx].default && modules[idx].default.prototype) console.log(modules[idx].toString.indexOf('open'));
-
-					//if(modules[idx].default && modules[idx].default.prototype && modules[idx].default.prototype.openChatFromUnread) {
-					//	console.log(modules[idx]);
-					//}
-					
+					//if(modules[idx].default && modules[idx].default.prototype) console.log(modules[idx]);
+					//if(modules[idx].default) console.log(modules[idx]);
 					
 					//if(!modules[idx].default) console.log(modules[idx]);
 
+					//if(modules[idx].open && modules[idx].STATE) console.log(modules[idx]);
+
+					//if(modules[idx].default && Object.keys(modules[idx])[0] == 'default') console.log(modules[idx]);
+
+					//console.log(modules[idx])
 					
+					
+					//################## código usado para localizar o módulo/objeto responsavel por abrir o chat(openChat)
+						/*var objs = Object.keys(modules[idx])
+						for(i in objs){
+							try{
+							//if(objs[i].indexOf('open') != -1 || objs[i].indexOf('Open') != -1){
+							if(objs[i].indexOf('Cmd') != -1){
+
+								console.log(modules[idx])
+								break
+							}
+							}catch(e){}
+						
+						}*/
+					//########################################################################################################
+
+
 					if (foundCount == neededObjects.length) break;
 				}
             }
@@ -264,10 +287,9 @@ async function openChatIfThereIs(id) {
 	}
 }
 
-
 function __openChat(__chat){
-	//Store.OpenChat.prototype.openChat(__chat)//gerando erro
-	//Store.OpenChatFromUnread.default._openChat(__chat)
+	Store.APP_STATE_SYNC_COMPLETED.Cmd.openChatAt(chat)
+	//Store.APP_STATE_SYNC_COMPLETED.Cmd.openChatFromUnread(chat)
 }
 
 function getChatAfterAddingList(_id){
@@ -311,11 +333,21 @@ function getWhatsAppVersion(){
 }
 //verificar se o chat/conversa está ativo na tela passando endereço(_serialized) como String
 function isChatActive(chatId){
-	return Store.Chat.get(chatId).presence.attributes.chatActive
+	if(Store.Chat.get(chatId) != undefined){
+		return Store.Chat.get(chatId).presence.attributes.chatActive
+	}else{
+		console.warn('O chat não existe no histórico de conversas')
+		return false
+	}
 }
 //verificar se o chat está online
 function isChatOnline(chatId){
-	return Store.Chat.get(chatId).presence.attributes.isOnline
+	if(Store.Chat.get(chatId) != undefined){
+		return Store.Chat.get(chatId).presence.attributes.isOnline
+	}else{
+		console.warn('O chat não existe no histórico de conversas')
+		return false
+	}
 }
 
 //verificar se o número de whatsapp existe
@@ -325,12 +357,6 @@ async function isWhatsAppExist(chatId){
 	})
 }
 //console.log(await isWhatsAppExist('5521985522525@c.us'))
-
-
-
-
-
-
 
 
 
@@ -350,154 +376,4 @@ return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinat
 });
 
 */
-
-
-
-
-
-
-
-/*
-	var chat = Store.Chat.get(id);
-
-	if(chat !== undefined){//verificar se já existe uma conversa iniciada com o chat no histórico de conversas
-		
-		//abrir chat
-		//Store.OpenChat.prototype.openChat(id)//gerando erro
-		Store.OpenChatFromUnread.default._openChat(chat)
-		
-		return {
-			isChat: true,
-			obj: chat
-		};
-
-	}else{
-		
-		//verificar se número do chat está salvo na lista de contatos e iniciar uma conversa
-		if(Store.Contact.get(id) !== undefined){
-			
-			//Adicionar o chat no registro de chats
-			Store.Chat.add(
-				{id: new Store.UserConstructor(
-					id, 
-					{intentionallyUsePrivateConstructor: true}
-				)}, 
-				{merge: true, add: true}
-			);
-			
-			chat = Store.Chat.get(id);
-			//abrir chat
-			//Store.OpenChat.prototype.openChat(id)
-			Store.OpenChatFromUnread.default._openChat(chat)
-			
-			return {
-				isChat: true,
-				obj: chat
-			};
-
-		}else{
-			console.log('Chat não localizado no histórico de conversas e nem na lista de contatos')
-			
-			return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinatário existe
-
-				if (result.status == 200){
-
-					var newChat = result.jid._serialized;
-					
-					//Adicionar o chat no registro de chats
-					Store.Chat.add(
-						{id: new Store.UserConstructor(
-							newChat, 
-							{intentionallyUsePrivateConstructor: true}
-						)}, 
-						{merge: true, add: true}
-					);
-					
-					chat = Store.Chat.get(newChat);
-					//abrir chat
-					//Store.OpenChat.prototype.openChat(newChat)//gerando erro
-					Store.OpenChatFromUnread.default._openChat(chat)
-					
-					return {
-						isChat: true,
-						obj: chat
-					};
-				
-				}else{
-					console.log('O endereço informado não possuí uma conta de WhatsApp')
-					return {
-						isChat: false,
-						obj: undefined
-					};
-				}
-
-			})
-			
-		}
-	}
-*/
-	
-	
-	
-	
-	
-
-
-
-
-/*
-	return Store.Chat.find(id).then((chat) => {
-
-		//abrir chat
-		//Store.OpenChat.prototype.openChat(id)//gerando erro
-		Store.OpenChatFromUnread.default._openChat(chat)
-		
-		return {
-			isChat: true,
-			obj: chat
-		};
-
-	}).catch(error => {
-		console.log('Chat não localizado no histórico de conversas')
-		
-		 return Store.WapQuery.queryExist(id).then((result) => {//verificar se destinatario existe
-
-			if (result.status == 200){
-
-				var newChat = result.jid._serialized;
-				
-				//Adicionar o chat no registro de chats
-				Store.Chat.add(
-					{id: new Store.UserConstructor(
-						newChat, 
-						{intentionallyUsePrivateConstructor: true}
-					)}, 
-					{merge: true, add: true}
-				);
-				
-				var chat = Store.Chat.get(newChat);
-				//abrir chat
-				//Store.OpenChat.prototype.openChat(newChat)//gerando erro
-				Store.OpenChatFromUnread.default._openChat(chat)
-				
-				return {
-					isChat: true,
-					obj: chat
-				};
-			
-			}else{
-				console.log('O endereço informado não possuí uma conta de WhatsApp')
-				return {
-					isChat: false,
-					obj: undefined
-				};
-			}
-
-		})
-	});
-
-*/
-
-
-
 
