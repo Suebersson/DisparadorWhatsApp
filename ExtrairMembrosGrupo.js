@@ -1,6 +1,6 @@
 
-// ########################## Atualizado em 01/01/2022 ######################################################################
-// Versão do WhatsApp: 2.2147.16
+// ########################## Atualizado em 22/02/2022 ######################################################################
+// Versão do WhatsApp: 2.2204.14
 
 var ListaContatos = new Array(), Nacional, num, j = 0, chatActive, meUser, chats;
 
@@ -9,10 +9,13 @@ function ExtrairMembrosGrupo(){
 	console.clear();
 
 	if (window.Store){
-		//Ler o grupo ativo, ler os contatos do grupo e imprimir
-		chatActive = Store.Chat.active();
 		
-		if(chatActive.__x_isGroup == true){
+		//filtrar apenas os chats que é um grupo, filtrar e me retornar apenas o que está ativo 
+		checkChat = Store.Chat.filter((g) => g.__x_isGroup === true).filter((f) => f.__x_active === true);
+		
+		if(checkChat.length === 1 ){
+			
+			chatActive = checkChat[0];
 			
 			console.log('Chat_nome: ' + chatActive.__x_formattedTitle);
 			console.log('Chat_server: ' + chatActive.__x_id.server);
@@ -93,6 +96,3 @@ function get_members(){
 	}
 
 }
-
-
-//Store.Chat.active().__x_groupMetadata.participants._models[0].__x_id.user.slice(0, 2);
