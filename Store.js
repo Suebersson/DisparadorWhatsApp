@@ -329,7 +329,7 @@ function getWhatsAppThemeMode(){
 }
 
 function getWhatsAppVersion(){
-	return Store.AboutWhatsApp.default.VERSION_STR
+	return "undefined"; //Store.AboutWhatsApp.default.VERSION_STR
 }
 //verificar se o chat/conversa está ativo na tela passando endereço(_serialized) como String
 function isChatActive(chatId){
