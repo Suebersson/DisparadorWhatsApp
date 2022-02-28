@@ -26,7 +26,7 @@ if (!window.Store) {
 				{ id: "Stream", conditions: (module) => (module.Stream && module.StreamInfo) ? module : null},
 				{ id: "Presence", conditions: (module) => (module.setPresenceAvailable && module.setPresenceUnavailable) ? module : null},
 				{ id: "WapQuery", conditions: (module) => (module.default && module.default.queryExist) ? module.default : null},
-				{ id: "CryptoLib", conditions: (module) => (module.decryptE2EMedia) ? module : null},
+//nãoLocalizado { id: "CryptoLib", conditions: (module) => (module.decryptE2EMedia) ? module : null},
 				{ id: 'Perfil', conditions: (module) => (module.__esModule === true && module.setPushname && !module.getComposeContents) ? module : null},
 				{ id: "UserConstructor", conditions: (module) => (module.default && module.default.prototype && module.default.prototype.isServer && module.default.prototype.isUser) ? module.default : null},
 				{ id: "SendTextMsgToChat", conditions: (module) => (module.sendTextMsgToChat) ? module.sendTextMsgToChat : null},
@@ -36,7 +36,7 @@ if (!window.Store) {
 				{ id: "SendDelete", conditions: (module) => (module.sendDelete) ? module.sendDelete : null},
 				{ id: "SendDeleteMsgs", conditions: (module) => (module.sendDeleteMsgs) ? module.sendDeleteMsgs : null},
 				{ id: "SendConversationDelete", conditions: (module) => (module.sendConversationDelete) ? module : null},
-				{ id: "AboutWhatsApp", conditions: (module) => (module.default && module.default.VERSION_STR) ? module : null},
+//nãoLocalizado { id: "AboutWhatsApp", conditions: (module) => (module.default && module.default.VERSION_STR) ? module : null},
 				{ id: "AddAndSendMsgToChat", conditions: (module) => (module.addAndSendMsgToChat) ? module.addAndSendMsgToChat : null},
                 { id: "Catalog", conditions: (module) => (module.Catalog) ? module.Catalog : null},
 				{ id: "BinaryProtocol", conditions: (module) => (module.default && module.default.toString && module.default.toString().includes('bp_unknown_version')) ? module.default : null},
@@ -49,7 +49,7 @@ if (!window.Store) {
 				{ id: "ChatStates", conditions: (module) => (module.sendChatStatePaused && module.sendChatStateRecording && module.sendChatStateComposing) ? module : null},
 				{ id: "Features", conditions: (module) => (module.FEATURE_CHANGE_EVENT && module.features) ? module : null},
                 { id: "MessageUtils", conditions: (module) => (module.storeMessages && module.appendMessage) ? module : null},
-                { id: "WebMessageInfo", conditions: (module) => (module.WebMessageInfo && module.WebFeatures) ? module.WebMessageInfo : null},
+				{ id: "WebMessageSpec", conditions: (module) => (module.WebMessageInfoSpec && module.WebFeaturesSpec) ? module : null},
                 { id: "createMessageKey", conditions: (module) => (module.createMessageKey && module.createDeviceSentMessage) ? module.createMessageKey : null},
                 { id: "Participants", conditions: (module) => (module.addParticipants && module.removeParticipants && module.promoteParticipants && module.demoteParticipants) ? module : null},
                 { id: "WidFactory", conditions: (module) => (module.isWidlike && module.createWid && module.createWidFromWidLike) ? module : null},
@@ -73,16 +73,15 @@ if (!window.Store) {
 				{ id: "OpenChatFlow", conditions: (module) => (module.OpenChatFlow) ? module.OpenChatFlow : null},
 				{ id: "AsChatJid", conditions: (module) => (module.AsChatJid || module.authorAsUserJid) ? module : null},
 				{ id: "APP_STATE_SYNC_COMPLETED", conditions: (module) => (module.APP_STATE_SYNC_COMPLETED && module.Cmd && module.CmdImpl) ? module : null},
-				{id: "Login", conditions: (module) => (module.startLogout) ? module : null},
-				{id: 'PinChat', conditions: (module) => (module.setPin) ? module : null},
-				{id: "CheckNumberBeta", conditions: (module) => (module.default && typeof module.default.toString === 'function' && module.default.toString().includes('Should not reach queryExists MD')) ? module.default : null}
+				{ id: "Login", conditions: (module) => (module.startLogout) ? module : null},
+				{ id: 'PinChat', conditions: (module) => (module.setPin) ? module : null},
+				{ id: "CheckNumberBeta", conditions: (module) => (module.default && typeof module.default.toString === 'function' && module.default.toString().includes('Should not reach queryExists MD')) ? module.default : null}
 				
 				//{ id: "openShopStorefront", conditions: (module) => (module.openShopStorefront) ? module : null},
 				//{ id: "WatchedSocketModel", conditions: (module) => (module.WatchedSocketModel) ? module : null},				
 				//{ id: "openSocket", conditions: (module) => (module.openSocket) ? module : null},				
 				//{ id: "openChatSocket", conditions: (module) => (module.openChatSocket) ? module : null},
 				//{ id: "WatchedSocketMD", conditions: (module) => (module.WatchedSocketMD) ? module : null}
-				
 				
 			];
 			
@@ -110,22 +109,22 @@ if (!window.Store) {
 
 					//console.log(modules[idx])
 					
-					
+					//messageInfoToKey
 					//################## código usado para localizar o módulo/objeto responsavel por abrir o chat(openChat)
-					/*if(modules[idx].default) {	
-						var objs = Object.keys(modules[idx].default)
+					//if(modules[idx].default) {	
+						/*var objs = Object.keys(modules[idx])
 						for(i in objs){
 							try{
 								//if(objs[i].indexOf('open') != -1 || objs[i].indexOf('Open') != -1){
 								//if(objs[i].indexOf('Cmd') != -1){
-								if(objs[i].indexOf('VERSION') != -1){
-									console.log(modules[idx].default)
+								if(objs[i].indexOf('Features') != -1){
+									console.log(modules[idx])
 									break
 								}
 							}catch(e){}
 						
-						}
-					}*/
+						}*/
+					//}
 					//########################################################################################################
 
 
