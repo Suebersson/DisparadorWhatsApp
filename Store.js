@@ -70,15 +70,17 @@ if (!window.Store) {
 				{ id: "AlertModal", conditions: (module) => (module.default && module.default.openModal) ? module.default : null},
 				{ id: "OpenChatFlow", conditions: (module) => (module.OpenChatFlow) ? module.OpenChatFlow : null},
 				{ id: "AsChatJid", conditions: (module) => (module.AsChatJid || module.authorAsUserJid) ? module : null},
-				{ id: "APP_STATE_SYNC_COMPLETED", conditions: (module) => (module.APP_STATE_SYNC_COMPLETED && module.Cmd && module.CmdImpl) ? module : null}
-				
+				{ id: "APP_STATE_SYNC_COMPLETED", conditions: (module) => (module.APP_STATE_SYNC_COMPLETED && module.Cmd && module.CmdImpl) ? module : null},
+				{id: "Login", conditions: (module) => (module.startLogout) ? module : null},
+				{id: "checkNumberBeta", conditions: (module) => (module.default && typeof module.default.toString === 'function' && module.default.toString().includes('Should not reach queryExists MD')) ? module.default : null}
+
 				//{ id: "openShopStorefront", conditions: (module) => (module.openShopStorefront) ? module : null},
 				//{ id: "WatchedSocketModel", conditions: (module) => (module.WatchedSocketModel) ? module : null},				
 				//{ id: "openSocket", conditions: (module) => (module.openSocket) ? module : null},				
 				//{ id: "openChatSocket", conditions: (module) => (module.openChatSocket) ? module : null},
 				//{ id: "WatchedSocketMD", conditions: (module) => (module.WatchedSocketMD) ? module : null}
 				
-
+				
 			];
 			
 			for (let idx in modules) {
@@ -260,20 +262,41 @@ async function openChatIfThereIs(id) {
 			return {isChat: true, obj: _chat};
 		}else{
 
-			if(_contact !== undefined){//verificar se número do chat está salvo na lista de contatos e iniciar uma conversa
+			if(_contact !== undefined && _contact.__x_isMyContact){//verificar se o número do chat está salvo na lista de contatos e iniciar uma conversa
 		
-				return getChatAfterAddingList(removeNinthDigit(id));
+				return getChatAfterAddingList(id);
 		
 			}else{//tentar verificar inserindo ou removendo o nono digito na lista de contatos
 
 				_newId = id.length == 17
 					? id.slice(0, 4) + '9' + id.slice(4, id.length)
 					: id.slice(0, 4) + id.slice(5, id.length);
-
-				if(Store.Contact.get(_newId) !== undefined){
+					
+				_contact = Store.Contact.get(_newId);
+				
+				if(_contact !== undefined && _contact.__x_isMyContact){
 					return getChatAfterAddingList(_newId);
 				}else{
+					
 					console.log('Chat não localizado no histórico de conversas e nem na lista de contatos');
+					//combinação entre das funções isWhatsAppExistBeta e isWhatsAppExist
+					return await isWhatsAppExistBeta(id).then((b) => {
+						if (b.isChat){
+							return getChatAfterAddingList(b.id);
+						}else{
+							return isWhatsAppExist(id).then((e) => {
+								if (e.isChat){
+									return getChatAfterAddingList(e.id);
+								}else{
+									console.log('O endereço informado não possuí uma conta de WhatsApp')
+									return {isChat: false, obj: undefined};
+								}
+							});
+						}
+					});
+					
+					//apenas a função isWhatsAppExist
+					/*console.log('Chat não localizado no histórico de conversas e nem na lista de contatos');
 					return await isWhatsAppExist(id).then((e) => {
 						if (e.isChat){
 							return getChatAfterAddingList(e.id);
@@ -281,23 +304,12 @@ async function openChatIfThereIs(id) {
 							console.log('O endereço informado não possuí uma conta de WhatsApp')
 							return {isChat: false, obj: undefined};
 						}
-					})
+					})*/
 				}
 			}
 
 		}
 		
-	}
-}
-
-var arraysDDIBrl = ['51', '55', '31', '34', '35', '37', '92', '93', '94', '97', '98', '99', '41', '43', '44', '47', '48', '61', '62','64', '65', '66', '81', '82', '83', '84', '86', '87', '88', '71', '73', '77', '79' ];
-
-//remover o nono digito de alguns estados do Brasil
-function removeNinthDigit(id){	
-	if(id.length === 18 && arraysDDIBrl.indexOf(id.slice(2, 4)) > -1){
-		return id.slice(0, 4) + id.slice(5, id.length);
-	}else{
-		return id;
 	}
 }
 
@@ -367,12 +379,50 @@ function isChatOnline(chatId){
 
 //verificar se o número de whatsapp existe
 async function isWhatsAppExist(chatId){
-	return await Store.WapQuery.queryExist(chatId).then((result) => {
-		return result.status == 200 ? {isChat: true, id: result.jid._serialized} : {isChat: false, id: undefined};
-	})
+	if(Store.WapQuery === undefined){
+		console.warn("Objeto 'WapQuery' não localizado na Store")
+		return {isChat: false, id: undefined};
+	}else{
+		return await Store.WapQuery.queryExist(chatId).then((result) => {
+			return result.status == 200 ? {isChat: true, id: result.jid._serialized} : {isChat: false, id: undefined};
+		});
+	}
 }
 //console.log(await isWhatsAppExist('5521985522525@c.us'))
 
+//verificar se o número de whatsapp existe na versão Beta do WhatsApp
+async function isWhatsAppExistBeta(chatId){
+	if(Store.checkNumberBeta === undefined){
+		console.warn("Objeto 'checkNumberBeta' não localizado na Store")
+		return {isChat: false, id: undefined};
+	}else{
+		return await Store.checkNumberBeta(chatId).then((result) => {
+			return result !== null ? {isChat: true, id: result.wid._serialized} : {isChat: false, id: undefined};
+		});
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+var arraysDDIBrl = ['51', '55', '31', '34', '35', '37', '92', '93', '94', '97', '98', '99', '41', '43', '44', '47', '48', '61', '62','64', '65', '66', '81', '82', '83', '84', '86', '87', '88', '71', '73', '77', '79' ];
+//remover o nono digito de alguns estados do Brasil
+function removeNinthDigit(id){	
+	if(id.length === 18 && arraysDDIBrl.indexOf(id.slice(2, 4)) > -1){
+		return id.slice(0, 4) + id.slice(5, id.length);
+	}else{
+		return id;
+	}
+}
+*/
 
 
 
