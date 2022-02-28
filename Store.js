@@ -1,11 +1,13 @@
 
 //########################## Suebersson Montalvão ##########################################
-//########################## Atualizado em 02/01/2022 ######################################
-//Versão do WhatsApp 2.2147.16
+//########################## Atualizado em 28/02/2022 ######################################
+//Versão do WhatsApp 2.2206.5
 
 //Referências
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
 //https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
+//https://github.com/orkestral/venom/blob/master/src/lib/wapi/store/store-objects.js
+
  
 if (!window.Store) {
 	(function () {
@@ -21,7 +23,7 @@ if (!window.Store) {
                 { id: "BlockContact", conditions: (module) => (module.blockContact && module.unblockContact) ? module : null},
 				{ id: "CreateGroup", conditions: (module) => (module.createGroup) ? module : null},
 //nãoLocalizado	{ id: "ServiceWorker", conditions: (module) => (module.default && module.default.killServiceWorker) ? module : null},
-				{ id: "State", conditions: (module) => (module.STATE && module.STREAM) ? module : null},
+				{ id: "Stream", conditions: (module) => (module.Stream && module.StreamInfo) ? module : null},
 				{ id: "Presence", conditions: (module) => (module.setPresenceAvailable && module.setPresenceUnavailable) ? module : null},
 				{ id: "WapQuery", conditions: (module) => (module.default && module.default.queryExist) ? module.default : null},
 				{ id: "CryptoLib", conditions: (module) => (module.decryptE2EMedia) ? module : null},
@@ -30,7 +32,7 @@ if (!window.Store) {
 				{ id: "SendTextMsgToChat", conditions: (module) => (module.sendTextMsgToChat) ? module.sendTextMsgToChat : null},
 				{ id: "SendMsgToChat", conditions: (module) => (module.sendMsgToChat) ? module.sendMsgToChat : null},
 				{ id: "SendSeen", conditions: (module) => (module.sendSeen) ? module : null},
-				{ id: "sendConversationSeen", conditions: (module) => (module.sendConversationSeen) ? module : null},
+				{ id: "SendConversationSeen", conditions: (module) => (module.sendConversationSeen) ? module : null},
 				{ id: "SendDelete", conditions: (module) => (module.sendDelete) ? module.sendDelete : null},
 				{ id: "SendDeleteMsgs", conditions: (module) => (module.sendDeleteMsgs) ? module.sendDeleteMsgs : null},
 				{ id: "SendConversationDelete", conditions: (module) => (module.sendConversationDelete) ? module : null},
@@ -50,7 +52,7 @@ if (!window.Store) {
                 { id: "WebMessageInfo", conditions: (module) => (module.WebMessageInfo && module.WebFeatures) ? module.WebMessageInfo : null},
                 { id: "createMessageKey", conditions: (module) => (module.createMessageKey && module.createDeviceSentMessage) ? module.createMessageKey : null},
                 { id: "Participants", conditions: (module) => (module.addParticipants && module.removeParticipants && module.promoteParticipants && module.demoteParticipants) ? module : null},
-                { id: "WidFactory", conditions: (module) => (module.numberToWid && module.createWid && module.createWidFromWidLike) ? module : null},
+                { id: "WidFactory", conditions: (module) => (module.isWidlike && module.createWid && module.createWidFromWidLike) ? module : null},
                 { id: "Base", conditions: (module) => (module.setSubProtocol && module.binSend && module.actionNode) ? module : null},
                 { id: "Base2", conditions: (module) => (module.supportsFeatureFlags && module.parseMsgStubProto && module.binSend && module.subscribeLiveLocation) ? module : null},
                 { id: "Versions", conditions: (module) => (module.loadProtoVersions) ? module : null},
@@ -72,8 +74,9 @@ if (!window.Store) {
 				{ id: "AsChatJid", conditions: (module) => (module.AsChatJid || module.authorAsUserJid) ? module : null},
 				{ id: "APP_STATE_SYNC_COMPLETED", conditions: (module) => (module.APP_STATE_SYNC_COMPLETED && module.Cmd && module.CmdImpl) ? module : null},
 				{id: "Login", conditions: (module) => (module.startLogout) ? module : null},
-				{id: "checkNumberBeta", conditions: (module) => (module.default && typeof module.default.toString === 'function' && module.default.toString().includes('Should not reach queryExists MD')) ? module.default : null}
-
+				{id: 'PinChat', conditions: (module) => (module.setPin) ? module : null},
+				{id: "CheckNumberBeta", conditions: (module) => (module.default && typeof module.default.toString === 'function' && module.default.toString().includes('Should not reach queryExists MD')) ? module.default : null}
+				
 				//{ id: "openShopStorefront", conditions: (module) => (module.openShopStorefront) ? module : null},
 				//{ id: "WatchedSocketModel", conditions: (module) => (module.WatchedSocketModel) ? module : null},				
 				//{ id: "openSocket", conditions: (module) => (module.openSocket) ? module : null},				
@@ -279,7 +282,7 @@ async function openChatIfThereIs(id) {
 				}else{
 					
 					console.log('Chat não localizado no histórico de conversas e nem na lista de contatos');
-					//combinação entre das funções isWhatsAppExistBeta e isWhatsAppExist
+					//verificar se números existe usando uma combinação entre das funções isWhatsAppExistBeta e isWhatsAppExist
 					return await isWhatsAppExistBeta(id).then((b) => {
 						if (b.isChat){
 							return getChatAfterAddingList(b.id);
@@ -295,7 +298,7 @@ async function openChatIfThereIs(id) {
 						}
 					});
 					
-					//apenas a função isWhatsAppExist
+					//verificar usando apenas a função isWhatsAppExist
 					/*console.log('Chat não localizado no histórico de conversas e nem na lista de contatos');
 					return await isWhatsAppExist(id).then((e) => {
 						if (e.isChat){
@@ -356,8 +359,9 @@ function getWhatsAppThemeMode(){
 }
 
 function getWhatsAppVersion(){
-	return "undefined"; //Store.AboutWhatsApp.default.VERSION_STR
+	return window.Debug.VERSION; //Store.AboutWhatsApp.default.VERSION_STR
 }
+
 //verificar se o chat/conversa está ativo na tela passando endereço(_serialized) como String
 function isChatActive(chatId){
 	if(Store.Chat.get(chatId) != undefined){
@@ -392,11 +396,11 @@ async function isWhatsAppExist(chatId){
 
 //verificar se o número de whatsapp existe na versão Beta do WhatsApp
 async function isWhatsAppExistBeta(chatId){
-	if(Store.checkNumberBeta === undefined){
-		console.warn("Objeto 'checkNumberBeta' não localizado na Store")
+	if(Store.CheckNumberBeta === undefined){
+		console.warn("Objeto 'CheckNumberBeta' não localizado na Store")
 		return {isChat: false, id: undefined};
 	}else{
-		return await Store.checkNumberBeta(chatId).then((result) => {
+		return await Store.CheckNumberBeta(chatId).then((result) => {
 			return result !== null ? {isChat: true, id: result.wid._serialized} : {isChat: false, id: undefined};
 		});
 	}
