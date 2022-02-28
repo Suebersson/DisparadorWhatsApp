@@ -20,7 +20,7 @@ if (!window.Store) {
                 { id: "BlockList", conditions: (module) => (module.getBlockList) ? module : null},
                 { id: "BlockContact", conditions: (module) => (module.blockContact && module.unblockContact) ? module : null},
 				{ id: "CreateGroup", conditions: (module) => (module.createGroup) ? module : null},
-				{ id: "ServiceWorker", conditions: (module) => (module.default && module.default.killServiceWorker) ? module : null},
+//nãoLocalizado	{ id: "ServiceWorker", conditions: (module) => (module.default && module.default.killServiceWorker) ? module : null},
 				{ id: "State", conditions: (module) => (module.STATE && module.STREAM) ? module : null},
 				{ id: "Presence", conditions: (module) => (module.setPresenceAvailable && module.setPresenceUnavailable) ? module : null},
 				{ id: "WapQuery", conditions: (module) => (module.default && module.default.queryExist) ? module.default : null},
@@ -32,7 +32,7 @@ if (!window.Store) {
 				{ id: "SendSeen", conditions: (module) => (module.sendSeen) ? module : null},
 				{ id: "sendConversationSeen", conditions: (module) => (module.sendConversationSeen) ? module : null},
 				{ id: "SendDelete", conditions: (module) => (module.sendDelete) ? module.sendDelete : null},
-				{ id: "sendDeleteMsgs", conditions: (module) => (module.sendDeleteMsgs) ? module.sendDeleteMsgs : null},
+				{ id: "SendDeleteMsgs", conditions: (module) => (module.sendDeleteMsgs) ? module.sendDeleteMsgs : null},
 				{ id: "SendConversationDelete", conditions: (module) => (module.sendConversationDelete) ? module : null},
 				{ id: "AboutWhatsApp", conditions: (module) => (module.default && module.default.VERSION_STR) ? module : null},
 				{ id: "AddAndSendMsgToChat", conditions: (module) => (module.addAndSendMsgToChat) ? module.addAndSendMsgToChat : null},
@@ -69,6 +69,7 @@ if (!window.Store) {
 				{ id: "Theme", conditions: (module) => (module.getTheme) ? module : null},
 				{ id: "AlertModal", conditions: (module) => (module.default && module.default.openModal) ? module.default : null},
 				{ id: "OpenChatFlow", conditions: (module) => (module.OpenChatFlow) ? module.OpenChatFlow : null},
+				{ id: "AsChatJid", conditions: (module) => (module.AsChatJid || module.authorAsUserJid) ? module : null},
 				{ id: "APP_STATE_SYNC_COMPLETED", conditions: (module) => (module.APP_STATE_SYNC_COMPLETED && module.Cmd && module.CmdImpl) ? module : null}
 				
 				//{ id: "openShopStorefront", conditions: (module) => (module.openShopStorefront) ? module : null},
@@ -106,18 +107,20 @@ if (!window.Store) {
 					
 					
 					//################## código usado para localizar o módulo/objeto responsavel por abrir o chat(openChat)
-						/*var objs = Object.keys(modules[idx])
+					/*if(modules[idx].default) {	
+						var objs = Object.keys(modules[idx].default)
 						for(i in objs){
 							try{
-							//if(objs[i].indexOf('open') != -1 || objs[i].indexOf('Open') != -1){
-							if(objs[i].indexOf('Cmd') != -1){
-
-								console.log(modules[idx])
-								break
-							}
+								//if(objs[i].indexOf('open') != -1 || objs[i].indexOf('Open') != -1){
+								//if(objs[i].indexOf('Cmd') != -1){
+								if(objs[i].indexOf('VERSION') != -1){
+									console.log(modules[idx].default)
+									break
+								}
 							}catch(e){}
 						
-						}*/
+						}
+					}*/
 					//########################################################################################################
 
 
@@ -259,7 +262,7 @@ async function openChatIfThereIs(id) {
 
 			if(_contact !== undefined){//verificar se número do chat está salvo na lista de contatos e iniciar uma conversa
 		
-				return getChatAfterAddingList(id); 
+				return getChatAfterAddingList(removeNinthDigit(id));
 		
 			}else{//tentar verificar inserindo ou removendo o nono digito na lista de contatos
 
@@ -272,8 +275,8 @@ async function openChatIfThereIs(id) {
 				}else{
 					console.log('Chat não localizado no histórico de conversas e nem na lista de contatos');
 					return await isWhatsAppExist(id).then((e) => {
-						if (e){
-							return getChatAfterAddingList(id);
+						if (e.isChat){
+							return getChatAfterAddingList(e.id);
 						}else{
 							console.log('O endereço informado não possuí uma conta de WhatsApp')
 							return {isChat: false, obj: undefined};
@@ -287,8 +290,20 @@ async function openChatIfThereIs(id) {
 	}
 }
 
+var arraysDDIBrl = ['51', '55', '31', '34', '37', '92', '93', '94', '97', '98', '99', '41', '43', '44', '47', '48', '61', '62','64', '65', '66', '81', '82', '83', '84', '86', '87', '88', '71', '73', '77', '79' ];
+
+//remover o nono digito de alguns estados do Brasil
+function removeNinthDigit(id){	
+	if(id.length === 18 && arraysDDIBrl.indexOf(id.slice(2, 4)) > -1){
+		return id.slice(0, 4) + id.slice(5, id.length);
+	}else{
+		return id;
+	}
+}
+
 function __openChat(__chat){
 	Store.APP_STATE_SYNC_COMPLETED.Cmd.openChatAt(__chat)
+	//Store.APP_STATE_SYNC_COMPLETED.Cmd._openChat(__chat)
 	//Store.APP_STATE_SYNC_COMPLETED.Cmd.openChatFromUnread(__chat)
 }
 
@@ -353,7 +368,7 @@ function isChatOnline(chatId){
 //verificar se o número de whatsapp existe
 async function isWhatsAppExist(chatId){
 	return await Store.WapQuery.queryExist(chatId).then((result) => {
-		return result.status == 200 ? true : false;
+		return result.status == 200 ? {isChat: true, id: result.jid._serialized} : {isChat: false, id: undefined};
 	})
 }
 //console.log(await isWhatsAppExist('5521985522525@c.us'))
