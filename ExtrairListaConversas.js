@@ -1,22 +1,25 @@
 
-//########################## Atualizado em 02/12/2019 ######################################################################
-//Versão do WhatsApp 0.3.9308
+//########################## Atualizado em 06/03/2022 ######################################################################
+//Versão do WhatsApp 2.2206.9
 
 function ExtrairListaConversas(){
 	
-	console.clear()
+	console.clear();
 
 	if (window.Store){
 		
-		for (q = 0; q < window.Store.Chat.length; q++){	
+		var c = window.Store.Chat.length;
+		
+		for (q = 0; q < c; q++){
 			//Se for um chat, se estiver salvo na lista de contatos, senão estiver bloqueado
-			if (window.Store.Chat._models[q].__x_isGroup == false){
+			if (Store.Chat._models[q].__x_isGroup === false){
 				
-				numero = window.Store.Chat._models[q].__x_id.user;
-				if(window.Store.Chat._models[q].__x_name != undefined){
-					nome = removerAcentos(window.Store.Chat._models[q].__x_name)
+				numero = Store.Chat._models[q].__x_id.user;
+				
+				if(Store.Chat._models[q].__x_contact.__x_name !== undefined){
+					nome = removerAcentos(Store.Chat._models[q].__x_contact.__x_name)
 				}else{
-					nome = "undefined"
+					nome = removerAcentos(Store.Chat._models[q].__x_contact.__x_pushname)
 				}
 				
 				//console.log(nome); //Nome
@@ -52,6 +55,3 @@ function ExtrairListaConversas(){
 	}
 
 }
-
-
-
