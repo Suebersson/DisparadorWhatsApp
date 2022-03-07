@@ -101,7 +101,7 @@ if (!window.Store) {
 					//################## código usado para localizar os módulo/objetos para adicionar a Store ################
 					//if(modules[idx].default) {
 						//var objs = Object.keys(modules[idx].default)
-						/*var objs = Object.keys(modules[idx])
+						var objs = Object.keys(modules[idx])
 						for(i in objs){
 							try{
 								//if(objs[i].indexOf('open') != -1 || objs[i].indexOf('Open') != -1){
@@ -150,7 +150,7 @@ if (!window.Store) {
 		}
 
 	})();
-}*/
+}
 
 //############################# Envios diretos #########################################
 function sendMessageToID(id, message){
