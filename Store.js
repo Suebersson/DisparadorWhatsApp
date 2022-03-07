@@ -8,7 +8,7 @@
 //https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
 //https://github.com/orkestral/venom/blob/master/src/lib/wapi/store/store-objects.js
 
- 
+ /*
 if (!window.Store) {
 	(function () {
 		function getStore(modules) {
@@ -150,7 +150,7 @@ if (!window.Store) {
 		}
 
 	})();
-}
+}*/
 
 //############################# Envios diretos #########################################
 function sendMessageToID(id, message){
