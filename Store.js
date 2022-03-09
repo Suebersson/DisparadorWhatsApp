@@ -428,4 +428,3 @@ return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinat
 });
 
 */
-
