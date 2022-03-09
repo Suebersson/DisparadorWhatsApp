@@ -1,7 +1,7 @@
 
-var class_Name, labelNameSearchField, labelName;
+var class_Name, labelName_SearchField, label_Name;
 
-labelNameSearchField = [
+labelName_SearchField = [
 	'Pesquisar ou começar uma nova conversa',
 	'Buscar o empezar un chat nuevo',
 	'Search or start new chat'
@@ -14,12 +14,12 @@ function Atualizar_Status(){
 	
 	if (window.Store){
 
-		if (class_Name == undefined){
+		if (class_Name === undefined){
 			for (q = 0; q < document.querySelectorAll("div").length; q++){
 				
-				if (labelNameSearchField.indexOf(document['getElementsByTagName']('div')[q]['innerHTML']) != -1){
+				if (labelName_SearchField.indexOf(document['getElementsByTagName']('div')[q]['innerHTML']) != -1){
 					
-					labelName = document['getElementsByTagName']('div')[q]['innerHTML'];
+					label_Name = document['getElementsByTagName']('div')[q]['innerHTML'];
 					class_Name = document['getElementsByTagName']('div')[q].className;
 					
 					document['getElementsByClassName'](class_Name)[0]['innerHTML'] = getLabelBattery();
@@ -49,7 +49,7 @@ function getLabelBattery(){
 	
 	return _battery != undefined 
 		? 'Status da Bateria: ' + _battery + '%'
-		: labelName
+		: label_Name
 		//: 'Extensão sincronizada na versão beta'
 	//console.log('Status da Bateria: ' + _battery + '%')
 }
