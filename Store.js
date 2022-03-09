@@ -7,7 +7,6 @@
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
 //https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
 //https://github.com/orkestral/venom/blob/master/src/lib/wapi/store/store-objects.js
-
  
 if (!window.Store) {
 	(function () {
