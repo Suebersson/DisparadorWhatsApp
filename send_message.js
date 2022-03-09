@@ -1,6 +1,6 @@
 
-//########################## Atualizado em 15/02/2021 ######################################################################
-//Versão do WhatsApp 2.2104.9
+//########################## Atualizado em 09/03/2022 ######################################################################
+//Versão do WhatsApp 2.2208.7
 
 //ouvinte de mensagem enviadas do content script
 window.addEventListener("message", function(event) {
@@ -16,10 +16,10 @@ window.addEventListener("message", function(event) {
 			sFileName = obj.FileName
 			sLegendaText = decodeURIComponent(obj.LegendaText)
 
-			var x = sChatId.split(',').length;
+			var sC = sChatId.split(',').length;
 
-			for (q = 0; q < x; q++){	
-				chatsSelfAnswer[q] = sChatId.split(",", x)[q]
+			for (q = 0; q < sC; q++){	
+				chatsSelfAnswer[q] = sChatId.split(",", sC)[q]
 			}
 			
 			sendSelfAnswer()
@@ -288,21 +288,22 @@ for (q = 0; q < document.querySelectorAll("div").length; q++){
 	}
 }
 
-var NumToFilter = new Array(), Numfiltered = new Array(), Loopfilter = undefined, loopTime = 150, loop = 0, ddi, x;
+var NumToFilter = new Array(), Numfiltered = new Array(), Loopfilter = undefined, loopTime = 150, ddi;
 function filterNumbers(){
 	
-	loop = 0;
-	x = NumToFilter.length
-	console.log('Total de números para filtrar: ' + x)
+	var loop = 0;
+	var nF = NumToFilter.length;
+	
+	console.log('Total de números para filtrar: ' + nF)
 	
 	//Muito rapido e falhando
-	/*for (loop = 0; loop < x ; loop++){	
+	/*for (loop = 0; loop < nF ; loop++){	
 		filterNumber(NumToFilter[loop])
 	}*/
 
 	Loopfilter = setInterval(function() {
 
-		if (loop > x){
+		if (loop > nF){
 			clearInterval(Loopfilter)
 			loop = 0
 			
@@ -381,7 +382,3 @@ function printTxt(textArray, fileNameToSaveAs){
 	downloadLink.click();
 
 }
-
-
-
-
