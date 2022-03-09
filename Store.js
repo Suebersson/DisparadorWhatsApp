@@ -76,7 +76,7 @@ if (!window.Store) {
 				{ id: 'Login', conditions: (module) => module.startLogout ? module : null},
 				{ id: 'PinChat', conditions: (module) => module.setPin ? module : null},
 				{ id: 'Spam', conditions: (module) => module.sendNotSpam && module.sendSpamBlockClear ? module : null},
-				{ id: 'CheckNumberBeta', conditions: (module) => module.queryPhoneExistsZZ && module.queryExists ? module : null}
+				{ id: 'CheckNumberBeta', conditions: (module) => module.queryPhoneExists && module.queryExists ? module : null}
 		
 		
 				//{ id: 'CheckNumberBeta', conditions: (module) => module.default && typeof module.default.toString === 'function' && module.default.toString().includes('Should not reach queryExists MD') ? module.default : null}
@@ -428,3 +428,4 @@ return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinat
 });
 
 */
+
