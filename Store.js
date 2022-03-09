@@ -1,7 +1,7 @@
 
 //########################## Suebersson Montalvão ##########################################
-//########################## Atualizado em 01/03/2022 ######################################
-//Versão do WhatsApp 2.2206.8
+//########################## Atualizado em 09/03/2022 ######################################
+//Versão do WhatsApp 2.2208.7
 
 //Referências
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
@@ -76,8 +76,10 @@ if (!window.Store) {
 				{ id: 'Login', conditions: (module) => module.startLogout ? module : null},
 				{ id: 'PinChat', conditions: (module) => module.setPin ? module : null},
 				{ id: 'Spam', conditions: (module) => module.sendNotSpam && module.sendSpamBlockClear ? module : null},
-				{ id: 'CheckNumberBeta', conditions: (module) => module.default && typeof module.default.toString === 'function' && module.default.toString().includes('Should not reach queryExists MD') ? module.default : null}
-				
+				{ id: 'CheckNumberBeta', conditions: (module) => module.queryPhoneExistsZZ && module.queryExists ? module : null}
+		
+		
+				//{ id: 'CheckNumberBeta', conditions: (module) => module.default && typeof module.default.toString === 'function' && module.default.toString().includes('Should not reach queryExists MD') ? module.default : null}
 				//{ id: 'openShopStorefront', conditions: (module) => module.openShopStorefront ? module : null},
 				//{ id: 'WatchedSocketModel', conditions: (module) => module.WatchedSocketModel ? module : null},				
 				//{ id: 'openSocket', conditions: (module) => module.openSocket ? module : null},				
@@ -99,22 +101,23 @@ if (!window.Store) {
 					});
 
 					//################## código usado para localizar os módulo/objetos para adicionar a Store ################
-					//if(modules[idx].default) {
-						//var objs = Object.keys(modules[idx].default)
-						/*var objs = Object.keys(modules[idx])
+					/*if(modules[idx].default) {
+						var objs = Object.keys(modules[idx].default)
+						//var objs = Object.keys(modules[idx])
 						for(i in objs){
 							try{
 								//if(objs[i].indexOf('open') != -1 || objs[i].indexOf('Open') != -1){
-								//if(objs[i].indexOf('Cmd') != -1){
-								if(objs[i].indexOf('Catalog') != -1){
-									console.log(modules[idx])
-									//console.log(modules[idx].default)
+								if(objs[i].indexOf('queryExists') != -1){
+								//if(typeof modules[idx].default.toString === 'function' && modules[idx].default.toString().includes('MD')){
+									
+									//console.log(modules[idx])
+									console.log(modules[idx].default)
 									break
 								}
 							}catch(e){}
 						
-						}*/
-					//}
+						}
+					}*/
 					//########################################################################################################
 
 
@@ -131,7 +134,7 @@ if (!window.Store) {
 					//console.log(needObj.foundedModule);
 					window.Store[needObj.id] = needObj.foundedModule;
 				}else{
-					console.warn("O objeto '" + needObj.id + "' não foi localizado e incluído na Store");
+					console.warn("O objeto '" + needObj.id + "' não foi localizado e incluído no Store");
 				}
 			});
 			
@@ -381,7 +384,7 @@ async function isWhatsAppExist(chatId){
 
 //verificar se o número de whatsapp existe na versão Beta do WhatsApp
 async function isWhatsAppExistBeta(chatId){
-	return await Store.CheckNumberBeta(chatId).then((result) => {
+	return await Store.CheckNumberBeta.queryExists(chatId).then((result) => {
 		return result !== null ? {isChat: true, id: result.wid._serialized} : {isChat: false, id: undefined};
 	});
 }
@@ -425,4 +428,3 @@ return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinat
 });
 
 */
-
