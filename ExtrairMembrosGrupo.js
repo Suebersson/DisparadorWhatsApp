@@ -1,8 +1,7 @@
+// ########################## Atualizado em 03/03/2022 ######################################################################
+// Versão do WhatsApp: 2.2208.7
 
-// ########################## Atualizado em 22/02/2022 ######################################################################
-// Versão do WhatsApp: 2.2204.14
-
-var ListaContatos = new Array(), Nacional, num, j = 0, chatActive, meUser, chats;
+var ListaContatos = new Array(), Nacional, num, chatActive, meUser, chats;
 
 function ExtrairMembrosGrupo(){
 
@@ -58,6 +57,7 @@ function ExtrairMembrosGrupo(){
 function get_members(){
 	
 	var meUser = getMeUser().user;
+	var _j = 0;
 	
 	for (q = 0; q < chats.length; q++){
 		
@@ -67,17 +67,17 @@ function get_members(){
 			
 			if(Nacional == 1){
 				if(num.slice(0, 2) == "55"){//remover o código 55
-					ListaContatos[j] = num.slice(2, num.length)
-					j++
+					ListaContatos[_j] = num.slice(2, num.length)
+					_j++
 				}
 			}else{//Capturar todos os números, nacionais e internacionais
 			
 				if(num.slice(0, 2) == "55"){//remover o código 55
-					ListaContatos[j] = num.slice(2, num.length)
-					j++
+					ListaContatos[_j] = num.slice(2, num.length)
+					_j++
 				}else{
-					ListaContatos[j] = num
-					j++
+					ListaContatos[_j] = num
+					_j++
 				}
 				
 			}
