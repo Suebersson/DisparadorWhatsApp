@@ -1,12 +1,13 @@
 
 //########################## Suebersson Montalvão ##########################################
-//########################## Atualizado em 09/03/2022 ######################################
-//Versão do WhatsApp 2.2208.7
+//########################## Atualizado em 21/03/2022 ######################################
+//Versão do WhatsApp 2.2208.14
 
 //Referências
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
 //https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
 //https://github.com/orkestral/venom/blob/master/src/lib/wapi/store/store-objects.js
+
  
 if (!window.Store) {
 	(function () {
@@ -309,9 +310,15 @@ async function openChatIfThereIs(id) {
 }
 
 function __openChat(__chat){
-	Store.APP_STATE_SYNC_COMPLETED.Cmd.openChatAt(__chat)
-	//Store.APP_STATE_SYNC_COMPLETED.Cmd._openChat(__chat)
-	//Store.APP_STATE_SYNC_COMPLETED.Cmd.openChatFromUnread(__chat)
+	
+	try{
+		Store.APP_STATE_SYNC_COMPLETED.Cmd.openChatAt(__chat)
+		//Store.APP_STATE_SYNC_COMPLETED.Cmd._openChat(__chat)
+		//Store.APP_STATE_SYNC_COMPLETED.Cmd.openChatFromUnread(__chat)
+	}catch(e){
+		console.warn('O função para abrir o chat está falhando')
+	}
+	
 }
 
 function getChatAfterAddingList(_id){
@@ -427,3 +434,4 @@ return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinat
 });
 
 */
+
