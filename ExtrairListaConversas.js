@@ -1,6 +1,6 @@
 
-//########################## Atualizado em 06/03/2022 ######################################################################
-//Versão do WhatsApp 2.2206.9
+//########################## Atualizado em 20/04/2022 ######################################################################
+//Versão do WhatsApp 2.2212.8
 
 function ExtrairListaConversas(){
 	
@@ -8,25 +8,22 @@ function ExtrairListaConversas(){
 
 	if (window.Store){
 		
-		var c = window.Store.Chat.length;
-		
-		for (q = 0; q < c; q++){
+		for (q = 0; q < Store.Chat.length; q++){
 			//Se for um chat, se estiver salvo na lista de contatos, senão estiver bloqueado
-			if (Store.Chat._models[q].__x_isGroup === false){
+			if (!Store.Chat._models[q].__x_isGroup){
 				
 				numero = Store.Chat._models[q].__x_id.user;
 				
-				if(Store.Chat._models[q].__x_contact.__x_name !== undefined){
+				if(Store.Chat._models[q].__x_contact.__x_isMyContact){
 					nome = removerAcentos(Store.Chat._models[q].__x_contact.__x_name)
 				}else{
-					nome = removerAcentos(Store.Chat._models[q].__x_contact.__x_pushname)
+					nome = 'Indefinido'
 				}
 				
 				//console.log(nome); //Nome
 				//console.log(numero); //Número completo
-				
-				Qt = numero.length;				
-				if (Qt == 13){
+
+				if (numero.length == 13){
 					nTratado = numero.slice(2,13)
 					nTratado2 = numero.slice(0,9) + '-' + numero.slice(9,13);
 					sem55 = numero.slice(2,9) + '-' + numero.slice(9,13);
@@ -43,10 +40,10 @@ function ExtrairListaConversas(){
 			}
 		}
 
-		ListChats = ListChats.filter(function(este,q){return ListChats.indexOf(este) == q;})
+		ListChats = ListChats.filter(function(este, q){return ListChats.indexOf(este) == q;})
 		console.log('Total de: ' + ListChats.length + ' Contatos')
 		
-		var data = new Date(); data = data.getDate() + "." + (data.getMonth()+1) + "." + data.getFullYear();
+		var data = new Date(); data = data.getDate() + "." + (data.getMonth() + 1) + "." + data.getFullYear();
 		printTxt(ListChats, 'Lista de conversas' + ' - ' +  data + '.csv')
 		ListChats = new Array();
 
