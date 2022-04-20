@@ -17,7 +17,7 @@ function ExtrairListaConversas(){
 				if(Store.Chat._models[q].__x_contact.__x_isMyContact){
 					nome = removerAcentos(Store.Chat._models[q].__x_contact.__x_name)
 				}else{
-					nome = 'Indefinido'
+					nome = '#Indefinido'
 				}
 				
 				//console.log(nome); //Nome
