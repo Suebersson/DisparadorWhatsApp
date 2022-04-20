@@ -309,7 +309,7 @@ async function openChatIfThereIs(id) {
 	}
 }
 
-function __openChat(__chat)
+function __openChat(__chat) {
 	try{
 		Store.APP_STATE_SYNC_COMPLETED.Cmd.openChatAt(__chat)
 		//Store.APP_STATE_SYNC_COMPLETED.Cmd._openChat(__chat)
