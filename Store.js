@@ -1,7 +1,7 @@
 
 //########################## Suebersson Montalvão ##########################################
-//########################## Atualizado em 21/03/2022 ######################################
-//Versão do WhatsApp 2.2208.14
+//########################## Atualizado em 20/04/2022 ######################################
+//Versão do WhatsApp 2.2212.8
 
 //Referências
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
@@ -69,7 +69,7 @@ if (!window.Store) {
 				{ id: 'CreateChat', conditions: (module) => module.createChat ? module : null},
 				{ id: 'Configuration', conditions: (module) => module.Configuration ? module.Configuration : null},
 				{ id: 'Theme', conditions: (module) => module.getTheme ? module : null},
-				{ id: 'AlertModal', conditions: (module) => module.default && module.default.openModal ? module.default : null},
+//nãoLocalizado { id: 'AlertModal', conditions: (module) => module.default && module.default.openModal ? module.default : null},
 				{ id: 'OpenChatFlow', conditions: (module) => module.OpenChatFlow ? module : null},
 				{ id: 'AsChatJid', conditions: (module) => module.AsChatJid || module.authorAsUserJid ? module : null},
 				{ id: 'APP_STATE_SYNC_COMPLETED', conditions: (module) => module.APP_STATE_SYNC_COMPLETED && module.Cmd && module.CmdImpl ? module : null},
@@ -220,9 +220,9 @@ function SelfAnswer_sendImageToId(id, imgBase64, legenda, fileName) {
 }
 
 //############################### Abrir uma conversa ######################################
-function abrir_chat(id) {
+async function abrir_chat(id) {
 
-	openChatIfThereIs(id).then((c) => {
+	await openChatIfThereIs(id).then((c) => {
 		if(!c.isChat){
 			swal("O número de telefone não possuí uma conta de WhatsApp", {
 				buttons: false,
@@ -309,8 +309,7 @@ async function openChatIfThereIs(id) {
 	}
 }
 
-function __openChat(__chat){
-	
+function __openChat(__chat)
 	try{
 		Store.APP_STATE_SYNC_COMPLETED.Cmd.openChatAt(__chat)
 		//Store.APP_STATE_SYNC_COMPLETED.Cmd._openChat(__chat)
@@ -318,7 +317,6 @@ function __openChat(__chat){
 	}catch(e){
 		console.warn('O função para abrir o chat está falhando')
 	}
-	
 }
 
 function getChatAfterAddingList(_id){
@@ -358,7 +356,8 @@ function getWhatsAppThemeMode(){
 }
 
 function getWhatsAppVersion(){
-	return window.Debug.VERSION; //Store.AboutWhatsApp.default.VERSION_STR
+	//return Store.AboutWhatsApp.default.VERSION_STR
+	return window.Debug.VERSION;
 }
 
 //verificar se o chat/conversa está ativo na tela passando endereço(_serialized) como String
