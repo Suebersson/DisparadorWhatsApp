@@ -222,19 +222,13 @@ function SelfAnswer_sendImageToId(id, imgBase64, legenda, fileName) {
 //############################### Abrir uma conversa ######################################
 async function abrir_chat(id) {
 
-	/*await openChatIfThereIs(id).then((c) => {
+	await openChatIfThereIs(id).then((c) => {
 		if(!c.isChat){
 			swal("O número de telefone não possuí uma conta de WhatsApp", {
 				buttons: false,
 				timer: 7000,
 				icon: "info",
 			});
-		}
-	});*/
-
-	await openChatIfThereIs(id).then((c) => {
-		if(!c.isChat){
-			alert("O número de telefone não possuí uma conta de WhatsApp")
 		}
 	});
 }
@@ -438,3 +432,4 @@ return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinat
 });
 
 */
+
