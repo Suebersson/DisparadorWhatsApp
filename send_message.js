@@ -350,11 +350,15 @@ function filterNumbers(){
 
 function filterNumber(num){
 	
-	window.Store.WapQuery.queryExist(num + "@c.us").then((result) => {
+	/*Store.WapQuery.queryExist(num + "@c.us").then((result) => {
 	
 		//if (result.status == 200) console.log(result.jid.user.slice(ddi.length, result.jid.user.length))
 		if (result.status == 200)  Numfiltered.push(result.jid.user.slice(ddi.length, result.jid.user.length))
 
+	})*/
+	
+	Store.CheckNumberBeta.queryExists(num + "@c.us").then((result) => {
+		if (result !== null) Numfiltered.push(result.wid.user.slice(ddi.length, result.wid.user.length))
 	})
 
 }
