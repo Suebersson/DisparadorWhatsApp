@@ -182,8 +182,8 @@ var process_Files = async function(chat, blobs) {
 	
 	mc = new Store.MediaCollection(chat);
 	
-	//await mc.processAttachments(blobs.map(blob => {return{file:blob}}), chat, 1);
-	await mc.processFiles(blobs.map(blob => {return{file:blob}}), chat, 1);
+	await mc.prototype.processAttachments(blobs.map(blob => {return{file:blob}}), chat, 1);
+	//await mc.processFiles(blobs.map(blob => {return{file:blob}}), chat, 1);
 
 	return mc;
 }
