@@ -176,15 +176,33 @@ function sendImageToId(id, imgBase64, legenda, fileName) {
 	
 }
 
+/*
+                    var mediaBlob = window.WAPI.base64ImageToFile(imgBase64, filename);
+            var mc = new Store.MediaCollection(chat);
+            
+    
+            //New - Mike Lustosa 07/06/2022
+            mc.processAttachments([{file: mediaBlob}, 1], chat, 1).then(() => {
+                let media = mc._models[0];
+                media.sendToChat(chat, {caption:caption});
+                return true;
+            });
+*/
+			
+			
+
 var process_Files = async function(chat, blobs) {
 	
-	if (!Array.isArray(blobs)) blobs = [blobs];
+	//if (!Array.isArray(blobs)) blobs = [blobs];
 	
 	mc = new Store.MediaCollection(chat);
 	
-	await mc.prototype.processAttachments(chat, blobs.map(blob => {return{file:blob}}));
+	
 	//await mc.processAttachments(blobs.map(blob => {return{file:blob}}), chat, 1);
 	//await mc.processFiles(blobs.map(blob => {return{file:blob}}), chat, 1);
+
+
+	await mc.processAttachments([{file: blobs}, 1], chat, 1);
 
 	return mc;
 }
@@ -436,3 +454,4 @@ return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinat
 });
 
 */
+
