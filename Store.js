@@ -1,7 +1,7 @@
 
 //########################## Suebersson Montalvão ##########################################
-//########################## Atualizado em 20/04/2022 ######################################
-//Versão do WhatsApp 2.2212.8
+//########################## Atualizado em 16/06/2022 ######################################
+//Versão do WhatsApp 2.2220.8
 
 //Referências
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
@@ -15,7 +15,7 @@ if (!window.Store) {
 			let foundCount = 0;
 			let neededObjects = [
 				{ id: 'Store', conditions: (module) => module.default && module.default.Chat && module.default.Msg ? module.default : null},
-				{ id: 'MediaCollection', conditions: (module) => module.default && module.default.prototype && module.default.prototype.processAttachments !== undefined ? module.default : null},
+				{ id: 'MediaCollection', conditions: (module) => module.default && module.default.prototype && (module.default.prototype.processFiles !== undefined || module.default.prototype.processAttachments !== undefined) ? module.default : null},
 //nãoLocalizado { id: 'ChatClass', conditions: (module) => module.default && module.default.prototype && module.default.prototype.Collection !== undefined && module.default.prototype.Collection === "Chat" ? module : null},
 				{ id: 'MediaProcess', conditions: (module) => module.BLOB ? module : null},
 				{ id: 'Archive', conditions: (module) => module.setArchive ? module : null},
@@ -177,12 +177,15 @@ function sendImageToId(id, imgBase64, legenda, fileName) {
 }
 
 var process_Files = async function(chat, blobs) {
-	if (!Array.isArray(blobs)) {
-		blobs = [blobs];
-	}
+	
+	if (!Array.isArray(blobs)) blobs = [blobs];
+	
 	mc = new Store.MediaCollection(chat);
-	await mc.processAttachments((Debug.VERSION === '0.4.613')?blobs:blobs.map(blob=>{return{file:blob}}) , chat, 1);
-	return mc
+	
+	//await mc.processAttachments(blobs.map(blob => {return{file:blob}}), chat, 1);
+	await mc.processFiles(blobs.map(blob => {return{file:blob}}), chat, 1);
+
+	return mc;
 }
 
 function base64ImageToFile(b64Data, fileName) {
@@ -432,4 +435,3 @@ return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinat
 });
 
 */
-
