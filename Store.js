@@ -1,7 +1,7 @@
 
 //########################## Suebersson Montalvão ##########################################
 //########################## Atualizado em 16/06/2022 ######################################
-//Versão do WhatsApp 2.2220.8
+//Versão do WhatsApp 2.2222.9
 
 //Referências
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
@@ -182,7 +182,8 @@ var process_Files = async function(chat, blobs) {
 	
 	mc = new Store.MediaCollection(chat);
 	
-	await mc.prototype.processAttachments(blobs.map(blob => {return{file:blob}}), chat, 1);
+	await mc.prototype.processAttachments(blobs.map(blob => {return{file:blob}}), chat);
+	//await mc.processAttachments(blobs.map(blob => {return{file:blob}}), chat, 1);
 	//await mc.processFiles(blobs.map(blob => {return{file:blob}}), chat, 1);
 
 	return mc;
@@ -435,3 +436,4 @@ return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinat
 });
 
 */
+
