@@ -169,7 +169,7 @@ function sendImageToId(id, imgBase64, legenda, fileName) {
 	openChatIfThereIs(id).then((c) => {
 		if(c.isChat) {
 			process_Files(c.obj, base64ImageToFile(imgBase64, fileName)).then(mc => {
-				mc.models[0].sendToChat(c.obj, { caption: legenda })
+				mc.models[0].sendToChat(c.obj, {caption: legenda})
 			});
 		}
 	});
@@ -182,7 +182,7 @@ var process_Files = async function(chat, blobs) {
 	
 	mc = new Store.MediaCollection(chat);
 	
-	await mc.prototype.processAttachments(blobs.map(blob => {return{file:blob}}), chat);
+	await mc.prototype.processAttachments(chat, blobs.map(blob => {return{file:blob}}));
 	//await mc.processAttachments(blobs.map(blob => {return{file:blob}}), chat, 1);
 	//await mc.processFiles(blobs.map(blob => {return{file:blob}}), chat, 1);
 
