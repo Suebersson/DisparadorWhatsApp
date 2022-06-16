@@ -169,40 +169,24 @@ function sendImageToId(id, imgBase64, legenda, fileName) {
 	openChatIfThereIs(id).then((c) => {
 		if(c.isChat) {
 			process_Files(c.obj, base64ImageToFile(imgBase64, fileName)).then(mc => {
-				mc.models[0].sendToChat(c.obj, {caption: legenda})
+				mc._models[0].sendToChat(c.obj, {caption: legenda})
 			});
 		}
 	});
 	
 }
 
-/*
-                    var mediaBlob = window.WAPI.base64ImageToFile(imgBase64, filename);
-            var mc = new Store.MediaCollection(chat);
-            
-    
-            //New - Mike Lustosa 07/06/2022
-            mc.processAttachments([{file: mediaBlob}, 1], chat, 1).then(() => {
-                let media = mc._models[0];
-                media.sendToChat(chat, {caption:caption});
-                return true;
-            });
-*/
-			
-			
-
 var process_Files = async function(chat, blobs) {
 	
-	//if (!Array.isArray(blobs)) blobs = [blobs];
+	if (!Array.isArray(blobs)) blobs = [blobs];
 	
 	mc = new Store.MediaCollection(chat);
 	
-	
-	//await mc.processAttachments(blobs.map(blob => {return{file:blob}}), chat, 1);
+	await mc.processAttachments(blobs.map(blob => {return{file:blob}}), chat, 1);
 	//await mc.processFiles(blobs.map(blob => {return{file:blob}}), chat, 1);
 
 
-	await mc.processAttachments([{file: blobs}, 1], chat, 1);
+	//await mc.processAttachments([{file: blobs}, 1], chat, 1);
 
 	return mc;
 }
