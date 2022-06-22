@@ -282,7 +282,7 @@ for (q = 0; q < document.querySelectorAll("div").length; q++){
 		progress.max = 100
 		progress.style = "height:12%"
 		progress.title = "Processo de filtragem dos números de WhatsApp"
-		document['getElementsByClassName'](class_)[0].parentElement.parentElement.appendChild(progress);
+		document['getElementsByClassName'](class_)[0].parentElement.parentElement.parentElement.appendChild(progress);
 
 		break;
 	}
