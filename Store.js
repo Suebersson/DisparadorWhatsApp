@@ -225,7 +225,7 @@ function SelfAnswer_sendImageToId(id, imgBase64, legenda, fileName) {
 
 //############################### Abrir uma conversa ######################################
 async function abrir_chat(id) {
-
+console.log(id)
 	await openChatIfThereIs(id).then((c) => {
 		if(!c.isChat){
 			swal("O número de telefone não possuí uma conta de WhatsApp", {
