@@ -72,7 +72,7 @@ window.addEventListener("message", function(event) {
 			
 			ExtrairListaConversas()
 			
-		}else if(event.data.action_ == "abrir_chat"){
+		}else if(event.data.action_ == "iniciarChat"){
 			
 			abrir_chat(event.data.Id)
 			
