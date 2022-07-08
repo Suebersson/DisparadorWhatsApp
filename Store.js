@@ -1,6 +1,6 @@
 
 //########################## Suebersson Montalvão ##########################################
-//########################## Atualizado em 16/06/2022 ######################################
+//########################## Atualizado em 08/07/2022 ######################################
 //Versão do WhatsApp 2.2222.9
 
 //Referências
@@ -225,7 +225,7 @@ function SelfAnswer_sendImageToId(id, imgBase64, legenda, fileName) {
 
 //############################### Abrir uma conversa ######################################
 async function abrir_chat(id) {
-console.log(id)
+
 	await openChatIfThereIs(id).then((c) => {
 		if(!c.isChat){
 			swal("O número de telefone não possuí uma conta de WhatsApp", {
@@ -311,7 +311,7 @@ async function openChatIfThereIs(id) {
 		
 	}
 }
-
+	
 function __openChat(__chat) {
 	try{
 		Store.APP_STATE_SYNC_COMPLETED.Cmd.openChatAt(__chat)
@@ -392,7 +392,8 @@ async function isWhatsAppExist(chatId){
 
 //verificar se o número de whatsapp existe na versão Beta do WhatsApp
 async function isWhatsAppExistBeta(chatId){
-	return await Store.CheckNumberBeta.queryExists(chatId).then((result) => {
+	//return await Store.CheckNumberBeta.queryExists(chatId).then((result) => {
+	return await Store.CheckNumberBeta.queryPhoneExists(chatId).then((result) => {
 		return result !== null ? {isChat: true, id: result.wid._serialized} : {isChat: false, id: undefined};
 	});
 }
