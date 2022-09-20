@@ -1,7 +1,7 @@
 
 //########################## Suebersson Montalvão ##########################################
-//########################## Atualizado em 08/07/2022 ######################################
-//Versão do WhatsApp 2.2222.9
+//########################## Atualizado em 19/09/2022 ######################################
+//Versão do WhatsApp 2.2234.13
 
 //Referências
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
@@ -43,7 +43,7 @@ if (!window.Store) {
 				{ id: 'MsgKey', conditions: (module) => module.default && module.default.toString && module.default.toString().includes('MsgKey error: obj is null/undefined') ? module.default : null},
 //nãoLocalizado { id: 'Parser', conditions: (module) => module.convertToTextWithoutSpecialEmojis ? module.default : null},
 //nãoLocalizado { id: 'Builders', conditions: (module) => module.TemplateMessage && module.HydratedFourRowTemplate ? module : null},
-				{ id: 'Me', conditions: (module) => module.PLATFORMS && module.Conn ? module : null},
+				{ id: 'Me', conditions: (module) => module.ConnImpl && module.Conn ? module : null}, //module.PLATFORMS
                 { id: 'Identity', conditions: (module) => module.queryIdentity && module.updateIdentity ? module : null},
                 { id: 'MyStatus', conditions: (module) => module.getStatus && module.setMyStatus ? module : null},
 				{ id: 'ChatStates', conditions: (module) => module.sendChatStatePaused && module.sendChatStateRecording && module.sendChatStateComposing ? module : null},
@@ -100,17 +100,15 @@ if (!window.Store) {
                     	}
 					});
 
-					//################## código usado para localizar os módulo/objetos para adicionar a Store ################
+					//################## código usado para localizar os módulo/objetos default para adicionar a Store ################
 					/*if(modules[idx].default) {
 						var objs = Object.keys(modules[idx].default)
-						//var objs = Object.keys(modules[idx])
 						for(i in objs){
 							try{
 								//if(objs[i].indexOf('open') != -1 || objs[i].indexOf('Open') != -1){
 								if(objs[i].indexOf('queryExists') != -1){
 								//if(typeof modules[idx].default.toString === 'function' && modules[idx].default.toString().includes('MD')){
 									
-									//console.log(modules[idx])
 									console.log(modules[idx].default)
 									break
 								}
@@ -120,6 +118,20 @@ if (!window.Store) {
 					}*/
 					//########################################################################################################
 
+					//################## código usado para localizar os módulo/objetos default para adicionar a Store ################
+						/*var objs = Object.keys(modules[idx])
+						for(i in objs){
+							try{
+								if(objs[i].indexOf('Conn') != -1){
+
+									console.log(modules[idx])
+									
+									break
+								}
+							}catch(e){}
+						
+						}*/
+					//########################################################################################################
 
 					if (foundCount == neededObjects.length) break;
 				}
@@ -134,7 +146,7 @@ if (!window.Store) {
 					//console.log(needObj.foundedModule);
 					window.Store[needObj.id] = needObj.foundedModule;
 				}else{
-					console.warn("O objeto '" + needObj.id + "' não foi localizado e incluído no Store");
+					console.warn("O objeto '" + needObj.id + "' não foi localizado e incluído na Store");
 				}
 			});
 			
@@ -216,7 +228,7 @@ function SelfAnswer_sendImageToId(id, imgBase64, legenda, fileName) {
 	Store.Chat.find(id).then((chat) => {
 		
 		process_Files(chat, base64ImageToFile(imgBase64, fileName)).then(mc => {
-			mc.models[0].sendToChat(chat, { caption: legenda })
+			mc.models[0].sendToChat(chat, {caption: legenda})
 		});
 		
 	});
@@ -340,14 +352,14 @@ function getChatAfterAddingList(_id){
 
 function getMeUser(){
 	try{
-		if(Store.Me.Conn.__x_wid != undefined){
+		if(Store.Me != undefined && Store.Me.Conn.__x_wid != undefined){
 			return Store.Me.Conn.__x_wid
 		}else{
 			return Store.UserPrefs.getMeUser()
 		}
 	}catch(e){
 		console.warn('Erro ao tentar obter informações sobre a conta logada')
-		return undefined
+		return undefined;
 	}
 }
 
@@ -437,3 +449,4 @@ return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinat
 });
 
 */
+
