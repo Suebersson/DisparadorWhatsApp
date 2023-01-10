@@ -1,7 +1,7 @@
 
 //########################## Suebersson Montalvão ##########################################
-//########################## Atualizado em 19/09/2022 ######################################
-//Versão do WhatsApp 2.2234.13
+//########################## Atualizado em 10/01/2023 ######################################
+//Versão do WhatsApp 2.2247.7
 
 //Referências
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
@@ -25,7 +25,7 @@ if (!window.Store) {
 //nãoLocalizado	{ id: 'ServiceWorker', conditions: (module) => module.default && module.default.killServiceWorker ? module : null},
 				{ id: 'Stream', conditions: (module) => module.Stream && module.StreamInfo ? module : null},
 				{ id: 'Presence', conditions: (module) => module.setPresenceAvailable && module.setPresenceUnavailable ? module : null},
-				{ id: 'WapQuery', conditions: (module) => module.default && module.default.queryExist ? module.default : null},
+//nãoLocalizado				{ id: 'WapQuery', conditions: (module) => module.default && module.default.queryExist ? module.default : null},
 //nãoLocalizado { id: 'CryptoLib', conditions: (module) => module.decryptE2EMedia ? module : null},
 				{ id: 'Perfil', conditions: (module) => module.__esModule === true && module.setPushname && !module.getComposeContents ? module : null},
 				{ id: 'UserConstructor', conditions: (module) => module.default && module.default.prototype && module.default.prototype.isServer && module.default.prototype.isUser ? module.default : null},
@@ -39,23 +39,23 @@ if (!window.Store) {
 //nãoLocalizado { id: 'AboutWhatsApp', conditions: (module) => module.default && module.default.VERSION_STR ? module : null},
 				{ id: 'AddAndSendMsgToChat', conditions: (module) => module.addAndSendMsgToChat ? module.addAndSendMsgToChat : null},
                 { id: 'Catalog', conditions: (module) => module.createCatalog && module.queryCatalog ? module : null},
-				{ id: 'BinaryProtocol', conditions: (module) => module.default && module.default.toString && module.default.toString().includes('bp_unknown_version') ? module.default : null},
+//nãoLocalizado				{ id: 'BinaryProtocol', conditions: (module) => module.default && module.default.toString && module.default.toString().includes('bp_unknown_version') ? module.default : null},
 				{ id: 'MsgKey', conditions: (module) => module.default && module.default.toString && module.default.toString().includes('MsgKey error: obj is null/undefined') ? module.default : null},
 //nãoLocalizado { id: 'Parser', conditions: (module) => module.convertToTextWithoutSpecialEmojis ? module.default : null},
 //nãoLocalizado { id: 'Builders', conditions: (module) => module.TemplateMessage && module.HydratedFourRowTemplate ? module : null},
 				{ id: 'Me', conditions: (module) => module.ConnImpl && module.Conn ? module : null}, //module.PLATFORMS
-                { id: 'Identity', conditions: (module) => module.queryIdentity && module.updateIdentity ? module : null},
+//nãoLocalizado                { id: 'Identity', conditions: (module) => module.queryIdentity && module.updateIdentity ? module : null},
                 { id: 'MyStatus', conditions: (module) => module.getStatus && module.setMyStatus ? module : null},
 				{ id: 'ChatStates', conditions: (module) => module.sendChatStatePaused && module.sendChatStateRecording && module.sendChatStateComposing ? module : null},
 //nãoLocalizado { id: 'Features', conditions: (module) => module.FEATURE_CHANGE_EVENT && module.features ? module : null},
 //nãoLocalizado { id: 'MessageUtils', conditions: (module) => module.storeMessages && module.appendMessage ? module : null},
 				{ id: 'WebMessageSpec', conditions: (module) => module.WebMessageInfoSpec && module.WebFeaturesSpec ? module : null},
-                { id: 'createMessageKey', conditions: (module) => module.createMessageKey && module.createDeviceSentMessage ? module.createMessageKey : null},
+//nãoLocalizado                { id: 'createMessageKey', conditions: (module) => module.createMessageKey && module.createDeviceSentMessage ? module.createMessageKey : null},
                 { id: 'Participants', conditions: (module) => module.addParticipants && module.removeParticipants && module.promoteParticipants && module.demoteParticipants ? module : null},
                 { id: 'WidFactory', conditions: (module) => module.isWidlike && module.createWid && module.createWidFromWidLike ? module : null},
 //nãoLocalizado { id: 'Base', conditions: (module) => module.setSubProtocol && module.binSend && module.actionNode ? module : null},
 //nãoLocalizado { id: 'Base2', conditions: (module) => module.supportsFeatureFlags && module.parseMsgStubProto && module.binSend && module.subscribeLiveLocation ? module : null},
-                { id: 'Versions', conditions: (module) => module.loadProtoVersions ? module : null},
+//nãoLocalizado                { id: 'Versions', conditions: (module) => module.loadProtoVersions ? module : null},
 				{ id: 'Sticker', conditions: (module) => module.default && module.default.Sticker ? module.default.Sticker : null},
                 { id: 'MediaUpload', conditions: (module) => module.default && module.default.mediaUpload ? module.default : null},
                 { id: 'UploadUtils', conditions: (module) => module.default && module.default.encryptAndUpload ? module.default : null},
@@ -67,7 +67,7 @@ if (!window.Store) {
 				{ id: 'Cookie', conditions: (module) => module.getCookie ? module : null},
 				{ id: 'NewChatFlowLoadable', conditions: (module) => module.NewChatFlowLoadable ? module : null},
 				{ id: 'CreateChat', conditions: (module) => module.createChat ? module : null},
-				{ id: 'Configuration', conditions: (module) => module.Configuration ? module.Configuration : null},
+//nãoLocalizado				{ id: 'Configuration', conditions: (module) => module.Configuration ? module.Configuration : null},
 				{ id: 'Theme', conditions: (module) => module.getTheme ? module : null},
 //nãoLocalizado { id: 'AlertModal', conditions: (module) => module.default && module.default.openModal ? module.default : null},
 				{ id: 'OpenChatFlow', conditions: (module) => module.OpenChatFlow ? module : null},
@@ -77,8 +77,7 @@ if (!window.Store) {
 				{ id: 'PinChat', conditions: (module) => module.setPin ? module : null},
 				{ id: 'Spam', conditions: (module) => module.sendNotSpam && module.sendSpamBlockClear ? module : null},
 				{ id: 'CheckNumberBeta', conditions: (module) => module.queryPhoneExists && module.queryExists ? module : null}
-		
-		
+
 				//{ id: 'CheckNumberBeta', conditions: (module) => module.default && typeof module.default.toString === 'function' && module.default.toString().includes('Should not reach queryExists MD') ? module.default : null}
 				//{ id: 'openShopStorefront', conditions: (module) => module.openShopStorefront ? module : null},
 				//{ id: 'WatchedSocketModel', conditions: (module) => module.WatchedSocketModel ? module : null},				
@@ -101,28 +100,28 @@ if (!window.Store) {
 					});
 
 					//################## código usado para localizar os módulo/objetos default para adicionar a Store ################
-					/*if(modules[idx].default) {
-						var objs = Object.keys(modules[idx].default)
-						for(i in objs){
-							try{
-								//if(objs[i].indexOf('open') != -1 || objs[i].indexOf('Open') != -1){
-								if(objs[i].indexOf('queryExists') != -1){
-								//if(typeof modules[idx].default.toString === 'function' && modules[idx].default.toString().includes('MD')){
-									
-									console.log(modules[idx].default)
-									break
-								}
-							}catch(e){}
-						
-						}
-					}*/
+						/*if(modules[idx].default) {
+							var objs = Object.keys(modules[idx].default)
+							for(i in objs){
+								try{
+									//if(objs[i].indexOf('open') != -1 || objs[i].indexOf('Open') != -1){
+									if(objs[i].indexOf('queryExist') != -1){
+									//if(typeof modules[idx].default.toString === 'function' && modules[idx].default.toString().includes('MD')){
+										
+										console.log(modules[idx].default)
+										break
+									}
+								}catch(e){}
+							
+							}
+						}*/
 					//########################################################################################################
 
-					//################## código usado para localizar os módulo/objetos default para adicionar a Store ################
+					//################## código usado para localizar os módulo/objetos da Store ################
 						/*var objs = Object.keys(modules[idx])
 						for(i in objs){
 							try{
-								if(objs[i].indexOf('Conn') != -1){
+								if(objs[i].indexOf('queryExist') != -1){
 
 									console.log(modules[idx])
 									
@@ -291,7 +290,17 @@ async function openChatIfThereIs(id) {
 					
 					console.log('Chat não localizado no histórico de conversas e nem na lista de contatos');
 					//verificar se números existe usando uma combinação entre das funções isWhatsAppExistBeta e isWhatsAppExist
+
 					return await isWhatsAppExistBeta(id).then((b) => {
+						if (b.isChat){
+							return getChatAfterAddingList(b.id);
+						}else{
+							console.log('O endereço informado não possuí uma conta de WhatsApp')
+							return {isChat: false, obj: undefined};
+						}
+					});
+					
+					/*return await isWhatsAppExistBeta(id).then((b) => {
 						if (b.isChat){
 							return getChatAfterAddingList(b.id);
 						}else{
@@ -304,7 +313,7 @@ async function openChatIfThereIs(id) {
 								}
 							});
 						}
-					});
+					})*/;
 					
 					//verificar usando apenas a função isWhatsAppExist
 					/*console.log('Chat não localizado no histórico de conversas e nem na lista de contatos');
@@ -409,44 +418,3 @@ async function isWhatsAppExistBeta(chatId){
 		return result !== null ? {isChat: true, id: result.wid._serialized} : {isChat: false, id: undefined};
 	});
 }
-
-
-
-
-
-
-
-
-
-
-
-/*
-var arraysDDIBrl = ['51', '55', '31', '34', '35', '37', '92', '93', '94', '97', '98', '99', '41', '43', '44', '47', '48', '61', '62','64', '65', '66', '81', '82', '83', '84', '86', '87', '88', '71', '73', '77', '79' ];
-//remover o nono digito de alguns estados do Brasil
-function removeNinthDigit(id){	
-	if(id.length === 18 && arraysDDIBrl.indexOf(id.slice(2, 4)) > -1){
-		return id.slice(0, 4) + id.slice(5, id.length);
-	}else{
-		return id;
-	}
-}
-*/
-
-
-
-
-
-/*
-console.log('Chat não localizado no histórico de conversas e nem na lista de contatos');
-return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinatário existe
-
-	if (result.status == 200){
-		return getChatAfterAddingList(result.jid._serialized);
-	}else{
-		console.log('O endereço informado não possuí uma conta de WhatsApp')
-		return {isChat: false, obj: undefined};
-	}
-});
-
-*/
-
