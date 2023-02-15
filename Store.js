@@ -49,7 +49,7 @@ if (!window.Store) {
 				{ id: 'MsgKey', conditions: (module) => module.default && module.default.toString && module.default.toString().includes('MsgKey error: obj is null/undefined') ? module.default : null},
 //nãoLocalizado { id: 'Parser', conditions: (module) => module.convertToTextWithoutSpecialEmojis ? module.default : null},
 //nãoLocalizado { id: 'Builders', conditions: (module) => module.TemplateMessage && module.HydratedFourRowTemplate ? module : null},
-				{ id: 'Me', conditions: (module) => module.ConnImpl && module.Conn ? module : null}, //module.PLATFORMS
+				{ id: 'Me', conditions: (module) => module.Conn && module.ConnImpl ? module : null}, //module.PLATFORMS
 //nãoLocalizado { id: 'Identity', conditions: (module) => module.queryIdentity && module.updateIdentity ? module : null},
                 { id: 'MyStatus', conditions: (module) => module.getStatus && module.setMyStatus ? module : null},
 				{ id: 'ChatStates', conditions: (module) => module.sendChatStatePaused && module.sendChatStateRecording && module.sendChatStateComposing ? module : null},
@@ -132,8 +132,8 @@ if (!window.Store) {
 					//################## código usado para localizar os módulo/objetos da Store ################
 						/*var objs = Object.keys(modules[idx])
 						for(i in objs){
-							try{
-								if(objs[i].indexOf('Exists') != -1){
+							try{//module.ConnImpl && module.Conn
+								if(objs[i].indexOf('Conn') != -1){
 								//if(objs[i].queryExists || objs[i].queryPhoneExists){
 
 									console.log(modules[idx])
@@ -432,3 +432,4 @@ async function isWhatsAppExistBeta(chatId){
 		return result !== null ? {isChat: true, id: result.wid._serialized} : {isChat: false, id: undefined};
 	});
 }
+
