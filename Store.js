@@ -1,7 +1,7 @@
 
 //########################## Suebersson Montalvão ##########################################
-//########################## Atualizado em 03/02/2023 ######################################
-//Versão do WhatsApp 2.2305.7
+//########################## Atualizado em 15/02/2023 ######################################
+//Versão do WhatsApp 2.2306.7
 
 //Referências
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
@@ -82,7 +82,7 @@ if (!window.Store) {
 				{ id: 'Login', conditions: (module) => module.startLogout ? module : null},
 				{ id: 'PinChat', conditions: (module) => module.setPin ? module : null},
 				{ id: 'Spam', conditions: (module) => module.sendNotSpam && module.sendSpamBlockClear ? module : null},
-				{ id: 'CheckNumberBeta', conditions: (module) => module.queryPhoneExists && module.queryExists ? module : null}
+				{ id: 'CheckNumberBeta', conditions: (module) => module.queryExist && module.queryPhoneExists && module.queryWidExists ? module : null}
 
 				//{ id: 'CheckNumberBeta', conditions: (module) => module.default && typeof module.default.toString === 'function' && module.default.toString().includes('Should not reach queryExists MD') ? module.default : null}
 				//{ id: 'openShopStorefront', conditions: (module) => module.openShopStorefront ? module : null},
@@ -133,8 +133,8 @@ if (!window.Store) {
 						/*var objs = Object.keys(modules[idx])
 						for(i in objs){
 							try{
-								//if(objs[i].indexOf('queryExist') != -1){
-								if(objs[i].queryExist){
+								if(objs[i].indexOf('Exists') != -1){
+								//if(objs[i].queryExists || objs[i].queryPhoneExists){
 
 									console.log(modules[idx])
 									
