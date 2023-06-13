@@ -1,7 +1,7 @@
 
 //########################## Suebersson Montalvão ##########################################
 //########################## Atualizado em 16/06/2023 ######################################
-//Versão do WhatsApp 2.2306.7
+//Versão do WhatsApp 2.2325.3
 
 //Referências
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
@@ -25,13 +25,9 @@ if (!window.Store) {
 //nãoLocalizado	{ id: 'ServiceWorker', conditions: (module) => module.default && module.default.killServiceWorker ? module : null},
 				{ id: 'Stream', conditions: (module) => module.Stream && module.StreamInfo ? module : null},
 				{ id: 'Presence', conditions: (module) => module.setPresenceAvailable && module.setPresenceUnavailable ? module : null},
-				
-				
-//nãoLocalizado	{ id: 'WapQuery', conditions: (module) => module.default && module.default.queryExist ? module.default : null},
+				//{ id: 'WapQuery', conditions: (module) => module.default && module.default.queryExist ? module.default : null},
 				//{ id: "WapQuery", conditions: (module) => module.queryExist ? module : ((module.default && module.default.queryExist) ? module.default : null)},
-				{id: 'WapQuery', conditions: (module) => module.queryExist ?  module : null},
-
-  
+				{id: 'WapQuery', conditions: (module) => module.queryExist ?  module : null},  
 //nãoLocalizado { id: 'CryptoLib', conditions: (module) => module.decryptE2EMedia ? module : null},
 				{ id: 'Perfil', conditions: (module) => module.__esModule === true && module.setPushname && !module.getComposeContents ? module : null},
 				{ id: 'UserConstructor', conditions: (module) => module.default && module.default.prototype && module.default.prototype.isServer && module.default.prototype.isUser ? module.default : null},
@@ -205,11 +201,6 @@ function sendImageToId(id, imgBase64, legenda, fileName) {
 	
 	openChatIfThereIs(id).then((c) => {
 		if(c.isChat) {
-			/*process_Files(c.obj, base64ImageToFile(imgBase64, fileName)).then( mc => {
-				console.log(mc);
-				//mc.models[0].sendToChat(c.obj, {caption: legenda}) // objeto 'models' foi alterado
-				mc._models[0].sendToChat(c.obj, {caption: legenda})
-			});*/
 			processFile(c.obj, base64ImageToFile(imgBase64, fileName)).then( mc => {
 				//console.log(mc);
 				//mc.models[0].sendToChat(c.obj, {caption: legenda}) // objeto 'models' foi alterado
@@ -231,20 +222,6 @@ async function processFile(chat, blobs) {
 
 	return mc;
 }
-
-/*
-var process_Files = async function(chat, blobs) {
-	
-	if (!Array.isArray(blobs)) blobs = [blobs];
-	
-	mc = new Store.MediaCollection(chat);
-	
-	await mc.processAttachments(blobs.map(blob => {return{file:blob}}), chat, 1);
-	//await mc.processFiles(blobs.map(blob => {return{file:blob}}), chat, 1);
-
-	return mc;
-}
-*/
 
 function base64ImageToFile(b64Data, fileName) {
 	var arr   = b64Data.split(',');
@@ -452,12 +429,13 @@ function isChatOnline(chatId){
 }
 
 //verificar se o número de whatsapp existe
+//console.log(await isWhatsAppExist('5521985522525@c.us'))
 async function isWhatsAppExist(chatId){
 	return await Store.WapQuery.queryExist(chatId).then((result) => {
 		return result.status == 200 ? {isChat: true, id: result.jid._serialized} : {isChat: false, id: undefined};
 	});	
 }
-//console.log(await isWhatsAppExist('5521985522525@c.us'))
+
 
 //verificar se o número de whatsapp existe na versão Beta do WhatsApp
 async function isWhatsAppExistBeta(chatId){
@@ -466,44 +444,4 @@ async function isWhatsAppExistBeta(chatId){
 		return result !== null ? {isChat: true, id: result.wid._serialized} : {isChat: false, id: undefined};
 	});
 }
-
-
-
-
-
-
-
-
-
-
-
-/*
-var arraysDDIBrl = ['51', '55', '31', '34', '35', '37', '92', '93', '94', '97', '98', '99', '41', '43', '44', '47', '48', '61', '62','64', '65', '66', '81', '82', '83', '84', '86', '87', '88', '71', '73', '77', '79' ];
-//remover o nono digito de alguns estados do Brasil
-function removeNinthDigit(id){	
-	if(id.length === 18 && arraysDDIBrl.indexOf(id.slice(2, 4)) > -1){
-		return id.slice(0, 4) + id.slice(5, id.length);
-	}else{
-		return id;
-	}
-}
-*/
-
-
-
-
-
-/*
-console.log('Chat não localizado no histórico de conversas e nem na lista de contatos');
-return Store.WapQuery.queryExist(id).then((result) => {//verificar se o destinatário existe
-
-	if (result.status == 200){
-		return getChatAfterAddingList(result.jid._serialized);
-	}else{
-		console.log('O endereço informado não possuí uma conta de WhatsApp')
-		return {isChat: false, obj: undefined};
-	}
-});
-
-*/
 
