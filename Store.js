@@ -82,8 +82,10 @@ if (!window.Store) {
 				{ id: 'Login', conditions: (module) => module.startLogout ? module : null},
 				{ id: 'PinChat', conditions: (module) => module.setPin ? module : null},
 				{ id: 'Spam', conditions: (module) => module.sendNotSpam && module.sendSpamBlockClear ? module : null},
-				{ id: 'CheckNumberBeta', conditions: (module) => module.queryExist && module.queryPhoneExists && module.queryWidExists ? module : null}
-
+				{ id: 'CheckNumberBeta', conditions: (module) => module.queryExist && module.queryPhoneExists && module.queryWidExists ? module : null},
+				{ id: 'MaybeMeUser', conditions: (module) => module.getMaybeMeUser ? module : null}
+				
+				//{ id: 'CheckWid', conditions: (module) => module.validateWid ? module : null}
 				//{ id: 'CheckNumberBeta', conditions: (module) => module.default && typeof module.default.toString === 'function' && module.default.toString().includes('Should not reach queryExists MD') ? module.default : null}
 				//{ id: 'openShopStorefront', conditions: (module) => module.openShopStorefront ? module : null},
 				//{ id: 'WatchedSocketModel', conditions: (module) => module.WatchedSocketModel ? module : null},				
@@ -133,8 +135,19 @@ if (!window.Store) {
 						/*var objs = Object.keys(modules[idx])
 						for(i in objs){
 							try{//module.ConnImpl && module.Conn
-								if(objs[i].indexOf('Conn') != -1){
-								//if(objs[i].queryExists || objs[i].queryPhoneExists){
+								//if(objs[i].indexOf('Conn') != -1){
+								//console.log(modules[idx])
+								if(
+								objs[i].queryExists || 
+								objs[i].queryPhoneExists || 
+								module.queryExist || 
+								objs[i].Phone ||
+								objs[i].Exists ||
+								objs[i].query ||
+								objs[i].exists ||
+								objs[i].exist
+								
+								){
 
 									console.log(modules[idx])
 									
@@ -192,7 +205,8 @@ function sendImageToId(id, imgBase64, legenda, fileName) {
 	
 	openChatIfThereIs(id).then((c) => {
 		if(c.isChat) {
-			process_Files(c.obj, base64ImageToFile(imgBase64, fileName)).then(mc => {
+			process_Files(c.obj, base64ImageToFile(imgBase64, fileName)).then( mc => {
+				console(mc);
 				//mc.models[0].sendToChat(c.obj, {caption: legenda}) // objeto 'models' foi alterado
 				mc._models[0].sendToChat(c.obj, {caption: legenda})
 			});
@@ -379,6 +393,7 @@ function getMeUser(){
 			return Store.Me.Conn.__x_wid
 		}else{
 			return Store.UserPrefs.getMeUser()
+			//return Store.MaybeMeUser.getMeUser()
 		}
 	}catch(e){
 		console.warn('Erro ao tentar obter informações sobre a conta logada')
@@ -432,4 +447,3 @@ async function isWhatsAppExistBeta(chatId){
 		return result !== null ? {isChat: true, id: result.wid._serialized} : {isChat: false, id: undefined};
 	});
 }
-
