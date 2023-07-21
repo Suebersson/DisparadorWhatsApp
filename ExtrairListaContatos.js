@@ -1,6 +1,5 @@
 
-//########################## Atualizado em 02/12/2019 ######################################################################
-//Versão do WhatsApp 0.3.9308
+//########################## Atualizado em 21/07/2023 ######################################################################
 
 var ListChats = new Array(), cont = 0, nome, numero, nTratado, nTratado2, sem55, Qt;
 
@@ -10,15 +9,18 @@ function ExtrairListaContatos(){
 
 	if (window.Store){
 		
-		for (q = 0; q < window.Store.Contact.length; q++){	
+		var countContact = Store.Contact.length;
+		
+		for (q = 0; q < countContact; q++){	
 			//Se for um chat, se estiver salvo na lista de contatos, senão estiver bloqueado
-			if (window.Store.Contact._models[q].__x_id.server == "c.us" && window.Store.Contact._models[q].__x_isMyContact == true){
+			//if (Store.Contact._models[q].__x_id.server == "c.us" && Store.Contact._models[q].__x_isMyContact){
+			if (Store.Contact._models[q].__x_id.server == "c.us"){
 
 				//console.log(window.Store.Contact._models[q].__x_name); //Nome
 				//console.log(window.Store.Contact._models[q].__x_id.user); //Número completo
 				
-				numero = window.Store.Contact._models[q].__x_id.user;
-				nome = removerAcentos(window.Store.Contact._models[q].__x_name);
+				numero = Store.Contact._models[q].__x_id.user;
+				nome = removerAcentos(Store.Contact._models[q].__x_name);
 				
 				Qt = numero.length;				
 				if (Qt == 13){
@@ -52,5 +54,3 @@ function ExtrairListaContatos(){
 }
 
 function removerAcentos(newStringComAcento) {return newStringComAcento.normalize('NFD').replace(/[\u0300-\u036f]/g, "");}
-
-
