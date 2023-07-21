@@ -1,3 +1,4 @@
+
 //########################## Atualizado em 21/07/2023 ######################################################################
 //Versão do WhatsApp 2.2330.11
 
@@ -14,7 +15,7 @@ function ExtrairListaContatos(){
 		for (q = 0; q < countContact; q++){	
 			//Se for um chat, se estiver salvo na lista de contatos, senão estiver bloqueado
 			//if (Store.Contact._models[q].__x_id.server == "c.us" && Store.Contact._models[q].__x_isMyContact){
-			if (Store.Contact._models[q].__x_id.server == "c.us"){
+			if (Store.Contact._models[q].__x_id.server == "c.us" && Store.Contact._models[q].__x_type === "in"){
 
 				//console.log(window.Store.Contact._models[q].__x_name); //Nome
 				//console.log(window.Store.Contact._models[q].__x_id.user); //Número completo
@@ -53,15 +54,15 @@ function ExtrairListaContatos(){
 
 }
 
+function removerAcentos(newStringComAcento) {
 
-function removerAcentos(_text) {
-//https://pt.stackoverflow.com/questions/406545/como-funciona-o-string-prototype-normalize-no-javascript
-	try {   
-		return _text
-			.normalize('NFD')
-				.replace(/[\u0300-\u036f]/g, "");
-	}catch (e) {
-		console.warn('Erro ao tentar remover os acentos');
-		return _text;
+	if (typeof String.prototype.normalize === 'undefined') {
+	  String.prototype.normalize = function () { return this; };
 	}
+
+	return newStringComAcento
+		.normalize('NFD')
+			.replace(/[\u0300-\u036f]/g, "");
 }
+
+
