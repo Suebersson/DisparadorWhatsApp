@@ -64,4 +64,3 @@ function removerAcentos(_text) {
 		return _text;
 	}
 }
-
