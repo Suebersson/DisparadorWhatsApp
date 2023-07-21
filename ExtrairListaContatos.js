@@ -53,4 +53,14 @@ function ExtrairListaContatos(){
 
 }
 
-function removerAcentos(newStringComAcento) {return newStringComAcento.normalize('NFD').replace(/[\u0300-\u036f]/g, "");}
+function removerAcentos(newStringComAcento) {
+
+	if (typeof String.prototype.normalize === 'undefined') {
+	  String.prototype.normalize = function () { return this; };
+	}
+
+	return newStringComAcento
+		.normalize('NFD')
+			.replace(/[\u0300-\u036f]/g, "");
+}
+
