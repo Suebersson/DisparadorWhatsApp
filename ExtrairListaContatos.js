@@ -53,6 +53,7 @@ function ExtrairListaContatos(){
 
 }
 
+
 function removerAcentos(_text) {
 //https://pt.stackoverflow.com/questions/406545/como-funciona-o-string-prototype-normalize-no-javascript
 	try {   
