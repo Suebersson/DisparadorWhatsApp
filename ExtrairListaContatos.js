@@ -54,13 +54,14 @@ function ExtrairListaContatos(){
 }
 
 
-function removerAcentos(newStringComAcento) {
-
-	if (typeof String.prototype.normalize === 'undefined') {
-	  String.prototype.normalize = function () { return this; };
+function removerAcentos(_text) {
+//https://pt.stackoverflow.com/questions/406545/como-funciona-o-string-prototype-normalize-no-javascript
+	try {   
+		return _text
+			.normalize('NFD')
+				.replace(/[\u0300-\u036f]/g, "");
+	}catch (e) {
+		console.warn('Erro ao tentar remover os acentos');
+		return _text;
 	}
-
-	return newStringComAcento
-		.normalize('NFD')
-			.replace(/[\u0300-\u036f]/g, "");
 }
