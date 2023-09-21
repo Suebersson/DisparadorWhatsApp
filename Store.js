@@ -1,7 +1,7 @@
 
 //########################## Suebersson Montalvão ##########################################
 //########################## Atualizado em 21/09/2023 ######################################
-//Versão do WhatsApp 2.2325.3
+//Versão do WhatsApp 2.2340.7
 
 //Referências
 //https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
@@ -450,4 +450,3 @@ async function isWhatsAppExistBeta(chatId){
 			: {isChat: false, id: undefined};
 	});
 }
-
