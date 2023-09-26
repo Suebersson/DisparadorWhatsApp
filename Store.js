@@ -1,7 +1,7 @@
 
 //########################## Suebersson Montalvão ##########################################
 //########################## Atualizado em 26/09/2023 ######################################
-//Versão do WhatsApp 2.2340.15
+//Versão do WhatsApp 2.2340.16
 
 // Referências:
 // https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
@@ -9,7 +9,7 @@
 // https://github.com/orkestral/venom/blob/master/src/lib/wapi/store/store-objects.js
 // https://github.com/wppconnect-team/WPP4Delphi/blob/main/Source/JS/js.abr
 
- 
+
 if (!window.Store) {
 	(function () {
 		function getStore(modules) {
@@ -262,21 +262,15 @@ function base64ImageToFile(b64Data, fileName) {
 //########################## Auto responder ####################################
 function SelfAnswer_sendMessageToID(id, message){
 
-	Store.Chat.find(id).then((chat) => {
-		Store.SendTextMsgToChat(chat , message)
+	openChatIfThereIs(id).then((c) => {
+		if(c.isChat) Store.SendTextMsgToChat(c.obj , message);
 	});
-	
+
 }
 
 function SelfAnswer_sendImageToId(id, imgBase64, legenda, fileName) {
-
-	Store.Chat.find(id).then((chat) => {
-		
-		process_Files(chat, base64ImageToFile(imgBase64, fileName)).then(mc => {
-			mc.models[0].sendToChat(chat, {caption: legenda})
-		});
-		
-	});
+	
+	sendImageToId(id, imgBase64, legenda, fileName);
 	
 }
 
