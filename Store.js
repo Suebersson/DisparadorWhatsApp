@@ -1,12 +1,13 @@
 
 //########################## Suebersson Montalvão ##########################################
-//########################## Atualizado em 21/09/2023 ######################################
-//Versão do WhatsApp 2.2340.7
+//########################## Atualizado em 26/09/2023 ######################################
+//Versão do WhatsApp 2.2340.15
 
-//Referências
-//https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
-//https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
-//https://github.com/orkestral/venom/blob/master/src/lib/wapi/store/store-objects.js
+// Referências:
+// https://gist.github.com/phpRajat/a6422922efae32914f4dbd1082f3f412
+// https://raw.githubusercontent.com/smashah/sulla/master/src/lib/wapi.js
+// https://github.com/orkestral/venom/blob/master/src/lib/wapi/store/store-objects.js
+// https://github.com/wppconnect-team/WPP4Delphi/blob/main/Source/JS/js.abr
 
  
 if (!window.Store) {
@@ -202,8 +203,8 @@ function sendImageToId(id, imgBase64, legenda, fileName) {
 	openChatIfThereIs(id).then((c) => {
 		if(c.isChat) {
 			processFile(c.obj, base64ImageToFile(imgBase64, fileName)).then( mc => {
-				//console.log(mc);
-				//mc.models[0].sendToChat(c.obj, {caption: legenda}) // objeto 'models' foi alterado
+				//console.log(mc.length);
+				// [models] is deprecated
 				mc._models[0].sendToChat(c.obj, {caption: legenda})
 			});
 		}
@@ -213,14 +214,36 @@ function sendImageToId(id, imgBase64, legenda, fileName) {
 
 async function processFile(chat, blobs) {
 	
-	if (!Array.isArray(blobs)) blobs = [blobs];
-	
 	mc = new Store.MediaCollection(chat);
 	
+	try{
+
+		await mc.processAttachments([{file: blobs}, 1], 1, chat);
+
+		return mc;
+
+	}catch(e){
+
+		console.warn('Erro ao tentar processar e anexar a image no chat');
+
+		return mc;
+
+	}
+	
+/*
+	if (!Array.isArray(blobs)) blobs = [blobs];
+
+	mc = new Store.MediaCollection(chat);
+
+	// gerando erro
 	await mc.processAttachments(blobs.map(blob => {return{file:blob}}), chat, 1);
+	
+	// [processFiles] is deprecated
 	//await mc.processFiles(blobs.map(blob => {return{file:blob}}), chat, 1);
 
 	return mc;
+*/
+
 }
 
 function base64ImageToFile(b64Data, fileName) {
